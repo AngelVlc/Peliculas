@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/AngelVlc/Peliculas/issues"
   },
-  "homepage": "https://github.com/AngelVlc/Peliculas#readme"
+  "homepage": "https://github.com/AngelVlc/Peliculas#readme",
+  "dependencies": {
+    "mongodb": "^2.2.16"
+  },
+  "devDependencies": {
+    "mongoose": "^4.7.4"
+  }
 }
