@@ -9,4 +9,5 @@ mongoose.connect(config.database); // connect to database
 
 initDb.chekUsers();
  
+ //to check pass bcrypt.compareSync(myPlaintextPassword, hash);
 
