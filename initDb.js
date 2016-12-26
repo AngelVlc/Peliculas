@@ -1,20 +1,14 @@
 var mongoose = require('mongoose');
 var config = require('./config');
 var userModel = require('./app/models/user');  
-var bcrypt = require('bcrypt');
-
-const saltRounds = 10;
+var users = require('./users');
 
 function CreateUserIfNotExists(userName, password, isAdmin) {
     userModel.count({ name: userName }, function (err, count) {
         if (err) throw err;
 
         if (count === 0) {
-            var newUser = new userModel({
-                name: userName,
-                password: bcrypt.hashSync(password, saltRounds),
-                admin: isAdmin
-            });
+            var newUser = users.createUser(userName, password, isAdmin);            
 
             newUser.save(function (err, savedUser) {
                 if (err) throw err;
