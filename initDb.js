@@ -1,28 +1,26 @@
-var mongoose = require('mongoose');
-var config = require('./config');
-var userModel = require('./app/models/user');  
-var users = require('./users');
+var mongoose = require('mongoose')
+var config = require('./config')
+var userModel = require('./app/models/user')  
+var users = require('./users')
 
 function CreateUserIfNotExists(userName, password, isAdmin) {
     userModel.count({ name: userName }, function (err, count) {
-        if (err) throw err;
+        if (err) throw err
 
         if (count === 0) {
-            var newUser = users.createUser(userName, password, isAdmin);            
+            var newUser = users.createUser(userName, password, isAdmin)            
 
             newUser.save(function (err, savedUser) {
-                if (err) throw err;
-                console.log('User ' + savedUser.name + ' created');
+                if (err) throw err
+                console.log('User ' + savedUser.name + ' created')
             });
-        } else {
-            console.log('User "' + userName + '" already exists');
-        }
+        } 
     })
 }
 
 module.exports = {
     chekUsers: function () {
-        CreateUserIfNotExists('user', 'User_123', false);
-        CreateUserIfNotExists('admin', 'Admin_123', true);
+        CreateUserIfNotExists('user', 'User_123', false)
+        CreateUserIfNotExists('admin', 'Admin_123', true)
     }
 };

@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var config = require('./config'); 
-var users = require('./users.js'); // get our mongoose model
 var initDb = require('./initDb');
+var authentication = require('./authentication.js')
 
 
 //configuration
@@ -38,7 +38,7 @@ var apiRoutes = express.Router();
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function (req, res) {
-    users.getToken(req.body.name, req.body.password, res);
+    authentication.getToken(req.body.name, req.body.password, res);
 });
   
 
