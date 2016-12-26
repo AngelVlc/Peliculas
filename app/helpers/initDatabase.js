@@ -1,9 +1,9 @@
 var mongoose = require('mongoose')
-var config = require('./config')
-var userModel = require('./app/models/user')  
-var users = require('./users')
+var config = require('../../config')
+var userModel = require('../models/user')  
+var users = require('../apis/users')
 
-function CreateUserIfNotExists(userName, password, isAdmin) {
+function createUserIfNotExists(userName, password, isAdmin) {
     userModel.count({ name: userName }, function (err, count) {
         if (err) throw err
 
@@ -20,7 +20,7 @@ function CreateUserIfNotExists(userName, password, isAdmin) {
 
 module.exports = {
     chekUsers: function () {
-        CreateUserIfNotExists('user', 'User_123', false)
-        CreateUserIfNotExists('admin', 'Admin_123', true)
+        createUserIfNotExists('user', 'User_123', false)
+        createUserIfNotExists('admin', 'Admin_123', true)
     }
 };
