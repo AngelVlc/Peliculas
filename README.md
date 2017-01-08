@@ -26,6 +26,14 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 + Ejecutar node main.js
 + Ir a http://localhost:PORT en el navegador
 
+## Paquetes npm
++ express y body-parses -> servidor web
++ jsonwebtoken -> autenticación con JWT
++ bcrypt -> para encriptar las contraseñas de los usaurios en la base de datos
++ mysql
++ morgan -> muestra en la consola las peticiones http
++ heapdump -> para hacer volcados de la memoria
+
 ## usuarios y roles
 
 La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. Cuando arranca crea un usuario de cada tipo:
