@@ -10,20 +10,25 @@
     "type": "git",
     "url": "git+https://github.com/AngelVlc/Peliculas.git"
   },
-  "author": "",
+  "author": "AngelVlc",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AngelVlc/Peliculas/issues"
   },
+  "engines": {
+    "node": "6.9.2",
+    "npm": "3.10.9"
+  },
   "homepage": "https://github.com/AngelVlc/Peliculas#readme",
+  "dependencies": {
+    "mongodb": "^2.2.16"
+  },
   "devDependencies": {
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.7.4",
     "morgan": "^1.7.0"
-  },
-  "dependencies": {
-    "heapdump": "^0.3.7"
   }
 }
