@@ -13,11 +13,11 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 + Node.js y Npm
 + MySql
 
-## Instalción
+## Instalación
 
 + Instalar Node.js con Npm
 + Instalar una base de datos MySql (recomendado docker)
-+ Instalar MySql Workbench para poder administrar la base de datos
++ Lanzar el script de creación de la base de datos (por ejemplo con MySql Workbench)
 + Ejecutar npm install para descargar los paquetes
 + Añadir estas variables de entorno
     * PORT que es el puerto de escucha para las peticiones HTTP
