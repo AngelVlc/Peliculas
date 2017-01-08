@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,9 +22,6 @@
   },
   "homepage": "https://github.com/AngelVlc/Peliculas#readme",
   "dependencies": {
-    "mongodb": "^2.2.16"
-  },
-  "devDependencies": {
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
