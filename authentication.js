@@ -1,42 +1,58 @@
 var bcrypt = require('bcrypt')
-var jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
-var config = require('../../config')
-var userModel = require('../models/user.js')
+var jwt = require('jsonwebtoken')
+var Database = require('./database')
+
 
 
 const saltRounds = 10
 
+const hashSecret = process.env.HASH_SECRET
+
+function getPasswordHash(plainPassword) {
+    return bcrypt.hashSync(plainPassword, saltRounds)
+}
+
+
 module.exports = {
-    getPasswordHash: function(plainPassword) {
-        return bcrypt.hashSync(plainPassword, saltRounds)
+    createUsesIfNotExists: function (userName, password, isAdmin) {
+        var database = new Database();
+
+        database.once('userFound', function (foundUser) {
+            if (!foundUser) {
+                database.once('userCreated', function (createdUserName) {
+                    console.log('User ' + createdUserName + ' created')
+                })
+
+                database.insertUser(userName, getPasswordHash(password), isAdmin);
+            }
+        })
+
+        database.getUserByUserName(userName)
     },
-    getToken: function (request, response) { 
+    getToken: function (request, response) {
         var userName = request.body.name
         var plainPassword = request.body.password
 
-        userModel.findOne({ name: userName }, function (err, foundUser) {            
-            if (err) throw err
-
+        var database = new Database();
+        database.once('userFound', function (foundUser) {
             if (!foundUser) {
                 response.json({ success: false, message: 'Authentication failed. User not found.' })
                 return
             }
-
-            console.log(foundUser.password)
 
             // check if password matches
             if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
                 response.json({ success: false, message: 'Authentication failed. Wrong password.' })
                 return
             }
-           
+
             var roles = ['USER']
 
             if (foundUser.isAdmin) roles.push('ADMIN')
 
-            var tokenPayload = { name: foundUser.name, roles }            
+            var tokenPayload = { name: foundUser.userName, roles }
 
-            var token = jwt.sign(tokenPayload, config.secret, {
+            var token = jwt.sign(tokenPayload, hashSecret, {
                 expiresIn: 10 * 60000 // expires in 10 minutes
             });
 
@@ -48,15 +64,17 @@ module.exports = {
                 roles: roles
             })
         })
+
+        database.getUserByUserName(userName)
     },
-    verifyToken: function(request, response, next) {
+    verifyToken: function (request, response, next) {
         // check header or url parameters or post parameters for token
         var token = request.body.token || request.query.token || request.headers['x-access-token']
 
         // decode token
         if (token) {
             // verifies secret and checks exp
-            jwt.verify(token, config.secret, function (err, decoded) {
+            jwt.verify(token, hashSecret, function (err, decoded) {
                 if (err) {
                     return response.json({ success: false, message: 'Failed to authenticate token.' })
                 } else {
@@ -75,7 +93,7 @@ module.exports = {
             })
         }
     },
-    hasAdminRole: function(request) {
+    hasAdminRole: function (request) {
         return request.decoded.roles.indexOf('ADMIN', 0) >= 0
     }
 }
