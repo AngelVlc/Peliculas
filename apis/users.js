@@ -1,4 +1,4 @@
-var authentication = require('../../authentication')
+var authentication = require('../authentication')
 
 module.exports = {
     configureApi: function (apiRoutes) {

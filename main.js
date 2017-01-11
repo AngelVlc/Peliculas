@@ -4,8 +4,9 @@ var bodyParser = require('body-parser')
 var morgan = require('morgan')
 var Database = require('./database')
 var authentication = require('./authentication')
-var apiUsers = require('./app/apis/users')
-var heapdump = require('heapdump');  
+var apiUsers = require('./apis/users')
+var heapdump = require('heapdump')
+var path = require('path')
 
 // users initialization
 authentication.createUsesIfNotExists('user','User_123',false)
@@ -20,12 +21,15 @@ app.use(bodyParser.json())
 // use morgan to log requests to the console
 app.use(morgan('dev'))
 
+//where express looks for the Angular front-end code
+app.use(express.static(path.join(__dirname, 'client')));
+
 // =======================
 // routes ================
 // =======================
 // basic route
-app.get('/', function (req, res) {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+app.get('/', function (req, res) {  
+  res.render(path.join(__dirname + '/index.html'));
 })
 
 // API ROUTES -------------------

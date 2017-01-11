@@ -1,6 +1,10 @@
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
+if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL environment variable does not exist')
+}
+
 var mysql = require('mysql');
 var pool = mysql.createPool(process.env.DATABASE_URL)
 

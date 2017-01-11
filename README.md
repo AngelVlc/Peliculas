@@ -16,15 +16,18 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 ## Instalación
 
 + Instalar Node.js con Npm
-+ Instalar una base de datos MySql (recomendado docker)
++ Instalar una base de datos MySql
 + Lanzar el script de creación de la base de datos (por ejemplo con MySql Workbench)
-+ Ejecutar npm install para descargar los paquetes
++ Ejecutar npm install para descargar los paquetes tanto en la carpeta raiz como en la carpeta client
++ DUDA: ¿hay que instalar typescritp global?
 + Añadir estas variables de entorno
     * PORT que es el puerto de escucha para las peticiones HTTP
     * DATABASE_URL que contiene la URL de conexión a la base de datos MySql
     * HASH_SECRET que es el la clave secreta que usa la aplicación para encriptar las contraseñas de los usuarios
 + Ejecutar node main.js
 + Ir a http://localhost:PORT en el navegador
+
+NOTA: los archivos typescript ya están transcompilados pero si cambian hay que ejecutar el comando tsc en la carpeta client. Con tsc -w se compilarían solos.
 
 ## Paquetes npm
 + express y body-parses -> servidor web
