@@ -21,8 +21,11 @@ app.use(bodyParser.json())
 // use morgan to log requests to the console
 app.use(morgan('dev'))
 
+console.log(path.join(__dirname, 'client'))
+
 //where express looks for the Angular front-end code
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'client')))
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 
 // =======================
 // routes ================
@@ -34,8 +37,7 @@ app.get('/', function (req, res) {
 })
 */
 
-app.get('*', function(req, res) {
-  //res.render(path.join(__dirname + '/index.html'));  
+app.get('*', function(req, res) {  
   res.sendFile(path.join(__dirname + '/client/index.html'));  
 })
 
