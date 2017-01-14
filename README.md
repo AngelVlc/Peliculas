@@ -5,7 +5,7 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 ## Características
 
 + Backend con Node.js y MySql.
-+ Fronend con Angular2 (*POR HACER*)
++ Frontend con Angular2
 + Autenticación mediante token JWT
 
 ## Requisitos

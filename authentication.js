@@ -32,7 +32,6 @@ module.exports = {
     getToken: function (request, response) {
         var userName = request.body.name
         var plainPassword = request.body.password
-
         var database = new Database();
         database.once('userFound', function (foundUser) {
             if (!foundUser) {
@@ -46,9 +45,9 @@ module.exports = {
                 return
             }
 
-            var roles = ['USER']
+            var roles = []
 
-            if (foundUser.isAdmin) roles.push('ADMIN')
+            if (foundUser.isAdmin==='1') roles.push('ADMIN')
 
             var tokenPayload = { name: foundUser.userName, roles }
 

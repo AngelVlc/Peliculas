@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "./app.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "./app.component", "./app-routing.module", "./login/login-form.component", "./dashboard/dashboard-form.component", "./usersList/users-list-form.component", "./_guards/auth.user-guard", "./_guards/auth.admin-guard", "./_services/authentication.service", "./_services/user.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/platform-browser", "./app.component"
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, platform_browser_1, app_component_1, AppModule;
+    var core_1, platform_browser_1, forms_1, http_1, app_component_1, app_routing_module_1, login_form_component_1, dashboard_form_component_1, users_list_form_component_1, auth_user_guard_1, auth_admin_guard_1, authentication_service_1, user_service_1, AppModule;
     return {
         setters: [
             function (core_1_1) {
@@ -19,8 +19,38 @@ System.register(["@angular/core", "@angular/platform-browser", "./app.component"
             function (platform_browser_1_1) {
                 platform_browser_1 = platform_browser_1_1;
             },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
             function (app_component_1_1) {
                 app_component_1 = app_component_1_1;
+            },
+            function (app_routing_module_1_1) {
+                app_routing_module_1 = app_routing_module_1_1;
+            },
+            function (login_form_component_1_1) {
+                login_form_component_1 = login_form_component_1_1;
+            },
+            function (dashboard_form_component_1_1) {
+                dashboard_form_component_1 = dashboard_form_component_1_1;
+            },
+            function (users_list_form_component_1_1) {
+                users_list_form_component_1 = users_list_form_component_1_1;
+            },
+            function (auth_user_guard_1_1) {
+                auth_user_guard_1 = auth_user_guard_1_1;
+            },
+            function (auth_admin_guard_1_1) {
+                auth_admin_guard_1 = auth_admin_guard_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
             }
         ],
         execute: function () {
@@ -31,9 +61,19 @@ System.register(["@angular/core", "@angular/platform-browser", "./app.component"
             }());
             AppModule = __decorate([
                 core_1.NgModule({
-                    imports: [platform_browser_1.BrowserModule],
-                    declarations: [app_component_1.AppComponent],
-                    bootstrap: [app_component_1.AppComponent]
+                    imports: [platform_browser_1.BrowserModule,
+                        forms_1.FormsModule,
+                        http_1.HttpModule,
+                        app_routing_module_1.AppRoutingModule],
+                    declarations: [app_component_1.AppComponent,
+                        login_form_component_1.LoginFormComponent,
+                        dashboard_form_component_1.DashboardFormComponent,
+                        users_list_form_component_1.UsersListFormComponent],
+                    bootstrap: [app_component_1.AppComponent],
+                    providers: [auth_user_guard_1.AuthUserGuard,
+                        auth_admin_guard_1.AuthAdminGuard,
+                        authentication_service_1.AuthenticationService,
+                        user_service_1.UserService]
                 }),
                 __metadata("design:paramtypes", [])
             ], AppModule);

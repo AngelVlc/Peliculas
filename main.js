@@ -28,8 +28,15 @@ app.use(express.static(path.join(__dirname, 'client')));
 // routes ================
 // =======================
 // basic route
-app.get('/', function (req, res) {  
-  res.render(path.join(__dirname + '/index.html'));
+/*
+app.get('/', function (req, res) {    
+  res.render(path.join(__dirname + '/index.html'));  
+})
+*/
+
+app.get('*', function(req, res) {
+  //res.render(path.join(__dirname + '/index.html'));  
+  res.sendFile(path.join(__dirname + '/client/index.html'));  
 })
 
 // API ROUTES -------------------
@@ -52,6 +59,7 @@ apiRoutes.get('/', function (req, res) {
 
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes);
+
 
  // =======================
 // start the server ======
