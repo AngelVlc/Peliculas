@@ -19,7 +19,7 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 + Instalar una base de datos MySql
 + Lanzar el script de creación de la base de datos (por ejemplo con MySql Workbench)
 + Ejecutar npm install para descargar los paquetes tanto en la carpeta raiz como en la carpeta client
-+ DUDA: ¿hay que instalar typescritp global?
++ DUDA: ¿hay que instalar typescrpt global?
 + Añadir estas variables de entorno
     * PORT que es el puerto de escucha para las peticiones HTTP
     * DATABASE_URL que contiene la URL de conexión a la base de datos MySql
