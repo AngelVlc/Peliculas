@@ -35,7 +35,7 @@ NOTA: los archivos typescript ya están transcompilados pero si cambian hay que 
 + bcrypt -> para encriptar las contraseñas de los usaurios en la base de datos
 + mysql
 + morgan -> muestra en la consola las peticiones http
-+ heapdump -> para hacer volcados de la memoria
++ heapdump -> para hacer volcados de la memoria [DESACTOVADO]
 
 ## usuarios y roles
 
@@ -46,9 +46,10 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
 ## Script de creación de la base de datos
 
     CREATE TABLE `users` (
+        `userId` int NOT NULL AUTO_INCREMENT,
         `userName` varchar(10) NOT NULL,
         `password` varchar(100) NOT NULL,
         `isAdmin` varchar(45) NOT NULL,
-    PRIMARY KEY (`userName`)
+        PRIMARY KEY (`userId`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

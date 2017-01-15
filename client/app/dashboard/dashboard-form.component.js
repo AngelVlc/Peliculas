@@ -25,7 +25,6 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             }());
             DashboardFormComponent = __decorate([
                 core_1.Component({
-                    selector: 'dashboard',
                     templateUrl: './app/dashboard/dashboard-form.component.html'
                 }),
                 __metadata("design:paramtypes", [])

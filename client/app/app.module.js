@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "./app.component", "./app-routing.module", "./login/login-form.component", "./dashboard/dashboard-form.component", "./usersList/users-list-form.component", "./_guards/auth.user-guard", "./_guards/auth.admin-guard", "./_services/authentication.service", "./_services/user.service"], function (exports_1, context_1) {
+System.register(["@angular/platform-browser", "@angular/core", "@angular/forms", "@angular/http", "./app.component", "./app-routing.module", "./login/login-form.component", "./dashboard/dashboard-form.component", "./usersList/users-list-form.component", "./_guards/auth.user-guard", "./_guards/auth.admin-guard", "./_services/authentication.service", "./_services/user.service", "./_providers/error.handler"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,14 +10,14 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, platform_browser_1, forms_1, http_1, app_component_1, app_routing_module_1, login_form_component_1, dashboard_form_component_1, users_list_form_component_1, auth_user_guard_1, auth_admin_guard_1, authentication_service_1, user_service_1, AppModule;
+    var platform_browser_1, core_1, forms_1, http_1, app_component_1, app_routing_module_1, login_form_component_1, dashboard_form_component_1, users_list_form_component_1, auth_user_guard_1, auth_admin_guard_1, authentication_service_1, user_service_1, error_handler_1, AppModule;
     return {
         setters: [
-            function (core_1_1) {
-                core_1 = core_1_1;
-            },
             function (platform_browser_1_1) {
                 platform_browser_1 = platform_browser_1_1;
+            },
+            function (core_1_1) {
+                core_1 = core_1_1;
             },
             function (forms_1_1) {
                 forms_1 = forms_1_1;
@@ -51,6 +51,9 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
             },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (error_handler_1_1) {
+                error_handler_1 = error_handler_1_1;
             }
         ],
         execute: function () {
@@ -73,7 +76,8 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
                     providers: [auth_user_guard_1.AuthUserGuard,
                         auth_admin_guard_1.AuthAdminGuard,
                         authentication_service_1.AuthenticationService,
-                        user_service_1.UserService]
+                        user_service_1.UserService,
+                        { provide: core_1.ErrorHandler, useClass: error_handler_1.MyErrorHandler }]
                 }),
                 __metadata("design:paramtypes", [])
             ], AppModule);

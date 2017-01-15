@@ -4,13 +4,13 @@ import { AuthenticationService } from '../_services/authentication.service';
 
 
 @Component({
-  templateUrl: './app/login/login-form.component.html'
+    templateUrl: './app/login/login-form.component.html'
 })
 
 export class LoginFormComponent {
- model: any = {};
-    loading = false
-    error = ''
+    model: any = {};
+    loading = false;
+    error = '';
 
     constructor(
         private router: Router,
@@ -21,8 +21,8 @@ export class LoginFormComponent {
         this.authenticationService.logout()
     }
 
-    onSubmit() {        
-        this.loading = true;        
+    onSubmit() {
+        this.loading = true;
         this.authenticationService.login(this.model.name, this.model.password)
             .subscribe(result => {
                 if (result === true) {

@@ -60,17 +60,30 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                     localStorage.removeItem('currentUser');
                 };
                 AuthenticationService.prototype.isUserLoged = function () {
-                    if (localStorage.getItem('currentUser')) {
+                    if (this.getCurrentUser()) {
                         return true;
                     }
                     return false;
                 };
+                AuthenticationService.prototype.getCurrentUser = function () {
+                    return JSON.parse(localStorage.getItem('currentUser'));
+                };
                 AuthenticationService.prototype.isUserLogedAdmin = function () {
-                    var currentUser = localStorage.getItem('currentUser');
-                    if (currentUser && JSON.parse(currentUser).roles.indexOf('ADMIN', 0) >= 0) {
+                    var currentUser = this.getCurrentUser();
+                    if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {
                         return true;
                     }
                     return false;
+                };
+                AuthenticationService.prototype.getRequestOptionsWithAuth = function () {
+                    var currentUser = this.getCurrentUser();
+                    if (currentUser && currentUser.token) {
+                        var headers = new http_1.Headers();
+                        headers.append('x-access-token', currentUser.token);
+                        headers.append('cache-control', 'no-chache');
+                        return new http_1.RequestOptions({ headers: headers });
+                    }
+                    return null;
                 };
                 return AuthenticationService;
             }());

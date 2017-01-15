@@ -25,18 +25,12 @@ System.register(["@angular/core", "./_services/authentication.service"], functio
                 function AppComponent(authService) {
                     this.authService = authService;
                 }
-                AppComponent.prototype.isUserLoged = function () {
-                    return this.authService.isUserLoged();
-                };
-                AppComponent.prototype.isUserLogedAdmin = function () {
-                    return this.authService.isUserLogedAdmin();
-                };
                 return AppComponent;
             }());
             AppComponent = __decorate([
                 core_1.Component({
                     selector: 'my-app',
-                    template: "\n    <div class=\"jumbotron\">\n        <div class=\"container\">\n            <div class=\"col-sm-8 col-sm-offset-2\">       \n                <nav *ngIf=\"this.authService.isUserLoged()\">\n                  <a [routerLink]=\"['/']\" routerLinkActive=\"active\">Inicio</a>\n                  <a *ngIf=\"this.authService.isUserLogedAdmin()\" [routerLink]=\"['/usersList']\" routerLinkActive=\"active\">Usuarios</a>\n                  <a [routerLink]=\"['/login']\">Cerrar sesi\u00F3n</a>\n                </nav>     \n                <router-outlet></router-outlet>\n            </div>\n        </div>\n    </div>\n  "
+                    templateUrl: './app/app.component.html'
                 }),
                 __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
             ], AppComponent);

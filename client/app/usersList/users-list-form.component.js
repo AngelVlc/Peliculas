@@ -1,4 +1,4 @@
-System.register(["@angular/core"], function (exports_1, context_1) {
+System.register(["@angular/core", "../_services/user.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,25 +10,39 @@ System.register(["@angular/core"], function (exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, UsersListFormComponent;
+    var core_1, user_service_1, UsersListFormComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
             }
         ],
         execute: function () {
             UsersListFormComponent = (function () {
-                function UsersListFormComponent() {
+                function UsersListFormComponent(userService) {
+                    this.userService = userService;
                 }
+                UsersListFormComponent.prototype.getUsers = function () {
+                    var _this = this;
+                    this.userService.getUsers()
+                        .then(function (users) {
+                        _this.users = users;
+                        alert("users list " + JSON.stringify(_this.users));
+                    });
+                };
+                UsersListFormComponent.prototype.ngOnInit = function () {
+                    this.getUsers();
+                };
                 return UsersListFormComponent;
             }());
             UsersListFormComponent = __decorate([
                 core_1.Component({
-                    selector: 'usersList',
                     templateUrl: './app/usersList/users-list-form.component.html'
                 }),
-                __metadata("design:paramtypes", [])
+                __metadata("design:paramtypes", [user_service_1.UserService])
             ], UsersListFormComponent);
             exports_1("UsersListFormComponent", UsersListFormComponent);
         }

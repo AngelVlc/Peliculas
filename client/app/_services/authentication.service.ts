@@ -46,17 +46,32 @@ export class AuthenticationService {
     }
 
     isUserLoged(): boolean {
-        if (localStorage.getItem('currentUser')) {
+        if (this.getCurrentUser()) {
             return true;
         }
         return false;
     }
 
+    private getCurrentUser() {
+        return JSON.parse(localStorage.getItem('currentUser'));
+    }
+
     isUserLogedAdmin(): boolean {
-        var currentUser = localStorage.getItem('currentUser');
-        if (currentUser && JSON.parse(currentUser).roles.indexOf('ADMIN', 0) >= 0) {
+        var currentUser = this.getCurrentUser();
+        if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {
             return true;
         }
         return false;
+    }
+
+    getRequestOptionsWithAuth(): RequestOptions {
+        var currentUser = this.getCurrentUser();
+        if (currentUser && currentUser.token) {
+            let headers = new Headers();
+            headers.append('x-access-token', currentUser.token);
+            headers.append('cache-control', 'no-chache');
+            return new RequestOptions({ headers: headers });
+        }
+        return null;
     }
 }

@@ -2,8 +2,6 @@ var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
 var Database = require('./database')
 
-
-
 const saltRounds = 10
 
 const hashSecret = process.env.HASH_SECRET
@@ -35,24 +33,24 @@ module.exports = {
         var database = new Database();
         database.once('userFound', function (foundUser) {
             if (!foundUser) {
-                response.json({ success: false, message: 'Authentication failed. User not found.' })
+                response.status(401).send('Authentication failed. User not found.')
                 return
             }
 
             // check if password matches
             if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
-                response.json({ success: false, message: 'Authentication failed. Wrong password.' })
+                response.status(401).send('Authentication failed. Wrong password.')
                 return
             }
 
             var roles = []
 
-            if (foundUser.isAdmin==='1') roles.push('ADMIN')
+            if (foundUser.isAdmin) roles.push('ADMIN')
 
             var tokenPayload = { name: foundUser.userName, roles }
 
             var token = jwt.sign(tokenPayload, hashSecret, {
-                expiresIn: 10 * 60000 // expires in 10 minutes
+                expiresIn: '10m' //10 minutes
             });
 
             // return the information including token as JSON
@@ -75,7 +73,7 @@ module.exports = {
             // verifies secret and checks exp
             jwt.verify(token, hashSecret, function (err, decoded) {
                 if (err) {
-                    return response.json({ success: false, message: 'Failed to authenticate token.' })
+                    return response.status(404).send('Failed to authenticate token.')
                 } else {
                     // if everything is good, save to request for use in other routes
                     request.decoded = decoded
@@ -86,10 +84,7 @@ module.exports = {
         } else {
             // if there is no token
             // return an error
-            return response.status(403).send({
-                success: false,
-                message: 'No token provided.'
-            })
+            return response.status(403).send('No token provided.')
         }
     },
     hasAdminRole: function (request) {

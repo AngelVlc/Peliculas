@@ -51,6 +51,27 @@ var Database = function () {
         })
     }
 
+    this.getUsers = function () {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                throw err
+            }
+
+            connection.query('SELECT userId, userName, isAdmin FROM users', function (err, rows) {
+                connection.release();                
+                if (err) {
+                    throw err
+                }
+
+                if (!rows) {
+                    self.emit('usersGot', null);
+                } else {
+                    self.emit('usersGot', rows);
+                }
+            })
+        })
+    }
+
 }
 
 util.inherits(Database, EventEmitter)

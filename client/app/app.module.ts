@@ -1,5 +1,5 @@
-import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule,ErrorHandler  }      from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
@@ -15,6 +15,7 @@ import { AuthAdminGuard } from './_guards/auth.admin-guard';
 import { AuthenticationService } from './_services/authentication.service';
 import { UserService }  from './_services/user.service';
 
+import { MyErrorHandler } from './_providers/error.handler';
 
 @NgModule({
   imports:      [BrowserModule
@@ -26,9 +27,10 @@ import { UserService }  from './_services/user.service';
                   , DashboardFormComponent
                   , UsersListFormComponent],
   bootstrap:    [AppComponent],
-  providers:    [AuthUserGuard
+  providers:    [ AuthUserGuard
                   , AuthAdminGuard
                   , AuthenticationService
-                  , UserService]
+                  , UserService 
+                  , { provide: ErrorHandler, useClass: MyErrorHandler } ]
 })
 export class AppModule { }
