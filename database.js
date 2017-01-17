@@ -1,5 +1,4 @@
 var util = require('util');
-var EventEmitter = require('events').EventEmitter;
 
 if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL environment variable does not exist')
@@ -11,69 +10,63 @@ var pool = mysql.createPool(process.env.DATABASE_URL)
 var Database = function () {
     var self = this
 
-    this.insertUser = function (userName, hashedPassword, isAdmin) {
-        pool.getConnection(function (err, connection) {
-            if (err) {
-                throw err
+    this.insertUser = function (userName, hashedPassword, isAdmin, callback) {
+        pool.getConnection(function (conErr, connection) {
+            if (conErr) {
+                callback(conErr)
             }
 
             var newUser = { userName: userName, password: hashedPassword, isAdmin: isAdmin }
 
             connection.query('INSERT INTO users SET ?', newUser, function (err, rows) {
+                connection.release();                
                 if (err) {
-                    connection.release();
-                    throw err
+                    callback(err)
                 }
 
-                self.emit('userCreated', newUser.userName);
+                callback(null, newUser.userName)
             })
         })
     }
 
-    this.getUserByUserName = function (userName) {
-        pool.getConnection(function (err, connection) {
-            if (err) {
-                throw err
+    this.getUserByUserName = function (userName, callback) {
+        pool.getConnection(function (conErr, connection) {
+            if (conErr) {
+                callback(conErr)
             }
 
             connection.query('SELECT * FROM users WHERE userName = ?', [userName], function (err, rows) {
                 connection.release();                
                 if (err) {
-                    throw err
+                    callback(err)
                 }
 
                 if (!rows) {
-                    self.emit('userFound', null);
+                    callback(null, null)                    
                 } else {
-                    self.emit('userFound', rows[0]);
+                    callback(null,  rows[0])
                 }
             })
         })
     }
 
-    this.getUsers = function () {
-        pool.getConnection(function (err, connection) {
-            if (err) {
-                throw err
+    this.getUsers = function (callback) {
+        pool.getConnection(function (conErr, connection) {
+            if (conErr) {
+                callback(conErr)
             }
 
             connection.query('SELECT userId, userName, isAdmin FROM users', function (err, rows) {
                 connection.release();                
                 if (err) {
-                    throw err
+                    callback(err)
                 }
 
-                if (!rows) {
-                    self.emit('usersGot', null);
-                } else {
-                    self.emit('usersGot', rows);
-                }
+                callback(null, rows)
             })
         })
     }
 
 }
-
-util.inherits(Database, EventEmitter)
 
 module.exports = Database;

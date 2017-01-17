@@ -10,29 +10,39 @@ function getPasswordHash(plainPassword) {
     return bcrypt.hashSync(plainPassword, saltRounds)
 }
 
+var database = new Database();
 
 module.exports = {
-    createUsesIfNotExists: function (userName, password, isAdmin) {
-        var database = new Database();
+    createUsesIfNotExists: function (userName, password, isAdmin) {        
+        database.getUserByUserName(userName, function(error, data) {
+            if (error) {
+                console.error(error)
+                response.status(500).send('Internal error.')
+            }
 
-        database.once('userFound', function (foundUser) {
-            if (!foundUser) {
-                database.once('userCreated', function (createdUserName) {
-                    console.log('User ' + createdUserName + ' created')
+            if (!data) {
+                database.insertUser(userName, getPasswordHash(password), isAdmin, function(error, data) {
+                    if (error) {
+                        console.error(error)
+                        response.status(500).send('Internal error.')
+                    }   
+                    
+                    console.log('User ' + data + ' created')
                 })
-
-                database.insertUser(userName, getPasswordHash(password), isAdmin);
             }
         })
-
-        database.getUserByUserName(userName)
     },
     getToken: function (request, response) {
         var userName = request.body.name
         var plainPassword = request.body.password
-        var database = new Database();
-        database.once('userFound', function (foundUser) {
-            if (!foundUser) {
+ 
+        database.getUserByUserName(userName, function(error, foundUser) {
+            if (error) {
+                console.error(error)
+                response.status(500).send('Internal error.')
+            }    
+
+              if (!foundUser) {
                 response.status(401).send('Authentication failed. User not found.')
                 return
             }
@@ -59,10 +69,8 @@ module.exports = {
                 message: 'Authenticated!',
                 token: token,
                 roles: roles
-            })
+            })          
         })
-
-        database.getUserByUserName(userName)
     },
     verifyToken: function (request, response, next) {
         // check header or url parameters or post parameters for token
@@ -73,7 +81,7 @@ module.exports = {
             // verifies secret and checks exp
             jwt.verify(token, hashSecret, function (err, decoded) {
                 if (err) {
-                    return response.status(404).send('Failed to authenticate token.')
+                    return response.status(401).send('Failed to authenticate token.')
                 } else {
                     // if everything is good, save to request for use in other routes
                     request.decoded = decoded

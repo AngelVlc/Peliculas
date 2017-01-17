@@ -1,17 +1,20 @@
 var authentication = require('../authentication')
 var Database = require('../database')
 
+var database = new Database();
+
 module.exports = {
     configureApi: function (apiRoutes) {
         apiRoutes.get('/users', function (request, response) {
             if (authentication.hasAdminRole(request)) {
-                var database = new Database();
+                database.getUsers(function(error, data) {
+                    if (error) {
+                        console.error(error)
+                        response.status(500).send('Internal error.')
+                    }
 
-                database.once('usersGot', function (users) {
-                    response.json(users)
+                    response.json(data)
                 })
-
-                database.getUsers()
             } else {
                 response.status(403).send('Wrong role.')
             }
