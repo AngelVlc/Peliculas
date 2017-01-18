@@ -65,8 +65,6 @@ module.exports = {
 
             // return the information including token as JSON
             response.json({
-                success: true,
-                message: 'Authenticated!',
                 token: token,
                 roles: roles
             })          

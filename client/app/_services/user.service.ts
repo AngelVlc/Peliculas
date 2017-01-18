@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { User } from '../_models/user';
 
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+//import 'rxjs/add/operator/catch'
+//import 'rxjs/add/observable/throw'
 
 
 @Injectable()
@@ -15,15 +17,20 @@ export class UserService {
         private authenticationService: AuthenticationService) {
     }
 
-    getUsers(): Promise<User[]> {        
-        return this.http.get('/api/users', this.authenticationService.getRequestOptionsWithAuth())         
-            .toPromise()
-            .then(response => {                
-                return response.json() as User[];
-            })
-            .catch(err => {
-                err = err;
-                throw new Error(err.status + ' ' + err._body);
-            });            
+    getUsers(): Observable<User[]> {
+        return this.http
+            .get('/api/users', this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => r.json() as User[]);
     }
+
+   /* tratarErrores(error) {
+        console.log(JSON.stringify(error));
+        if (error.status == 401) {
+            console.log("Error de permisos");            
+        }
+        else {
+            console.log("Otro Error");
+        }
+        return Observable.throw(error._body)
+    }*/
 }

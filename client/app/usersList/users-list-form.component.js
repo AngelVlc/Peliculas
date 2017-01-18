@@ -28,10 +28,9 @@ System.register(["@angular/core", "../_services/user.service"], function (export
                 UsersListFormComponent.prototype.getUsers = function () {
                     var _this = this;
                     this.userService.getUsers()
-                        .then(function (users) {
-                        _this.users = users;
-                        alert("users list " + JSON.stringify(_this.users));
-                    });
+                        .subscribe(function (res) {
+                        _this.users = res;
+                    }, console.error);
                 };
                 UsersListFormComponent.prototype.ngOnInit = function () {
                     this.getUsers();
