@@ -3,8 +3,8 @@ import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   template: `
-  <h4>Error 401: La sesión ha caducado</h4>
-  <a [routerLink]="['/login']">Iniciar sesión</a>
+    <h4>El token ha caducado</h4>
+    <a [routerLink]="['/login']">Iniciar sesión</a>
   `
 })
 export class Error401TokenExpiredComponent implements OnInit {

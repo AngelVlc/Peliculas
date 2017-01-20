@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { AuthenticationService } from './authentication.service';
 import { User } from '../_models/user';
 import 'rxjs/add/operator/map';
-
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
+  
 @Injectable()
 export class UserService {
     constructor(
+        private router: Router,
         private http: Http,
         private authenticationService: AuthenticationService) {
     }
@@ -18,5 +23,25 @@ export class UserService {
         return this.http
             .get('/api/users', this.authenticationService.getRequestOptionsWithAuth())
             .map((r: Response) => r.json() as User[])
+            .catch(this.handleError.bind(this));
      }
+
+
+    private handleError(error: Response | any) {
+        switch (error.status) {
+          case 401:
+            if (error._body.indexOf('jwt expired') > 0) {
+              this.router.navigate(['/error401TokenExpired']);
+            }
+            else {
+              this.router.navigate(['/error401']);
+            }
+            break;
+
+          default:
+            this.router.navigate(['/genericError']);
+        }
+ 
+        return Observable.of();
+    }     
 }
