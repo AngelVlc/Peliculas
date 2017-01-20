@@ -44,10 +44,14 @@ System.register(["@angular/core", "@angular/router", "../_services/authenticatio
                         if (result === true) {
                             _this.router.navigate(['/']);
                         }
-                        else {
-                            _this.error = 'Usuario no válido';
-                            _this.loading = false;
+                    }, function (error) {
+                        if (error._body) {
+                            _this.error = error._body;
                         }
+                        else {
+                            _this.error = error;
+                        }
+                        _this.loading = false;
                     });
                 };
                 return LoginFormComponent;

@@ -53,3 +53,9 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
         PRIMARY KEY (`userId`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+## Por hacer
++ Controlar la seguridad antes ataques
++ Añadir tests
++ Pruebas de rendimiento
++ ¿No guardar el token de sesión en el local storage?
+

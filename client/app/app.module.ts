@@ -15,7 +15,9 @@ import { AuthAdminGuard } from './_guards/auth.admin-guard';
 import { AuthenticationService } from './_services/authentication.service';
 import { UserService }  from './_services/user.service';
 
-import { MyErrorHandler } from './_providers/error.handler';
+import { GenericErrorComponent } from './errors/generic-error.component';
+import { Error401Component } from './errors/error-401.component';
+import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.component';
 
 @NgModule({
   imports:      [BrowserModule
@@ -25,12 +27,14 @@ import { MyErrorHandler } from './_providers/error.handler';
   declarations: [AppComponent
                   , LoginFormComponent
                   , DashboardFormComponent
-                  , UsersListFormComponent],
+                  , UsersListFormComponent
+                  , GenericErrorComponent
+                  , Error401Component
+                  , Error401TokenExpiredComponent],
   bootstrap:    [AppComponent],
   providers:    [ AuthUserGuard
                   , AuthAdminGuard
                   , AuthenticationService
-                  , UserService 
-                  , { provide: ErrorHandler, useClass: MyErrorHandler } ]
+                  , UserService]
 })
 export class AppModule { }

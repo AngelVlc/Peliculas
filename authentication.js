@@ -60,7 +60,7 @@ module.exports = {
             var tokenPayload = { name: foundUser.userName, roles }
 
             var token = jwt.sign(tokenPayload, hashSecret, {
-                expiresIn: '10m' //10 minutes
+                expiresIn: '5s'//'10m' //10 minutes
             });
 
             // return the information including token as JSON
@@ -79,7 +79,8 @@ module.exports = {
             // verifies secret and checks exp
             jwt.verify(token, hashSecret, function (err, decoded) {
                 if (err) {
-                    return response.status(401).send('Failed to authenticate token.')
+                    console.log(err)
+                    return response.status(401).send('Failed to authenticate token: ' + err.message)
                 } else {
                     // if everything is good, save to request for use in other routes
                     request.decoded = decoded

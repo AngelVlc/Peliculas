@@ -24,13 +24,17 @@ export class LoginFormComponent {
     onSubmit() {
         this.loading = true;
         this.authenticationService.login(this.model.name, this.model.password)
-            .subscribe(result => {
+            .subscribe(result => {                
                 if (result === true) {
                     this.router.navigate(['/']);
+                } 
+            }, error => {         
+                if (error._body) {
+                    this.error = error._body;
                 } else {
-                    this.error = 'Usuario no válido';
-                    this.loading = false;
-                }
+                    this.error = error;
+                }                   
+                this.loading = false;
             });
     }
 }

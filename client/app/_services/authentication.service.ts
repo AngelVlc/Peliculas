@@ -34,7 +34,7 @@ export class AuthenticationService {
                     return true
                 } else {
                     // return false to indicate failed login
-                    return false
+                    throw new Error('Authenticate response without token');
                 }
             })
     }

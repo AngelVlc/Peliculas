@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../_services/user.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "../_services/user.service", "@angular/router"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../_services/user.service"], function (export
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, user_service_1, UsersListFormComponent;
+    var core_1, user_service_1, router_1, UsersListFormComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -18,19 +18,34 @@ System.register(["@angular/core", "../_services/user.service"], function (export
             },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }
         ],
         execute: function () {
             UsersListFormComponent = (function () {
-                function UsersListFormComponent(userService) {
+                function UsersListFormComponent(router, userService) {
+                    this.router = router;
                     this.userService = userService;
                 }
                 UsersListFormComponent.prototype.getUsers = function () {
                     var _this = this;
                     this.userService.getUsers()
-                        .subscribe(function (res) {
-                        _this.users = res;
-                    }, console.error);
+                        .subscribe(function (data) { _this.users = data; }, function (error) {
+                        switch (error.status) {
+                            case 401:
+                                if (error._body.indexOf('jwt expired') > 0) {
+                                    _this.router.navigate(['/error401TokenExpired']);
+                                }
+                                else {
+                                    _this.router.navigate(['/error401']);
+                                }
+                                break;
+                            default:
+                                _this.router.navigate(['/genericError']);
+                        }
+                    });
                 };
                 UsersListFormComponent.prototype.ngOnInit = function () {
                     this.getUsers();
@@ -41,7 +56,8 @@ System.register(["@angular/core", "../_services/user.service"], function (export
                 core_1.Component({
                     templateUrl: './app/usersList/users-list-form.component.html'
                 }),
-                __metadata("design:paramtypes", [user_service_1.UserService])
+                __metadata("design:paramtypes", [router_1.Router,
+                    user_service_1.UserService])
             ], UsersListFormComponent);
             exports_1("UsersListFormComponent", UsersListFormComponent);
         }
