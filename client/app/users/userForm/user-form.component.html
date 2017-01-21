@@ -1,0 +1,29 @@
+<div *ngIf="user" class="container">
+    <h1>Usuario '{{user.userName}}'</h1>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+
+        <div class="form-group">
+            <label for="userName">Usuario: </label>
+            <input type="text" class="form-control" id="userName" required [(ngModel)]="user.userName" name="userName" #userName="ngModel">
+            <div [hidden]="userName.valid || userName.pristine" class="alert alert-danger">
+                El usuario es obligatorio
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="isAdmin">Administrador: </label>
+            <input type="checkbox" class="form-control" id="isAdmin" [(ngModel)]="user.isAdmin" name="isAdmin" #isAdmin="ngModel">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña: </label>
+            <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" #password="ngModel">
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!userForm.form.valid">Guardar</button>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+    </form>
+
+</div>

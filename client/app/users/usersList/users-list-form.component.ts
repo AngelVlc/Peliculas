@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
-import { UserService } from '../_services/user.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../../_models/user';
+import { UserService } from '../../_services/user.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  templateUrl: './app/usersList/users-list-form.component.html'
+  templateUrl: './app/users/usersList/users-list-form.component.html'
 })
 
 export class UsersListFormComponent implements OnInit {
@@ -14,7 +14,7 @@ export class UsersListFormComponent implements OnInit {
 
   getUsers(): void {
     this.userService.getUsers()
-      .subscribe(data => { this.users = data; });
+      .subscribe((data: User[]) => { this.users = data; });
   }
 
   ngOnInit(): void {

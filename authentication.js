@@ -12,6 +12,10 @@ function getPasswordHash(plainPassword) {
 }
 
 module.exports = {
+    getPasswordHash: function  (plainPassword) {
+        return getPasswordHash(plainPassword)
+    },
+
     createUsesIfNotExists: function (userName, password, isAdmin) {        
         usersDataAccess.getUserByUserName(userName, function(error, data) {
             if (error) {
@@ -19,18 +23,21 @@ module.exports = {
                 response.status(500).send('Internal error.')
             }
 
-            if (!data) {
-                usersDataAccess.insertUser(userName, getPasswordHash(password), isAdmin, function(error, data) {
+            if (!data) {                
+                var hashedPassword = getPasswordHash(password)
+
+                usersDataAccess.insertUser(userName, hashedPassword, isAdmin, function(error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
                     }   
                     
-                    console.log('User ' + data + ' created')
+                    console.log('User ' + userName + ' with id \'' + data + '\' created')
                 })
             }
         })
     },
+
     getToken: function (request, response) {
         var userName = request.body.name
         var plainPassword = request.body.password
@@ -54,7 +61,7 @@ module.exports = {
 
             var roles = []
 
-            if (foundUser.isAdmin) roles.push('ADMIN')
+            if (foundUser.isAdmin===1) roles.push('ADMIN')
 
             var tokenPayload = { name: foundUser.userName, roles }
 

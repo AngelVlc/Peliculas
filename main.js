@@ -9,22 +9,20 @@ var apiUsers = require('./apis/users')
 var path = require('path')
 
 // users initialization
-authentication.createUsesIfNotExists('user','User_123',false)
-authentication.createUsesIfNotExists('admin','Admin_123',true)
+authentication.createUsesIfNotExists('user', 'User_123', false)
+authentication.createUsesIfNotExists('admin', 'Admin_123', true)
 
-var port = process.env.PORT || 8080 
+var port = process.env.PORT || 8080
 
 // disable cache
 app.set('etag', false);
 
 // use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // use morgan to log requests to the console
 app.use(morgan('dev'))
-
-console.log(path.join(__dirname, 'client'))
 
 //where express looks for the Angular front-end code
 app.use(express.static(path.join(__dirname, 'client')))
@@ -38,7 +36,7 @@ var apiRoutes = express.Router()
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', authentication.getToken)
 
-apiRoutes.use(authentication.verifyToken)  
+apiRoutes.use(authentication.verifyToken)
 
 apiUsers.configureApi(apiRoutes)
 
@@ -55,12 +53,12 @@ app.use('/api', apiRoutes);
 // routes ================
 // =======================
 // basic route
-app.get('*', function(req, res) {  
-  res.sendFile(path.join(__dirname + '/client/index.html'));  
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname + '/client/index.html'));
 })
 
 
- // =======================
+// =======================
 // start the server ======
 // =======================
 app.listen(port)

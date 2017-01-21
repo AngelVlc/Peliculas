@@ -8,7 +8,8 @@ import { AppRoutingModule }     from './app-routing.module';
 
 import { LoginFormComponent } from './login/login-form.component';
 import { DashboardFormComponent} from './dashboard/dashboard-form.component';
-import { UsersListFormComponent } from './usersList/users-list-form.component';
+import { UsersListFormComponent } from './users/usersList/users-list-form.component';
+import { UserFormComponent } from './users/userForm/user-form.component';
 
 import { AuthUserGuard } from './_guards/auth.user-guard';
 import { AuthAdminGuard } from './_guards/auth.admin-guard';
@@ -30,6 +31,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , LoginFormComponent
                   , DashboardFormComponent
                   , UsersListFormComponent
+                  , UserFormComponent
                   , GenericErrorComponent
                   , Error401Component
                   , Error401TokenExpiredComponent],

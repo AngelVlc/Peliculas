@@ -40,10 +40,17 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                     this.http = http;
                     this.authenticationService = authenticationService;
                     this.errorHandlerService = errorHandlerService;
+                    this._baseUrl = '/api/users/';
                 }
                 UserService.prototype.getUsers = function () {
                     return this.http
-                        .get('/api/users/get', this.authenticationService.getRequestOptionsWithAuth())
+                        .get(this._baseUrl, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return r.json(); })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                UserService.prototype.getUserById = function (userId) {
+                    return this.http
+                        .get(this._baseUrl + '/' + userId, this.authenticationService.getRequestOptionsWithAuth())
                         .map(function (r) { return r.json(); })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };

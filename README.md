@@ -50,7 +50,7 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
         `userId` int(11) NOT NULL AUTO_INCREMENT,
         `userName` varchar(10) NOT NULL,
         `password` varchar(100) NOT NULL,
-        `isAdmin` varchar(45) NOT NULL,
+        `isAdmin` tinyint NOT NULL,
         PRIMARY KEY (`userId`),
         UNIQUE KEY `idx_users_userName` (`userName`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

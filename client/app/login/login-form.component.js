@@ -29,7 +29,6 @@ System.register(["@angular/core", "@angular/router", "../_services/authenticatio
                     this.router = router;
                     this.authenticationService = authenticationService;
                     this.model = {};
-                    this.loading = false;
                     this.error = '';
                 }
                 LoginFormComponent.prototype.ngOnInit = function () {
@@ -38,7 +37,6 @@ System.register(["@angular/core", "@angular/router", "../_services/authenticatio
                 };
                 LoginFormComponent.prototype.onSubmit = function () {
                     var _this = this;
-                    this.loading = true;
                     this.authenticationService.login(this.model.name, this.model.password)
                         .subscribe(function (result) {
                         if (result === true) {
@@ -51,7 +49,6 @@ System.register(["@angular/core", "@angular/router", "../_services/authenticatio
                         else {
                             _this.error = error;
                         }
-                        _this.loading = false;
                     });
                 };
                 return LoginFormComponent;

@@ -9,7 +9,6 @@ import { AuthenticationService } from '../_services/authentication.service';
 
 export class LoginFormComponent {
     model: any = {};
-    loading = false;
     error = '';
 
     constructor(
@@ -22,7 +21,6 @@ export class LoginFormComponent {
     }
 
     onSubmit() {
-        this.loading = true;
         this.authenticationService.login(this.model.name, this.model.password)
             .subscribe(result => {                
                 if (result === true) {
@@ -34,7 +32,6 @@ export class LoginFormComponent {
                 } else {
                     this.error = error;
                 }                   
-                this.loading = false;
             });
     }
 }
