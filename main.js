@@ -40,11 +40,13 @@ apiRoutes.post('/authenticate', authentication.getToken)
 
 apiRoutes.use(authentication.verifyToken)  
 
-apiRoutes.get('/', function (req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' })
+apiUsers.configureApi(apiRoutes)
+
+apiRoutes.get('*', function (req, res) {
+  return res.status(404).send("Resource not found")
 })
 
-apiUsers.configureApi(apiRoutes)
+
 
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes);

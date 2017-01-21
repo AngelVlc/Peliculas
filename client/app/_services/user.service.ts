@@ -22,7 +22,7 @@ export class UserService {
 
     getUsers(): Observable<User[]> {
         return this.http
-            .get('/api/users', this.authenticationService.getRequestOptionsWithAuth())
+            .get('/api/users/get', this.authenticationService.getRequestOptionsWithAuth())
             .map((r: Response) => r.json() as User[])
             .catch(this.errorHandlerService.handleError.bind(this));
      }

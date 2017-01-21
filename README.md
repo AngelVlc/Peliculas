@@ -44,13 +44,15 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
 + Usuario: 'user' - Password: 'User_123' - Tipo: 'usuario normal'
 
 ## Script de creación de la base de datos
+    CREATE SCHEMA `peliculas` DEFAULT CHARACTER SET utf8 ;
 
     CREATE TABLE `users` (
-        `userId` int NOT NULL AUTO_INCREMENT,
+        `userId` int(11) NOT NULL AUTO_INCREMENT,
         `userName` varchar(10) NOT NULL,
         `password` varchar(100) NOT NULL,
         `isAdmin` varchar(45) NOT NULL,
-        PRIMARY KEY (`userId`)
+        PRIMARY KEY (`userId`),
+        UNIQUE KEY `idx_users_userName` (`userName`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ## Por hacer

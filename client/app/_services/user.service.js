@@ -43,7 +43,7 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                 }
                 UserService.prototype.getUsers = function () {
                     return this.http
-                        .get('/api/users', this.authenticationService.getRequestOptionsWithAuth())
+                        .get('/api/users/get', this.authenticationService.getRequestOptionsWithAuth())
                         .map(function (r) { return r.json(); })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };

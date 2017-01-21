@@ -1,6 +1,7 @@
 var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
-var Database = require('./database')
+var UsersDataAccess = require('./data_access/users-data-access')
+var usersDataAccess = new UsersDataAccess();
 
 const saltRounds = 10
 
@@ -10,18 +11,16 @@ function getPasswordHash(plainPassword) {
     return bcrypt.hashSync(plainPassword, saltRounds)
 }
 
-var database = new Database();
-
 module.exports = {
     createUsesIfNotExists: function (userName, password, isAdmin) {        
-        database.getUserByUserName(userName, function(error, data) {
+        usersDataAccess.getUserByUserName(userName, function(error, data) {
             if (error) {
                 console.error(error)
                 response.status(500).send('Internal error.')
             }
 
             if (!data) {
-                database.insertUser(userName, getPasswordHash(password), isAdmin, function(error, data) {
+                usersDataAccess.insertUser(userName, getPasswordHash(password), isAdmin, function(error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
@@ -36,7 +35,7 @@ module.exports = {
         var userName = request.body.name
         var plainPassword = request.body.password
  
-        database.getUserByUserName(userName, function(error, foundUser) {
+        usersDataAccess.getUserByUserName(userName, function(error, foundUser) {
             if (error) {
                 console.error(error)
                 response.status(500).send('Internal error.')
@@ -60,7 +59,7 @@ module.exports = {
             var tokenPayload = { name: foundUser.userName, roles }
 
             var token = jwt.sign(tokenPayload, hashSecret, {
-                expiresIn: '5s'//'10m' //10 minutes
+                expiresIn: '20m' //10m minutes or 60s 60 segs
             });
 
             // return the information including token as JSON
