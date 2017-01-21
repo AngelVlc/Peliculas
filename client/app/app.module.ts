@@ -12,6 +12,8 @@ import { UsersListFormComponent } from './usersList/users-list-form.component';
 
 import { AuthUserGuard } from './_guards/auth.user-guard';
 import { AuthAdminGuard } from './_guards/auth.admin-guard';
+
+import { ErrorHandlerService } from './_services/error-handler.service';
 import { AuthenticationService } from './_services/authentication.service';
 import { UserService }  from './_services/user.service';
 
@@ -34,6 +36,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
   bootstrap:    [AppComponent],
   providers:    [ AuthUserGuard
                   , AuthAdminGuard
+                  , ErrorHandlerService
                   , AuthenticationService
                   , UserService]
 })
