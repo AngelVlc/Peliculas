@@ -49,13 +49,13 @@ module.exports = {
             }    
 
               if (!foundUser) {
-                response.status(401).send('Authentication failed. User not found.')
+                response.status(401).send('No existe el usuario.')
                 return
             }
 
             // check if password matches
             if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
-                response.status(401).send('Authentication failed. Wrong password.')
+                response.status(401).send('Contraseña incorrecta.')
                 return
             }
 
