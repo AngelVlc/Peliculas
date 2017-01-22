@@ -4,7 +4,7 @@
 
     <div class="panel-body">
         <div class="col-xs-3">
-            <a class="btn btn-primary" href="#/usuarios/-1"><i class="glyphicon glyphicon-file"></i> Añadir </a>
+            <a class="btn btn-primary" [routerLink]="['/user',-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>
         </div>
         <div class="col-xs-5 pull-right">
             <div class="input-group">
@@ -34,7 +34,7 @@
                             <input type="checkbox" [(ngModel)]="usr.isAdmin" disabled/>
                         </td>
                         <td class="td-actions">
-                            <a showonhoverrow uib-popover="Editar" popover-trigger="mouseenter" class="btn btn-primary btn-xs" [routerLink]="['/user',usr.userId]">
+                            <a showonhoverrow class="btn btn-primary btn-xs" [routerLink]="['/user',usr.userId]">
                                 <i class="glyphicon glyphicon-edit"></i>                                
                             </a>
                         </td>

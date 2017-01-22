@@ -46,11 +46,7 @@ module.exports = {
                         return
                     }
 
-                    if (data && data === 1) {
-                        response.json('Updated')
-                    } else {
-                        response.status(400).send('Didn\'t updated.')
-                    }
+                    response.json('Updated')
                 })
             })
             .delete(function (request, response) {

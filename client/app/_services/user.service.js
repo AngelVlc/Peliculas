@@ -50,8 +50,32 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                 };
                 UserService.prototype.getUserById = function (userId) {
                     return this.http
-                        .get(this._baseUrl + '/' + userId, this.authenticationService.getRequestOptionsWithAuth())
+                        .get(this._baseUrl + userId, this.authenticationService.getRequestOptionsWithAuth())
                         .map(function (r) { return r.json(); })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                UserService.prototype.updateUser = function (user) {
+                    var body = {
+                        userId: user.userId,
+                        userName: user.userName,
+                        password: user.password,
+                        isAdmin: user.isAdmin
+                    };
+                    return this.http
+                        .put(this._baseUrl + user.userId, body, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                UserService.prototype.deleteUser = function (user) {
+                    return this.http
+                        .delete(this._baseUrl + user.userId, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                UserService.prototype.insertUser = function (user) {
+                    return this.http
+                        .post(this._baseUrl, user, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };
                 return UserService;

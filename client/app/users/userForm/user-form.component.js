@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_services/user.service", "@angular/router", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_models/user", "../../_services/user.service", "rxjs/Observable", "@angular/router", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,14 +10,20 @@ System.register(["@angular/core", "../../_services/user.service", "@angular/rout
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, user_service_1, router_1, UserFormComponent;
+    var core_1, user_1, user_service_1, Observable_1, router_1, UserFormComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
             },
+            function (user_1_1) {
+                user_1 = user_1_1;
+            },
             function (user_service_1_1) {
                 user_service_1 = user_service_1_1;
+            },
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             },
             function (router_1_1) {
                 router_1 = router_1_1;
@@ -32,14 +38,46 @@ System.register(["@angular/core", "../../_services/user.service", "@angular/rout
                     this.router = router;
                     this.userService = userService;
                     this.error = '';
+                    this.success = false;
+                    this.confirmDeleteTitle = '¿Está seguro?';
+                    this.confirmDeleteText = 'Si';
+                    this.confirmCancelText = 'No';
                 }
                 UserFormComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.route.params
-                        .switchMap(function (params) { return _this.userService.getUserById(+params['id']); })
+                        .switchMap(function (params) {
+                        var userId = +params['id'];
+                        if (userId > 0) {
+                            return _this.userService.getUserById(userId);
+                        }
+                        else {
+                            return Observable_1.Observable.of(new user_1.User()).map(function (o) { return new user_1.User(); });
+                        }
+                    })
                         .subscribe(function (data) { return _this.user = data; });
                 };
                 UserFormComponent.prototype.onSubmit = function () {
+                    var _this = this;
+                    if (this.user.userId) {
+                        this.userService.updateUser(this.user)
+                            .subscribe(function (data) {
+                            _this.success = true;
+                        });
+                    }
+                    else {
+                        this.userService.insertUser(this.user)
+                            .subscribe(function (data) {
+                            _this.router.navigate(['/usersList']);
+                        });
+                    }
+                };
+                UserFormComponent.prototype.deleteUser = function () {
+                    var _this = this;
+                    this.userService.deleteUser(this.user)
+                        .subscribe(function (data) {
+                        _this.router.navigate(['/usersList']);
+                    });
                 };
                 return UserFormComponent;
             }());

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule,ErrorHandler  }      from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
+import { ConfirmationPopoverModule}  from 'angular-confirmation-popover';
 
 import { AppComponent }  from './app.component';
 import { AppRoutingModule }     from './app-routing.module';
@@ -26,7 +27,10 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
   imports:      [BrowserModule
                   , FormsModule 
                   , HttpModule
-                  , AppRoutingModule],
+                  , AppRoutingModule
+                  , ConfirmationPopoverModule.forRoot({
+                      focusButton: 'confirm'
+                    })],
   declarations: [AppComponent
                   , LoginFormComponent
                   , DashboardFormComponent
