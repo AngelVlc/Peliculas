@@ -13,7 +13,7 @@
 
         <div class="form-group">
             <label for="isAdmin">Administrador: </label>
-            <select class="form-control col-md-4" id="isAdmin" [(ngModel)]="user.isAdmin" name="isAdmin" #isAdmin="ngModel">
+            <select class="form-control" id="isAdmin" [(ngModel)]="user.isAdmin" name="isAdmin" #isAdmin="ngModel">
                 <option *ngFor="let value of yesNoValues" [value]="value.value">  
                     {{value.display}}
                 </option>
@@ -29,13 +29,15 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Guardar</button>
-        <button *ngIf="user.userId" type="button" class="btn btn-danger" mwlConfirmationPopover [title]="confirmDeleteTitle" [confirmText]="confirmDeleteText"
-            [cancelText]="confirmCancelText" placement="right" (confirm)="deleteUser()">Eliminar</button>
         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
         <div *ngIf="success" class="alert alert-success alert-dismissable">
             <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="success=false">x</a> Cambios guardados
         </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Guardar</button>
+        <button *ngIf="user.userId" type="button" class="btn btn-danger" mwlConfirmationPopover [title]="confirmDeleteTitle" [confirmText]="confirmDeleteText"
+            [cancelText]="confirmCancelText" placement="right" (confirm)="deleteUser()">Eliminar</button>
+
     </form>
 
 </div>
