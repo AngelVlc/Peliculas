@@ -1,0 +1,11 @@
+<div class="jumbotron">
+    <div class="container">
+        <h1>Películas</h1>
+        <nav *ngIf="this.authService.isUserLoged()">
+            <a [routerLink]="['/']" routerLinkActive="active">Inicio</a>
+            <a *ngIf="this.authService.isUserLogedAdmin()" [routerLink]="['/usersList']" routerLinkActive="active">Usuarios</a>
+            <a [routerLink]="['/login']">Cerrar sesión</a>
+        </nav>
+    </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,48 @@
+<h4>Usuarios</h4>
+
+<div class="panel panel-primary">
+
+    <div class="panel-body">
+        <div class="col-xs-3">
+            <a class="btn btn-primary" [routerLink]="['/user',-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>
+        </div>
+        <div class="col-xs-5 pull-right">
+            <div class="input-group">
+                <input type="text" id="searchText" class="form-control pull-right" placeholder="Buscar ..." ng-model="search_txt">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="text-muted glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="table table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <td>Nombre usuario</td>                        
+                        <td>¿Es admin?</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let usr of users">
+                        <td>{{usr.userName}}</td>                                               
+                        <td>
+                            <input type="checkbox" [(ngModel)]="usr.isAdmin" disabled/>
+                        </td>
+                        <td class="td-actions">
+                            <a showonhoverrow class="btn btn-primary btn-xs" [routerLink]="['/user',usr.userId]">
+                                <i class="glyphicon glyphicon-edit"></i>                                
+                            </a>
+                        </td>
+                    </tr>
+                    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

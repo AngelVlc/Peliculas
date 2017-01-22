@@ -1,8 +1,7 @@
 var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
-var Database = require('./database')
-
-
+var UsersDataAccess = require('./data_access/users-data-access')
+var usersDataAccess = new UsersDataAccess();
 
 const saltRounds = 10
 
@@ -12,60 +11,70 @@ function getPasswordHash(plainPassword) {
     return bcrypt.hashSync(plainPassword, saltRounds)
 }
 
-
 module.exports = {
-    createUsesIfNotExists: function (userName, password, isAdmin) {
-        var database = new Database();
+    getPasswordHash: function  (plainPassword) {
+        return getPasswordHash(plainPassword)
+    },
 
-        database.once('userFound', function (foundUser) {
-            if (!foundUser) {
-                database.once('userCreated', function (createdUserName) {
-                    console.log('User ' + createdUserName + ' created')
+    createUsesIfNotExists: function (userName, password, isAdmin) {        
+        usersDataAccess.getUserByUserName(userName, function(error, data) {
+            if (error) {
+                console.error(error)
+                response.status(500).send('Internal error.')
+            }
+
+            if (!data) {                
+                var hashedPassword = getPasswordHash(password)
+
+                usersDataAccess.insertUser(userName, hashedPassword, isAdmin, function(error, data) {
+                    if (error) {
+                        console.error(error)
+                        response.status(500).send('Internal error.')
+                    }   
+                    
+                    console.log('User ' + userName + ' with id \'' + data + '\' created')
                 })
-
-                database.insertUser(userName, getPasswordHash(password), isAdmin);
             }
         })
-
-        database.getUserByUserName(userName)
     },
+
     getToken: function (request, response) {
         var userName = request.body.name
         var plainPassword = request.body.password
+ 
+        usersDataAccess.getUserByUserName(userName, function(error, foundUser) {
+            if (error) {
+                console.error(error)
+                response.status(500).send('Internal error.')
+            }    
 
-        var database = new Database();
-        database.once('userFound', function (foundUser) {
-            if (!foundUser) {
-                response.json({ success: false, message: 'Authentication failed. User not found.' })
+              if (!foundUser) {
+                response.status(401).send('Authentication failed. User not found.')
                 return
             }
 
             // check if password matches
             if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
-                response.json({ success: false, message: 'Authentication failed. Wrong password.' })
+                response.status(401).send('Authentication failed. Wrong password.')
                 return
             }
 
-            var roles = ['USER']
+            var roles = []
 
-            if (foundUser.isAdmin) roles.push('ADMIN')
+            if (foundUser.isAdmin===1) roles.push('ADMIN')
 
             var tokenPayload = { name: foundUser.userName, roles }
 
             var token = jwt.sign(tokenPayload, hashSecret, {
-                expiresIn: 10 * 60000 // expires in 10 minutes
+                expiresIn: '20m' //10m minutes or 60s 60 segs
             });
 
             // return the information including token as JSON
             response.json({
-                success: true,
-                message: 'Authenticated!',
                 token: token,
                 roles: roles
-            })
+            })          
         })
-
-        database.getUserByUserName(userName)
     },
     verifyToken: function (request, response, next) {
         // check header or url parameters or post parameters for token
@@ -76,7 +85,8 @@ module.exports = {
             // verifies secret and checks exp
             jwt.verify(token, hashSecret, function (err, decoded) {
                 if (err) {
-                    return response.json({ success: false, message: 'Failed to authenticate token.' })
+                    console.log(err)
+                    return response.status(401).send('Failed to authenticate token: ' + err.message)
                 } else {
                     // if everything is good, save to request for use in other routes
                     request.decoded = decoded
@@ -87,10 +97,7 @@ module.exports = {
         } else {
             // if there is no token
             // return an error
-            return response.status(403).send({
-                success: false,
-                message: 'No token provided.'
-            })
+            return response.status(403).send('No token provided.')
         }
     },
     hasAdminRole: function (request) {

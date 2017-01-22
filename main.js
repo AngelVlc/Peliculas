@@ -4,29 +4,29 @@ var bodyParser = require('body-parser')
 var morgan = require('morgan')
 var Database = require('./database')
 var authentication = require('./authentication')
-var apiUsers = require('./app/apis/users')
-var heapdump = require('heapdump');  
+var apiUsers = require('./apis/users')
+//var heapdump = require('heapdump')
+var path = require('path')
 
 // users initialization
-authentication.createUsesIfNotExists('user','User_123',false)
-authentication.createUsesIfNotExists('admin','Admin_123',true)
+authentication.createUsesIfNotExists('user', 'User_123', false)
+authentication.createUsesIfNotExists('admin', 'Admin_123', true)
 
-var port = process.env.PORT || 8080 
+var port = process.env.PORT || 8080
+
+// disable cache
+app.set('etag', false);
 
 // use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // use morgan to log requests to the console
 app.use(morgan('dev'))
 
-// =======================
-// routes ================
-// =======================
-// basic route
-app.get('/', function (req, res) {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
-})
+//where express looks for the Angular front-end code
+app.use(express.static(path.join(__dirname, 'client')))
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 
 // API ROUTES -------------------
 
@@ -36,22 +36,30 @@ var apiRoutes = express.Router()
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', authentication.getToken)
 
-apiRoutes.use(authentication.verifyToken)  
+apiRoutes.use(authentication.verifyToken)
 
-apiRoutes.get('/', function (req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' })
+apiUsers.configureApi(apiRoutes)
+
+apiRoutes.get('*', function (req, res) {
+  return res.status(404).send("Resource not found")
 })
-
-//apiUsers.configureApi(apiRoutes)
 
 
 
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes);
 
- // =======================
+// =======================
+// routes ================
+// =======================
+// basic route
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname + '/client/index.html'));
+})
+
+
+// =======================
 // start the server ======
 // =======================
 app.listen(port)
 console.log('Magic happens at http://localhost:' + port)
-
