@@ -1,7 +1,6 @@
 <div *ngIf="user" class="container">
-    <h1 *ngIf="user.userId">Usuario '{{user.userName}}'</h1> 
-    <h1 *ngIf="!user.userId">Nuevo usuario</h1> 
-    
+    <h1>{{title}}</h1>
+
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
 
         <div class="form-group">
@@ -14,16 +13,25 @@
 
         <div class="form-group">
             <label for="isAdmin">Administrador: </label>
-            <input type="checkbox" class="form-control" id="isAdmin" [(ngModel)]="user.isAdmin" name="isAdmin" #isAdmin="ngModel">
+            <select class="form-control col-md-4" id="isAdmin" [(ngModel)]="user.isAdmin" name="isAdmin" #isAdmin="ngModel">
+                <option *ngFor="let value of yesNoValues" [value]="value.value">  
+                    {{value.display}}
+                </option>
+            </select>
         </div>
 
         <div class="form-group">
             <label for="password">Contraseña: </label>
-            <input type="password" class="form-control" id="password" placeholder="Escriba la nueva contraseña" [(ngModel)]="user.password" name="password" #password="ngModel">
+            <input type="password" class="form-control" id="password" [placeholder]="user.userId ? 'Escriba la nueva contraseña' : ''"
+                [required]="!user.userId" [(ngModel)]="user.password" name="password" #password="ngModel">
+            <div *ngIf="!user.userId" [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                La contraseña es obligatoria
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Guardar</button>
-        <button *ngIf="user.userId" type="button" class="btn btn-danger" mwlConfirmationPopover [title]="confirmDeleteTitle" [confirmText]="confirmDeleteText" [cancelText]="confirmCancelText" placement="right" (confirm)="deleteUser()" >Eliminar</button>
+        <button *ngIf="user.userId" type="button" class="btn btn-danger" mwlConfirmationPopover [title]="confirmDeleteTitle" [confirmText]="confirmDeleteText"
+            [cancelText]="confirmCancelText" placement="right" (confirm)="deleteUser()">Eliminar</button>
         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
         <div *ngIf="success" class="alert alert-success alert-dismissable">
             <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="success=false">x</a> Cambios guardados

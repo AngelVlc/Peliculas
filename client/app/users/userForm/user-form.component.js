@@ -42,6 +42,10 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
                     this.confirmDeleteTitle = '¿Está seguro?';
                     this.confirmDeleteText = 'Si';
                     this.confirmCancelText = 'No';
+                    this.yesNoValues = [
+                        { value: 0, display: 'No' },
+                        { value: 1, display: 'Si' }
+                    ];
                 }
                 UserFormComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -55,7 +59,15 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
                             return Observable_1.Observable.of(new user_1.User()).map(function (o) { return new user_1.User(); });
                         }
                     })
-                        .subscribe(function (data) { return _this.user = data; });
+                        .subscribe(function (data) {
+                        _this.user = data;
+                        if (_this.user.userId) {
+                            _this.title = 'Usuario ' + _this.user.userName;
+                        }
+                        else {
+                            _this.title = 'Nuevo usuario';
+                        }
+                    });
                 };
                 UserFormComponent.prototype.onSubmit = function () {
                     var _this = this;

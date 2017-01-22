@@ -12,12 +12,18 @@ import 'rxjs/add/operator/switchMap';
 })
 
 export class UserFormComponent implements OnInit {
+    title: string;
     user: User;
     error: string = '';
     success: boolean = false;
     confirmDeleteTitle: string = '¿Está seguro?';
     confirmDeleteText: string = 'Si';
     confirmCancelText: string = 'No';
+
+    yesNoValues = [
+        { value: 0, display: 'No'}
+        , { value: 1, display: 'Si'}
+    ];
 
     constructor(private route: ActivatedRoute
         , private router: Router
@@ -28,13 +34,20 @@ export class UserFormComponent implements OnInit {
             // (+) converts string 'id' to a number
             .switchMap((params: Params) => {
                 var userId = +params['id'];
-                if (userId > 0) {
+                if (userId > 0) {                    
                     return this.userService.getUserById(userId);
-                } else {
+                } else {                    
                     return Observable.of(new User()).map(o => new User());
                 }
             })
-            .subscribe((data: User) => this.user = data);
+            .subscribe((data: User) => {
+                this.user = data;
+                if (this.user.userId) {
+                    this.title = 'Usuario ' + this.user.userName;
+                } else {
+                    this.title = 'Nuevo usuario';
+                }
+            });
     }
 
     onSubmit() {
