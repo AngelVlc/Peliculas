@@ -1,7 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  template: '<h4>Ocurrió un error inesperado</h4>'
+  template: `
+    <div class="container">
+      <h3>Ocurrió un error inesperado</h3>
+
+      <div class="panel-body">
+
+      </div>
+    </div>  
+`
 })
 export class GenericErrorComponent {
 

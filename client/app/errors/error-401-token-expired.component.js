@@ -33,7 +33,7 @@ System.register(["@angular/core", "../_services/authentication.service"], functi
             }());
             Error401TokenExpiredComponent = __decorate([
                 core_1.Component({
-                    template: "\n    <h4>El token ha caducado</h4>\n    <a [routerLink]=\"['/login']\">Iniciar sesi\u00F3n</a>\n  "
+                    template: "\n        <div class=\"container\">\n            <h3>El token ha caducado.</h3>\n\n            <div class=\"panel-body\">\n                <a [routerLink]=\"['/login']\">Iniciar sesi\u00F3n</a>\n            </div>\n        </div>\n  "
                 }),
                 __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
             ], Error401TokenExpiredComponent);

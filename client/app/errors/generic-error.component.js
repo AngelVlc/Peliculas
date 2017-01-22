@@ -25,7 +25,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             }());
             GenericErrorComponent = __decorate([
                 core_1.Component({
-                    template: '<h4>Ocurrió un error inesperado</h4>'
+                    template: "\n    <div class=\"container\">\n      <h3>Ocurri\u00F3 un error inesperado</h3>\n\n      <div class=\"panel-body\">\n\n      </div>\n    </div>  \n"
                 }),
                 __metadata("design:paramtypes", [])
             ], GenericErrorComponent);

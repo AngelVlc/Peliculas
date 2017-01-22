@@ -25,7 +25,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             }());
             Error401Component = __decorate([
                 core_1.Component({
-                    template: '<h4>Error 401: No autorizado</h4>'
+                    template: "\n    <div class=\"container\">\n      <h3>Error 401: No autorizado</h3>\n\n      <div class=\"panel-body\">\n\n      </div>\n    </div>\n  "
                 }),
                 __metadata("design:paramtypes", [])
             ], Error401Component);
