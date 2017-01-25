@@ -1,19 +1,45 @@
 var authentication = require('../authentication')
-var UsersDataAccess = require('../data_access/users-data-access')
-var usersDataAccess = new UsersDataAccess()
+var MastersDataAccess = require('../data_access/masters-data-access')
+var mastersDataAccess = new MastersDataAccess()
 
-var baseUrl = '/users/'
+
+function getBaseUrl (masterType) {
+    switch (masterType)
+    {
+        case 0:
+            return '/types/';
+            break
+
+        case 1:
+            return '/locations/'
+            break
+
+        default:
+            throw new Error('Invalid master type.')
+    }
+}
+
+function getTableName (masterType) {
+    switch (masterType)
+    {
+        case 0:
+            return 'types';
+            break
+
+        case 1:
+            return 'locations'
+            break
+
+        default:
+            throw new Error('Invalid master type.')
+    }
+}
 
 module.exports = {
-    configureApi: function (apiRoutes) {
-        apiRoutes.route(baseUrl + ':id')
+    configureApi: function (apiRoutes, masterType) {
+        apiRoutes.route(getBaseUrl(masterType) + ':id')
             .get(function (request, response) {
-                if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
-                    return
-                }
-
-                usersDataAccess.getUserById(request.params.id, function (error, data) {
+                mastersDataAccess.getById(getTableName(masterType), request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
@@ -29,17 +55,7 @@ module.exports = {
                     return
                 }
 
-                var userName = request.body.userName
-                var password = request.body.password
-                var isAdmin = request.body.isAdmin
-
-                var hashedPassword = null
-
-                if (password) {
-                    hashedPassword = authentication.getPasswordHash(password)
-                }
-
-                usersDataAccess.updateUser(request.params.id, userName, hashedPassword, isAdmin, function (error, data) {
+                mastersDataAccess.updateItem(getTableName(masterType), request.params.id, request.body.name, request.body.remarks, function (error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
@@ -55,7 +71,7 @@ module.exports = {
                     return
                 }
 
-                usersDataAccess.deleteUser(request.params.id, function (error, data) {
+                mastersDataAccess.deleteItem(getTableName(masterType), request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
@@ -70,14 +86,9 @@ module.exports = {
                 })
             })
 
-        apiRoutes.route(baseUrl)
+        apiRoutes.route(getBaseUrl(masterType))
             .get(function (request, response) {
-                if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
-                    return
-                }
-
-                usersDataAccess.getUsers(function (error, data) {
+                 mastersDataAccess.getAll(getTableName(masterType), function (error, data) {
                     if (error) {
                         console.error(error)
                         response.status(500).send('Internal error.')
@@ -93,17 +104,11 @@ module.exports = {
                     return
                 }
 
-                var userName = request.body.userName
-                var password = request.body.password
-                var isAdmin = request.body.isAdmin
-
-                var hashedPassword = authentication.getPasswordHash(password)
-
-                usersDataAccess.insertUser(userName, hashedPassword, isAdmin, function (error, data) {
+                mastersDataAccess.insertItem(getTableName(masterType), request.body.name, request.body.remarks, function (error, data) {
                     if (error) {
                         switch (error.code) {
                             case 'ER_DUP_ENTRY':
-                                response.status(400).send('User already exists.')
+                                response.status(400).send('Item already exists.')
                                 break;
 
                             default:

@@ -56,6 +56,23 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
         UNIQUE KEY `idx_users_userName` (`userName`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+  CREATE TABLE `locations` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `name` varchar(80) NOT NULL,        
+        `remarks` varchar(255) NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `idx_locations_name` (`name`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+    
+ CREATE TABLE `types` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `name` varchar(80) NOT NULL,        
+        `remarks` varchar(255) NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `idx_types_name` (`name`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ## Por hacer
 + Controlar la seguridad antes ataques
 + Añadir tests
