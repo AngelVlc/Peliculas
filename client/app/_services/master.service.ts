@@ -26,9 +26,9 @@ export class MasterService {
         switch (masterType)
         {
             case "0":
-                return '/api/types';
+                return '/api/types/';
             case "1":
-                return '/api/locations';
+                return '/api/locations/';
             default:
                 throw new Error('Invalid maser type');
         }
@@ -41,38 +41,37 @@ export class MasterService {
             .catch(this.errorHandlerService.handleError.bind(this));
     }
 
-    // getUserById(userId: number): Observable<User> {
-    //     return this.http
-    //         .get(this._baseUrl + userId, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => r.json() as User)
-    //         .catch(this.errorHandlerService.handleError.bind(this));        
-    // }
+    getById(masterType: string, id: number): Observable<Master> {
+        return this.http
+            .get(this.getBaseUrl(masterType) + id, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => r.json() as Master)
+            .catch(this.errorHandlerService.handleError.bind(this));        
+    }
 
-    // updateUser(user: User): Observable<boolean> {
-    //     var body: any = {
-    //         userId: user.userId,
-    //         userName: user.userName,
-    //         password: user.password,
-    //         isAdmin: user.isAdmin
-    //     };
+    updateItem(masterType: string, item: Master): Observable<boolean> {
+        var body: any = {
+            id: item.id,
+            name: item.name,
+            remarks: item.remarks
+        };
 
-    //     return this.http
-    //         .put(this._baseUrl + user.userId, body, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
+        return this.http
+            .put(this.getBaseUrl(masterType) + item.id, body, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 
-    // deleteUser(user: User): Observable<boolean> {
-    //     return this.http
-    //         .delete(this._baseUrl + user.userId, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
+    deleteItem(masterType: string, item: Master): Observable<boolean> {
+        return this.http
+            .delete(this.getBaseUrl(masterType) + item.id, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 
-    // insertUser(user: User): Observable<boolean> {
-    //     return this.http
-    //         .post(this._baseUrl, user, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
+    insertItem(masterType: string, item: Master): Observable<boolean> {
+        return this.http
+            .post(this.getBaseUrl(masterType), item, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 }

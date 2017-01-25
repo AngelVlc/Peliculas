@@ -11,7 +11,8 @@ import { LoginFormComponent } from './login/login-form.component';
 import { DashboardFormComponent} from './dashboard/dashboard-form.component';
 import { UsersListFormComponent } from './users/usersList/users-list-form.component';
 import { UserFormComponent } from './users/userForm/user-form.component';
-import { MasterListComponent } from './masters/list-component';
+import { MasterListComponent } from './masters/mastersList/masters-list.component';
+import { MasterFormComponent } from './masters/masterForm/master-form.component';
 
 import { AuthUserGuard } from './_guards/auth.user-guard';
 import { AuthAdminGuard } from './_guards/auth.admin-guard';
@@ -20,6 +21,7 @@ import { ErrorHandlerService } from './_services/error-handler.service';
 import { AuthenticationService } from './_services/authentication.service';
 import { UserService }  from './_services/user.service';
 import { MasterService } from './_services/master.service';
+import { FormsHelper } from './_helpers/forms.helper'
 
 import { GenericErrorComponent } from './errors/generic-error.component';
 import { Error401Component } from './errors/error-401.component';
@@ -39,6 +41,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , UsersListFormComponent
                   , UserFormComponent
                   , MasterListComponent
+                  , MasterFormComponent
                   , GenericErrorComponent
                   , Error401Component
                   , Error401TokenExpiredComponent],
@@ -48,6 +51,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , ErrorHandlerService
                   , AuthenticationService
                   , UserService
-                  , MasterService]
+                  , MasterService
+                  , FormsHelper]
 })
 export class AppModule { }

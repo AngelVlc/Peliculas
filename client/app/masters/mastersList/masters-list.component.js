@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../_services/master.service", "@angular/router"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_services/master.service", "@angular/router", "../../_services/authentication.service", "../../_helpers/forms.helper"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../_services/master.service", "@angular/route
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, master_service_1, router_1, MasterListComponent;
+    var core_1, master_service_1, router_1, authentication_service_1, forms_helper_1, MasterListComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -21,17 +21,38 @@ System.register(["@angular/core", "../_services/master.service", "@angular/route
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
+            function (forms_helper_1_1) {
+                forms_helper_1 = forms_helper_1_1;
             }
         ],
         execute: function () {
             MasterListComponent = (function () {
-                function MasterListComponent(route, masterService) {
+                function MasterListComponent(route, masterService, authenticationService, formsHelper) {
                     this.route = route;
                     this.masterService = masterService;
+                    this.authenticationService = authenticationService;
+                    this.formsHelper = formsHelper;
+                    this.fromDashboard = true;
                     if (route.snapshot.data[0]) {
+                        //puedo llegar aquí desde un enlace del menu y en ese caso no hay data                  
                         this.masterType = route.snapshot.data[0].masterType;
+                        this.fromDashboard = false;
                     }
                 }
+                MasterListComponent.prototype.getRoute = function () {
+                    switch (this.masterType) {
+                        case "0":
+                            return '/type';
+                        case "1":
+                            return '/loc';
+                        default:
+                            break;
+                    }
+                };
                 MasterListComponent.prototype.getAll = function () {
                     var _this = this;
                     this.masterService.getAll(this.masterType)
@@ -49,13 +70,15 @@ System.register(["@angular/core", "../_services/master.service", "@angular/route
             MasterListComponent = __decorate([
                 core_1.Component({
                     selector: 'master-list',
-                    template: "\n    <h3>Maestro {{masterType}}</h3>\n  "
+                    templateUrl: './app/masters/mastersList/masters-list.component.html'
                 }),
                 __metadata("design:paramtypes", [router_1.ActivatedRoute,
-                    master_service_1.MasterService])
+                    master_service_1.MasterService,
+                    authentication_service_1.AuthenticationService,
+                    forms_helper_1.FormsHelper])
             ], MasterListComponent);
             exports_1("MasterListComponent", MasterListComponent);
         }
     };
 });
-//# sourceMappingURL=list-component.js.map
+//# sourceMappingURL=masters-list.component.js.map

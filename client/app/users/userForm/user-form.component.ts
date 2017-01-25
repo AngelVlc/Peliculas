@@ -3,6 +3,7 @@ import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormsHelper } from '../../_helpers/forms.helper'
 
 import 'rxjs/add/operator/switchMap';
 
@@ -16,18 +17,11 @@ export class UserFormComponent implements OnInit {
     user: User;
     error: string = '';
     success: boolean = false;
-    confirmDeleteTitle: string = '¿Está seguro?';
-    confirmDeleteText: string = 'Si';
-    confirmCancelText: string = 'No';
-
-    yesNoValues = [
-        { value: 0, display: 'No'}
-        , { value: 1, display: 'Si'}
-    ];
 
     constructor(private route: ActivatedRoute
         , private router: Router
-        , private userService: UserService) { }
+        , private userService: UserService
+        , private formsHelper: FormsHelper) { }
 
     ngOnInit() {
         this.route.params

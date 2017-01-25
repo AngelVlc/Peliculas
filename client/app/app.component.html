@@ -8,6 +8,7 @@
             <a [routerLink]="['/types']" routerLinkActive="active">Tipos</a>
             <a [routerLink]="['/login']">Cerrar sesión</a>
         </nav>
+        <span *ngIf="authService.isUserLoged()" class="pull-right">Conectado como {{authService.getCurrentUserName()}}</span>
     </div>
 </div>
 <router-outlet></router-outlet>

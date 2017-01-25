@@ -1,0 +1,32 @@
+<div *ngIf="item" class="container">
+    <h3>{{title}}</h3>
+
+    <div class="panel-body">
+        <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+
+            <div class="form-group">
+                <label for="name">Nombre: </label>
+                <input type="text" class="form-control" id="name" required [(ngModel)]="item.name" name="name" #name="ngModel">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                    El nombre es obligatorio
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="remarks">Observaciones: </label>
+                <textarea rows="4" class="form-control" id="remarks" [(ngModel)]="item.remarks" name="remarks" #remarks="ngModel"></textarea>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <div *ngIf="success" class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="success=false">x</a> Cambios guardados
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
+            <button *ngIf="item.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
+                [confirmText]="formsHelper.confirmDeleteText" [cancelText]="formsHelper.confirmCancelText" placement="left" (confirm)="deleteItem()">Eliminar</button>
+
+        </form>
+    </div>
+</div>

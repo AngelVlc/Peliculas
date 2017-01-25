@@ -1,26 +1,23 @@
 <div class="container">
-    <h3>Lista de usuarios</h3>
+    <h3>Lista de {{formsHelper.getMasterName(masterType)}}</h3>
     <div class="panel panel-primary">
         <div class="panel-body">
-            <div class="col-xs-3  margin-bottom-25">
-                <a class="btn btn-primary" [routerLink]="['/user',-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>
+            <div *ngIf="authenticationService.isUserLogedAdmin()" class="col-xs-3 margin-bottom-25">
+                <a class="btn btn-primary" [routerLink]="[getRoute(),-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>  
             </div>
+
             <div class="table table-responsive">
                 <table class="table table-hover table-condensed">
                     <thead>
                         <tr>
-                            <td>Nombre usuario</td>
-                            <td>¿Es admin?</td>
+                            <td>Nombre</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let usr of users">
-                            <td>{{usr.userName}}</td>
-                            <td>
-                                <input type="checkbox" [(ngModel)]="usr.isAdmin" disabled/>
-                            </td>
+                        <tr *ngFor="let item of items">
+                            <td>{{item.name}}</td>
                             <td class="td-actions">
-                                <a class="btn btn-primary btn-xs" [routerLink]="['/user',usr.userId]">
+                                <a class="btn btn-primary btn-xs" [routerLink]="[getRoute(),item.id]">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                             </td>

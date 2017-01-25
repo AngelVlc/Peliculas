@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_models/user", "../../_services/user.service", "rxjs/Observable", "@angular/router", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_models/user", "../../_services/user.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, user_1, user_service_1, Observable_1, router_1, UserFormComponent;
+    var core_1, user_1, user_service_1, Observable_1, router_1, forms_helper_1, UserFormComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -28,24 +28,21 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
             function (router_1_1) {
                 router_1 = router_1_1;
             },
+            function (forms_helper_1_1) {
+                forms_helper_1 = forms_helper_1_1;
+            },
             function (_1) {
             }
         ],
         execute: function () {
             UserFormComponent = (function () {
-                function UserFormComponent(route, router, userService) {
+                function UserFormComponent(route, router, userService, formsHelper) {
                     this.route = route;
                     this.router = router;
                     this.userService = userService;
+                    this.formsHelper = formsHelper;
                     this.error = '';
                     this.success = false;
-                    this.confirmDeleteTitle = '¿Está seguro?';
-                    this.confirmDeleteText = 'Si';
-                    this.confirmCancelText = 'No';
-                    this.yesNoValues = [
-                        { value: 0, display: 'No' },
-                        { value: 1, display: 'Si' }
-                    ];
                 }
                 UserFormComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -99,7 +96,8 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
                 }),
                 __metadata("design:paramtypes", [router_1.ActivatedRoute,
                     router_1.Router,
-                    user_service_1.UserService])
+                    user_service_1.UserService,
+                    forms_helper_1.FormsHelper])
             ], UserFormComponent);
             exports_1("UserFormComponent", UserFormComponent);
         }

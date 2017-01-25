@@ -45,9 +45,9 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                 MasterService.prototype.getBaseUrl = function (masterType) {
                     switch (masterType) {
                         case "0":
-                            return '/api/types';
+                            return '/api/types/';
                         case "1":
-                            return '/api/locations';
+                            return '/api/locations/';
                         default:
                             throw new Error('Invalid maser type');
                     }
@@ -56,6 +56,35 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                     return this.http
                         .get(this.getBaseUrl(masterType), this.authenticationService.getRequestOptionsWithAuth())
                         .map(function (r) { return r.json(); })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                MasterService.prototype.getById = function (masterType, id) {
+                    return this.http
+                        .get(this.getBaseUrl(masterType) + id, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return r.json(); })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                MasterService.prototype.updateItem = function (masterType, item) {
+                    var body = {
+                        id: item.id,
+                        name: item.name,
+                        remarks: item.remarks
+                    };
+                    return this.http
+                        .put(this.getBaseUrl(masterType) + item.id, body, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                MasterService.prototype.deleteItem = function (masterType, item) {
+                    return this.http
+                        .delete(this.getBaseUrl(masterType) + item.id, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                MasterService.prototype.insertItem = function (masterType, item) {
+                    return this.http
+                        .post(this.getBaseUrl(masterType), item, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };
                 return MasterService;
