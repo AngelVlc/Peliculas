@@ -1,11 +1,30 @@
 <div class="container">
     <h3>Inicio</h3>
 
-    <div class="panel-body">
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <div class="panel-body">
+                <div class="input-group">
 
-    <master-list masterType="0"></master-list>
+                    <input type="text" class="form-control" placeholder="Search for..." #searchInput (keyup)="search(searchInput.value)">
+                    <span class="input-group-addon glyphicon glyphicon-search">
+              <!--
+                    <button class="btn btn-default glyphicon glyphicon-search" type="button" (click)="search(searchInput.value)"></button>
+                    -->
+            </span>
 
-    <master-list masterType="1"></master-list>
+                </div>
+                <ul>
+                    <li *ngFor="let item of items | async">{{item}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <div class="panel-body">
+                <master-list masterType="0"></master-list>
 
+                <master-list masterType="1"></master-list>
+            </div>
+        </div>
     </div>
 </div>

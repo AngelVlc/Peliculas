@@ -21,6 +21,7 @@ import { ErrorHandlerService } from './_services/error-handler.service';
 import { AuthenticationService } from './_services/authentication.service';
 import { UserService }  from './_services/user.service';
 import { MasterService } from './_services/master.service';
+import { FilmService } from './_services/film.service';
 import { FormsHelper } from './_helpers/forms.helper'
 
 import { GenericErrorComponent } from './errors/generic-error.component';
@@ -52,6 +53,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , AuthenticationService
                   , UserService
                   , MasterService
+                  , FilmService
                   , FormsHelper]
 })
 export class AppModule { }

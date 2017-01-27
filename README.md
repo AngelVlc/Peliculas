@@ -56,7 +56,7 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
         UNIQUE KEY `idx_users_userName` (`userName`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-  CREATE TABLE `locations` (
+    CREATE TABLE `locations` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(80) NOT NULL,        
         `remarks` varchar(255) NULL,
@@ -65,13 +65,31 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     
     
- CREATE TABLE `types` (
+    CREATE TABLE `types` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(80) NOT NULL,        
         `remarks` varchar(255) NULL,
         PRIMARY KEY (`id`),
         UNIQUE KEY `idx_types_name` (`name`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	CREATE TABLE `films` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `title` varchar(200) NOT NULL,        
+        `remarks` varchar(255) NULL,
+        `typeId` int NOT NULL,
+        `locationId` int NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `idx_films_title` (`title`),
+        FOREIGN KEY fk_types(typeId)
+		REFERENCES types(id)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+        FOREIGN KEY fk_locations(locationId)
+		REFERENCES locations(id)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;   
 
 ## Por hacer
 + Controlar la seguridad antes ataques
