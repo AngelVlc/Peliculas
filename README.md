@@ -45,7 +45,7 @@ La aplicación tiene dos tipos de usuarios: administrador y usuarios normales. C
 + Usuario: 'user' - Password: 'User_123' - Tipo: 'usuario normal'
 
 ## Script de creación de la base de datos
-    CREATE SCHEMA `peliculas` DEFAULT CHARACTER SET utf8 ;
+    CREATE SCHEMA `films` DEFAULT CHARACTER SET utf8 ;
 
     CREATE TABLE `users` (
         `userId` int(11) NOT NULL AUTO_INCREMENT,

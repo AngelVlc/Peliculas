@@ -30,6 +30,11 @@ System.register(["@angular/core", "../../_services/master.service", "@angular/ro
             }
         ],
         execute: function () {
+            /*
+            Para usar las listas en otro sitio (ej dashboard html)
+            <master-list masterType="0" #types></master-list>
+            <master-list masterType="1" #locations></master-list>
+            */
             MasterListComponent = (function () {
                 function MasterListComponent(route, masterService, authenticationService, formsHelper) {
                     this.route = route;

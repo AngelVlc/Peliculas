@@ -1,5 +1,5 @@
 <div class="container">
-    <h3>Inicio</h3>
+    <h3>Búsqueda de peliculas</h3>
 
     <div class="row">
         <div class="col-xs-6 col-md-4">
@@ -7,23 +7,22 @@
                 <div class="input-group">
 
                     <input type="text" class="form-control" placeholder="Search for..." #searchInput (keyup)="search(searchInput.value)">
-                    <span class="input-group-addon glyphicon glyphicon-search">
-              <!--
-                    <button class="btn btn-default glyphicon glyphicon-search" type="button" (click)="search(searchInput.value)"></button>
-                    -->
-            </span>
+                    <span class="input-group-addon glyphicon glyphicon-search">                    
+                    </span>
 
                 </div>
-                <ul>
-                    <li *ngFor="let item of items | async">{{item}}</li>
-                </ul>
+               
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-xs-6 col-md-4">
             <div class="panel-body">
-                <master-list masterType="0"></master-list>
-
-                <master-list masterType="1"></master-list>
+                 <tr *ngFor="let item of items$ | async">
+                    <td>{{item.title}}</td>
+                    <td>{{item.locationName}}</td>
+                    <td>{{item.typeName}}</td>
+                </tr>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "rxjs/Observable", "rxjs/Subject", "../_services/film.service", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
+System.register(["@angular/core", "rxjs/Observable", "rxjs/Subject", "../_services/film.service", "rxjs/add/operator/map", "rxjs/add/operator/filter", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -30,6 +30,10 @@ System.register(["@angular/core", "rxjs/Observable", "rxjs/Subject", "../_servic
             function (_2) {
             },
             function (_3) {
+            },
+            function (_4) {
+            },
+            function (_5) {
             }
         ],
         execute: function () {
@@ -38,12 +42,22 @@ System.register(["@angular/core", "rxjs/Observable", "rxjs/Subject", "../_servic
                     var _this = this;
                     this.filmService = filmService;
                     this.searchTermStream = new Subject_1.Subject();
-                    this.items = this.searchTermStream
+                    this.items$ = this.searchTermStream
                         .debounceTime(300)
                         .distinctUntilChanged()
-                        .switchMap(function (term) { return term.length > 0 ? _this.filmService.search(term) : Observable_1.Observable.of([]); });
+                        .switchMap(function (term) {
+                        if (term && term.length > 0) {
+                            var result = _this.filmService.search(term);
+                            return result;
+                        }
+                        else {
+                            return Observable_1.Observable.of([]);
+                        }
+                    });
                 }
-                DashboardFormComponent.prototype.search = function (term) { this.searchTermStream.next(term); };
+                DashboardFormComponent.prototype.search = function (term) {
+                    this.searchTermStream.next(term);
+                };
                 return DashboardFormComponent;
             }());
             DashboardFormComponent = __decorate([

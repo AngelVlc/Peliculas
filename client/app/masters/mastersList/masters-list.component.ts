@@ -11,6 +11,12 @@ import { FormsHelper } from '../../_helpers/forms.helper'
     templateUrl: './app/masters/mastersList/masters-list.component.html'
 })
 
+/*
+Para usar las listas en otro sitio (ej dashboard html)
+<master-list masterType="0" #types></master-list>
+<master-list masterType="1" #locations></master-list>
+*/
+
 export class MasterListComponent implements OnInit {
     @Input() masterType: string;
     fromDashboard: boolean = true;

@@ -4,6 +4,8 @@ import { Subject }          from 'rxjs/Subject';
 import { Film } from '../_models/film';
 import { FilmService } from '../_services/film.service';
 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/of';
@@ -13,19 +15,26 @@ import 'rxjs/add/observable/of';
 })
 
 export class DashboardFormComponent {   
-  items: Observable<Film[]>;
+  items$: Observable<Film[]>;
 
   private searchTermStream = new Subject<string>();
 
 
-  search(term: string) { this.searchTermStream.next(term); }  
+  search(term: string) { 
+    this.searchTermStream.next(term);
+   }  
 
   constructor(private filmService: FilmService) {
-    this.items = this.searchTermStream
+    this.items$ = this.searchTermStream
           .debounceTime(300)
-          .distinctUntilChanged()
-          .switchMap((term: string) => term.length > 0 ? this.filmService.search(term): Observable.of([]));
+          .distinctUntilChanged()          
+          .switchMap((term: string) => {
+              if (term && term.length > 0) {
+                let result = this.filmService.search(term);
+               return result;               
+              } else {
+               return  Observable.of([]);
+              }
+        });   
   }
-
-
 }

@@ -4,4 +4,6 @@ export class Film {
     locationId: Number;
     typeId: Number;
     remarks: String;
+    locationName: String;
+    typeName: String;
 }

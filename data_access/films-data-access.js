@@ -54,7 +54,13 @@ var FilmsDataAccess = function () {
                 return
             }
 
-            connection.query('SELECT id, title, typeId, locationId FROM films WHERE title LIKE ?', '%' + searchTerm + '%', function (err, rows) {
+            var query = 'SELECT f.id, f.title, f.typeId, f.locationId, t.name as typeName, l.name as locationName \
+                         FROM films f \
+                            INNER JOIN types t ON t.id = f.typeId \
+                            INNER JOIN locations l ON l.id = f.locationId \
+                         WHERE f.title LIKE ?'
+
+            connection.query(query, '%' + searchTerm + '%', function (err, rows) {
                 connection.release();
                 if (err) {
                     callback(err)
