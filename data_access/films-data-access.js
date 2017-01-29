@@ -47,7 +47,7 @@ var FilmsDataAccess = function () {
         })
     }
 
-    this.search = function (searchTerm, callback) {
+    this.searchByTitle = function (searchTerm, callback) {
         database.getPool().getConnection(function (conErr, connection) {
             if (conErr) {
                 callback(conErr)

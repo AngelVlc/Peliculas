@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, URLSearchParams, Headers, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -15,12 +15,9 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class FilmService {
-    private _baseUrl: string = '/api/films/';
-    private _searchBaseUrl: string = '/api/searchfilms/';
+    private _baseUrl: string = '/api/films';
 
     films: Observable<Film[]>;
-
-
 
     constructor(
         private router: Router,
@@ -29,9 +26,15 @@ export class FilmService {
         private errorHandlerService: ErrorHandlerService) {
     }
 
-    search(searchTerm): Observable<Film[]> {
+    searchByTitle(titleToSearch): Observable<Film[]> {
+        let params = new URLSearchParams();
+        params.set('title', titleToSearch);
+
+        let options = this.authenticationService.getRequestOptionsWithAuth();
+        options.search = params;
+
         return this.http
-            .get(this._searchBaseUrl + searchTerm, this.authenticationService.getRequestOptionsWithAuth())
+            .get(this._baseUrl, options)
             .map((r: Response) => r.json() as Film[])
             .catch(this.errorHandlerService.handleError.bind(this));
     }

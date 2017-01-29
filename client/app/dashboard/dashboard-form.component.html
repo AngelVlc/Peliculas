@@ -6,7 +6,7 @@
             <div class="panel-body">
                 <div class="input-group">
 
-                    <input type="text" class="form-control" placeholder="Search for..." #searchInput (keyup)="search(searchInput.value)">
+                    <input type="text" class="form-control" placeholder="Escribe el título ..." #searchTitleInput (keyup)="searchFilmByTitle(searchTitleInput.value)">
                     <span class="input-group-addon glyphicon glyphicon-search">                    
                     </span>
 
@@ -17,12 +17,9 @@
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-4">
+
             <div class="panel-body">
-                 <tr *ngFor="let item of items$ | async">
-                    <td>{{item.title}}</td>
-                    <td>{{item.locationName}}</td>
-                    <td>{{item.typeName}}</td>
-                </tr>
+                <films-list></films-list>  
             </div>
         </div>
     </div>

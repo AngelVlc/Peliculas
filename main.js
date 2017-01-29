@@ -7,7 +7,6 @@ var authentication = require('./authentication')
 var apiUsers = require('./apis/users')
 var apiMasters = require('./apis/masters')
 var apiFilms = require('./apis/films')
-var apiSearchFilms = require('./apis/searh-films')
 //var heapdump = require('heapdump')
 var path = require('path')
 
@@ -46,7 +45,6 @@ apiUsers.configureApi(apiRoutes)
 apiMasters.configureApi(apiRoutes, 0)
 apiMasters.configureApi(apiRoutes, 1)
 
-apiSearchFilms.configureApi(apiRoutes)
 apiFilms.configureApi(apiRoutes)
 
 apiRoutes.get('*', function (req, res) {

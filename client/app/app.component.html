@@ -2,7 +2,7 @@
     <div class="container">
         <h1>Películas</h1>
         <nav *ngIf="this.authService.isUserLoged()">
-            <a [routerLink]="['/']" routerLinkActive="active">Búsuqueda</a>
+            <a [routerLink]="['/']" routerLinkActive="active">Búsqueda</a>
             <a *ngIf="this.authService.isUserLogedAdmin()" [routerLink]="['/usersList']" routerLinkActive="active">Usuarios</a>
             <a [routerLink]="['/locs']" routerLinkActive="active">Localizaciones</a>
             <a [routerLink]="['/types']" routerLinkActive="active">Tipos</a>

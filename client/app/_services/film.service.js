@@ -40,12 +40,15 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                     this.http = http;
                     this.authenticationService = authenticationService;
                     this.errorHandlerService = errorHandlerService;
-                    this._baseUrl = '/api/films/';
-                    this._searchBaseUrl = '/api/searchfilms/';
+                    this._baseUrl = '/api/films';
                 }
-                FilmService.prototype.search = function (searchTerm) {
+                FilmService.prototype.searchByTitle = function (titleToSearch) {
+                    var params = new http_1.URLSearchParams();
+                    params.set('title', titleToSearch);
+                    var options = this.authenticationService.getRequestOptionsWithAuth();
+                    options.search = params;
                     return this.http
-                        .get(this._searchBaseUrl + searchTerm, this.authenticationService.getRequestOptionsWithAuth())
+                        .get(this._baseUrl, options)
                         .map(function (r) { return r.json(); })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };
