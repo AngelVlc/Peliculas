@@ -15,12 +15,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of items">
-                            <td>{{item.name}}</td>
-                            <td class="td-actions">
-                                <a class="btn btn-primary btn-xs" [routerLink]="[getRoute(),item.id]">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                            </td>
+                            <td><a [routerLink]="[getRoute(),item.id]">{{item.name}}</a></td>                            
                         </tr>
                         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
                     </tbody>

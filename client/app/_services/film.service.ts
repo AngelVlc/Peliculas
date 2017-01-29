@@ -26,25 +26,50 @@ export class FilmService {
         private errorHandlerService: ErrorHandlerService) {
     }
 
-    searchByTitle(titleToSearch): Observable<Film[]> {
+    searchByTitle(titleToSearch: string): Observable<Film[]> {
         let params = new URLSearchParams();
         params.set('title', titleToSearch);
 
         let options = this.authenticationService.getRequestOptionsWithAuth();
         options.search = params;
 
+        return this.internalGet(options);
+    }
+
+    getByLocationId(locationId: number) {
+        let params = new URLSearchParams();
+        params.set('locationId', locationId.toString());
+
+        let options = this.authenticationService.getRequestOptionsWithAuth();
+        options.search = params;
+
+        return this.internalGet(options);
+    }
+
+    getByTypeId(typeId: number) {
+        let params = new URLSearchParams();
+        params.set('typeId', typeId.toString());
+
+        let options = this.authenticationService.getRequestOptionsWithAuth();
+        options.search = params;
+
+        return this.internalGet(options);
+    }
+
+    internalGet(options: RequestOptions) {
         return this.http
             .get(this._baseUrl, options)
             .map((r: Response) => r.json() as Film[])
             .catch(this.errorHandlerService.handleError.bind(this));
     }
 
-    // getUserById(userId: number): Observable<User> {
-    //     return this.http
-    //         .get(this._baseUrl + userId, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => r.json() as User)
-    //         .catch(this.errorHandlerService.handleError.bind(this));        
-    // }
+
+    getById(id: number): Observable<Film> {
+        return this.http
+            .get(this._baseUrl + '/' + id, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => r.json() as Film)
+            .catch(this.errorHandlerService.handleError.bind(this));        
+    }
 
     // updateUser(user: User): Observable<boolean> {
     //     var body: any = {

@@ -58,7 +58,8 @@ var FilmsDataAccess = function () {
                          FROM films f \
                             INNER JOIN types t ON t.id = f.typeId \
                             INNER JOIN locations l ON l.id = f.locationId \
-                         WHERE f.title LIKE ?'
+                         WHERE f.title LIKE ? \
+                         ORDER BY f.title'
 
             connection.query(query, '%' + searchTerm + '%', function (err, rows) {
                 connection.release();
@@ -71,6 +72,58 @@ var FilmsDataAccess = function () {
             })
         })
     }
+
+    this.getByLocation = function (locationId, callback) {
+        database.getPool().getConnection(function (conErr, connection) {
+            if (conErr) {
+                callback(conErr)
+                return
+            }
+
+            var query = 'SELECT f.id, f.title, f.typeId, f.locationId, t.name as typeName, l.name as locationName \
+                         FROM films f \
+                            INNER JOIN types t ON t.id = f.typeId \
+                            INNER JOIN locations l ON l.id = f.locationId \
+                         WHERE f.locationId = ? \
+                         ORDER BY f.title'
+
+            connection.query(query, locationId, function (err, rows) {
+                connection.release();
+                if (err) {
+                    callback(err)
+                    return 
+                }
+
+                callback(null, rows)
+            })
+        })
+    }  
+
+    this.getByType = function (typeId, callback) {
+        database.getPool().getConnection(function (conErr, connection) {
+            if (conErr) {
+                callback(conErr)
+                return
+            }
+
+            var query = 'SELECT f.id, f.title, f.typeId, f.locationId, t.name as typeName, l.name as locationName \
+                         FROM films f \
+                            INNER JOIN types t ON t.id = f.typeId \
+                            INNER JOIN locations l ON l.id = f.locationId \
+                         WHERE f.typeId = ? \
+                         ORDER BY f.title'
+
+            connection.query(query, typeId, function (err, rows) {
+                connection.release();
+                if (err) {
+                    callback(err)
+                    return 
+                }
+
+                callback(null, rows)
+            })
+        })
+    }       
 
     this.updateFilm = function (id, title, remarks, typeId, locationId, callback) {
         database.getPool().getConnection(function (conErr, connection) {

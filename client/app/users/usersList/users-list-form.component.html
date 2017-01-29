@@ -15,14 +15,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let usr of users">
-                            <td>{{usr.userName}}</td>
+                            <td><a [routerLink]="['/user',usr.userId]">{{usr.userName}}</a></td>
                             <td>
                                 <input type="checkbox" [(ngModel)]="usr.isAdmin" disabled/>
-                            </td>
-                            <td class="td-actions">
-                                <a class="btn btn-primary btn-xs" [routerLink]="['/user',usr.userId]">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
                             </td>
                         </tr>
                         <div *ngIf="error" class="alert alert-danger">{{error}}</div>

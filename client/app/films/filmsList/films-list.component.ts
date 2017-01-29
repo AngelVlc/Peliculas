@@ -3,6 +3,7 @@ import { FilmService } from '../../_services/film.service';
 import { Film } from '../../_models/film';
 import { Observable }       from 'rxjs/Observable';
 import { Subject }          from 'rxjs/Subject';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -16,15 +17,30 @@ import 'rxjs/add/observable/of';
 })
 
 export class FilmListComponent {    
-    items$: Observable<Film[]>;
+  items$: Observable<Film[]>;
+  fromLocation: boolean;
 
-  private searchTitleStream = new Subject<string>();
 
-  searchByTitle(title: string) { 
+  private searchTitleStream = new Subject<string>();  
+
+  searchByTitle(title: string) {     
     this.searchTitleStream.next(title);
   }  
 
-  constructor(private filmService: FilmService) {    
+  getByLocationId(locationId: number) {
+    this.fromLocation = true;
+    this.filmService.getByLocationId(locationId)
+          .subscribe((data: Film[]) => this.items$ = Observable.of(data));
+  }
+
+  getByTypeId(typeId: number) {
+    this.fromLocation = true;
+    this.filmService.getByTypeId(typeId)
+          .subscribe((data: Film[]) => this.items$ = Observable.of(data));
+  }
+
+  constructor(private authenticationService: AuthenticationService
+              , private filmService: FilmService) {    
     this.items$ = this.searchTitleStream
           .debounceTime(300)
           .distinctUntilChanged()          

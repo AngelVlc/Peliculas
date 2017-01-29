@@ -1,9 +1,9 @@
 export class Film {
-    id: Number;
-    title: String;
-    locationId: Number;
-    typeId: Number;
-    remarks: String;
-    locationName: String;
-    typeName: String;
+    id: number;
+    title: string;
+    locationId: number;
+    typeId: number;
+    remarks: string;
+    locationName: string;
+    typeName: string;
 }

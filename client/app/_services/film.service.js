@@ -47,8 +47,31 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                     params.set('title', titleToSearch);
                     var options = this.authenticationService.getRequestOptionsWithAuth();
                     options.search = params;
+                    return this.internalGet(options);
+                };
+                FilmService.prototype.getByLocationId = function (locationId) {
+                    var params = new http_1.URLSearchParams();
+                    params.set('locationId', locationId.toString());
+                    var options = this.authenticationService.getRequestOptionsWithAuth();
+                    options.search = params;
+                    return this.internalGet(options);
+                };
+                FilmService.prototype.getByTypeId = function (typeId) {
+                    var params = new http_1.URLSearchParams();
+                    params.set('typeId', typeId.toString());
+                    var options = this.authenticationService.getRequestOptionsWithAuth();
+                    options.search = params;
+                    return this.internalGet(options);
+                };
+                FilmService.prototype.internalGet = function (options) {
                     return this.http
                         .get(this._baseUrl, options)
+                        .map(function (r) { return r.json(); })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                FilmService.prototype.getById = function (id) {
+                    return this.http
+                        .get(this._baseUrl + '/' + id, this.authenticationService.getRequestOptionsWithAuth())
                         .map(function (r) { return r.json(); })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };

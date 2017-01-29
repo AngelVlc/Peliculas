@@ -1,5 +1,5 @@
 export class Master {
-    id: Number;
+    id: number;
     name: string;
     remarks: string;
 }

@@ -14,6 +14,7 @@ import { UserFormComponent } from './users/userForm/user-form.component';
 import { MasterListComponent } from './masters/mastersList/masters-list.component';
 import { MasterFormComponent } from './masters/masterForm/master-form.component';
 import { FilmListComponent } from './films/filmsList/films-list.component';
+import { FilmFormComponent } from  './films/filmForm/film-form.component';
 
 import { AuthUserGuard } from './_guards/auth.user-guard';
 import { AuthAdminGuard } from './_guards/auth.admin-guard';
@@ -45,6 +46,7 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , MasterListComponent
                   , MasterFormComponent
                   , FilmListComponent
+                  , FilmFormComponent
                   , GenericErrorComponent
                   , Error401Component
                   , Error401TokenExpiredComponent],

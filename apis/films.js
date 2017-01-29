@@ -77,6 +77,26 @@ module.exports = {
 
                         response.json(data)
                     })
+                } else if (request.query.locationId) {
+                    filmsDataAccess.getByLocation(request.query.locationId, function (error, data) {
+                        if (error) {
+                            console.error(error)
+                            response.status(500).send('Internal error.')
+                            return
+                        }
+
+                        response.json(data)
+                    })
+                } else if (request.query.typeId) {
+                    filmsDataAccess.getByType(request.query.typeId, function (error, data) {
+                        if (error) {
+                            console.error(error)
+                            response.status(500).send('Internal error.')
+                            return
+                        }
+
+                        response.json(data)
+                    })
                 } else {
                     response.status(400).send('Invalid query.')
                 }

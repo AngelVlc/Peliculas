@@ -1,7 +1,7 @@
-<div *ngIf="item" class="container">
+<div *ngIf="film" class="container">
     <h3>{{title}}</h3>
 
-    <div class="panel-body">
+    <!--<div class="panel-body">
         <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
             <div class="margin-bottom-25">
             <button type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
@@ -33,5 +33,5 @@
             <button *ngIf="item.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
                 [confirmText]="formsHelper.confirmDeleteText" [cancelText]="formsHelper.confirmCancelText" placement="left" (confirm)="deleteItem()">Eliminar</button>
         </form>
-    </div>
+    </div>-->
 </div>

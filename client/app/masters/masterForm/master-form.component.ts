@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Master } from '../../_models/master';
 import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormsHelper } from '../../_helpers/forms.helper'
+
+import { Film } from '../../_models/film';
+import { FilmListComponent } from '../../films/filmsList/films-list.component';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -12,7 +15,10 @@ import 'rxjs/add/operator/switchMap';
     templateUrl: './app/masters/masterForm/master-form.component.html'
 })
 
-export class MasterFormComponent implements OnInit {
+export class MasterFormComponent implements OnInit, AfterViewInit {
+    @ViewChild(FilmListComponent)
+    private filmListComponent: FilmListComponent;
+
     title: string;
     item: Master;
     error: string = '';
@@ -60,6 +66,21 @@ export class MasterFormComponent implements OnInit {
                         break;
                 }
             });
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            switch (this.masterType) {
+                case "0":
+                    this.filmListComponent.getByTypeId(this.item.id)
+                    break;
+                case "1":
+                    this.filmListComponent.getByLocationId(this.item.id)
+                    break;
+                default:
+                    break;
+            }
+        }, 0);
     }
 
     onSubmit() {

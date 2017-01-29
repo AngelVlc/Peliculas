@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_services/film.service", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/map", "rxjs/add/operator/filter", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_services/film.service", "rxjs/Observable", "rxjs/Subject", "../../_services/authentication.service", "rxjs/add/operator/map", "rxjs/add/operator/filter", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, film_service_1, Observable_1, Subject_1, FilmListComponent;
+    var core_1, film_service_1, Observable_1, Subject_1, authentication_service_1, FilmListComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -25,6 +25,9 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
             function (Subject_1_1) {
                 Subject_1 = Subject_1_1;
             },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
             function (_1) {
             },
             function (_2) {
@@ -38,8 +41,9 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
         ],
         execute: function () {
             FilmListComponent = (function () {
-                function FilmListComponent(filmService) {
+                function FilmListComponent(authenticationService, filmService) {
                     var _this = this;
+                    this.authenticationService = authenticationService;
                     this.filmService = filmService;
                     this.searchTitleStream = new Subject_1.Subject();
                     this.items$ = this.searchTitleStream
@@ -57,6 +61,18 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                 FilmListComponent.prototype.searchByTitle = function (title) {
                     this.searchTitleStream.next(title);
                 };
+                FilmListComponent.prototype.getByLocationId = function (locationId) {
+                    var _this = this;
+                    this.fromLocation = true;
+                    this.filmService.getByLocationId(locationId)
+                        .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
+                };
+                FilmListComponent.prototype.getByTypeId = function (typeId) {
+                    var _this = this;
+                    this.fromLocation = true;
+                    this.filmService.getByTypeId(typeId)
+                        .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
+                };
                 return FilmListComponent;
             }());
             FilmListComponent = __decorate([
@@ -64,7 +80,8 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                     selector: 'films-list',
                     templateUrl: './app/films/filmsList/films-list.component.html'
                 }),
-                __metadata("design:paramtypes", [film_service_1.FilmService])
+                __metadata("design:paramtypes", [authentication_service_1.AuthenticationService,
+                    film_service_1.FilmService])
             ], FilmListComponent);
             exports_1("FilmListComponent", FilmListComponent);
         }
