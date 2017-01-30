@@ -18,23 +18,28 @@ import 'rxjs/add/observable/of';
 
 export class FilmListComponent {    
   items$: Observable<Film[]>;
-  fromLocation: boolean;
+  showLocation: boolean = true;
+  showType: boolean = true;
+  searched: boolean;
 
 
   private searchTitleStream = new Subject<string>();  
 
   searchByTitle(title: string) {     
+    this.searched = true;    
     this.searchTitleStream.next(title);
   }  
 
   getByLocationId(locationId: number) {
-    this.fromLocation = true;
+    this.showLocation = false;
+    this.searched = true;
     this.filmService.getByLocationId(locationId)
           .subscribe((data: Film[]) => this.items$ = Observable.of(data));
   }
 
   getByTypeId(typeId: number) {
-    this.fromLocation = true;
+    this.showType = false;
+    this.searched = true;
     this.filmService.getByTypeId(typeId)
           .subscribe((data: Film[]) => this.items$ = Observable.of(data));
   }

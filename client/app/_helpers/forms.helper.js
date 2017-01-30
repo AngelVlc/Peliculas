@@ -30,9 +30,9 @@ System.register(["@angular/core"], function (exports_1, context_1) {
                 }
                 FormsHelper.prototype.getMasterName = function (masterType) {
                     switch (masterType) {
-                        case "0":
+                        case '0':
                             return 'tipos';
-                        case "1":
+                        case '1':
                             return 'localizaziones';
                         default:
                             break;

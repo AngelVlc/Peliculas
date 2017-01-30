@@ -45,6 +45,8 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                     var _this = this;
                     this.authenticationService = authenticationService;
                     this.filmService = filmService;
+                    this.showLocation = true;
+                    this.showType = true;
                     this.searchTitleStream = new Subject_1.Subject();
                     this.items$ = this.searchTitleStream
                         .debounceTime(300)
@@ -59,17 +61,20 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                     });
                 }
                 FilmListComponent.prototype.searchByTitle = function (title) {
+                    this.searched = true;
                     this.searchTitleStream.next(title);
                 };
                 FilmListComponent.prototype.getByLocationId = function (locationId) {
                     var _this = this;
-                    this.fromLocation = true;
+                    this.showLocation = false;
+                    this.searched = true;
                     this.filmService.getByLocationId(locationId)
                         .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
                 };
                 FilmListComponent.prototype.getByTypeId = function (typeId) {
                     var _this = this;
-                    this.fromLocation = true;
+                    this.showType = false;
+                    this.searched = true;
                     this.filmService.getByTypeId(typeId)
                         .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
                 };

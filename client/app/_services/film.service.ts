@@ -71,31 +71,24 @@ export class FilmService {
             .catch(this.errorHandlerService.handleError.bind(this));        
     }
 
-    // updateUser(user: User): Observable<boolean> {
-    //     var body: any = {
-    //         userId: user.userId,
-    //         userName: user.userName,
-    //         password: user.password,
-    //         isAdmin: user.isAdmin
-    //     };
+    update(film: Film): Observable<boolean> {
+        return this.http
+            .put(this._baseUrl + '/' + film.id, film, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 
-    //     return this.http
-    //         .put(this._baseUrl + user.userId, body, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
+    delete(film: Film): Observable<boolean> {
+        return this.http
+            .delete(this._baseUrl + '/' + film.id, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 
-    // deleteUser(user: User): Observable<boolean> {
-    //     return this.http
-    //         .delete(this._baseUrl + user.userId, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
-
-    // insertUser(user: User): Observable<boolean> {
-    //     return this.http
-    //         .post(this._baseUrl, user, this.authenticationService.getRequestOptionsWithAuth())
-    //         .map((r: Response) => true)
-    //         .catch(this.errorHandlerService.handleError.bind(this));
-    // }
+    insert(film: Film): Observable<boolean> {
+        return this.http
+            .post(this._baseUrl, film, this.authenticationService.getRequestOptionsWithAuth())
+            .map((r: Response) => true)
+            .catch(this.errorHandlerService.handleError.bind(this));
+    }
 }

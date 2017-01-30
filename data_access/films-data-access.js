@@ -31,7 +31,7 @@ var FilmsDataAccess = function () {
                 return 
             }
 
-            connection.query('SELECT id, title, typeId, locationId FROM films WHERE id = ?', [id], function (err, rows) {
+            connection.query('SELECT id, title, typeId, locationId, remarks FROM films WHERE id = ?', [id], function (err, rows) {
                 connection.release();
                 if (err) {
                     callback(err)
@@ -132,16 +132,15 @@ var FilmsDataAccess = function () {
                 return
             }
 
-                connection.query('UPDATE films SET title = ?, remarks = ?, typeId = ?, locationId WHERE id = ?', [title, remarks, typeId, locationId, id], function (err, result) {
-                    connection.release();
-                    if (err) {
-                        callback(err)
-                        return 
-                    }
+            connection.query('UPDATE films SET title = ?, remarks = ?, typeId = ?, locationId = ? WHERE id = ?', [title, remarks, typeId, locationId, id], function (err, result) {
+                connection.release();
+                if (err) {
+                    callback(err)
+                    return 
+                }
 
-                    callback(null, result.changedRows)
-                })
-
+                callback(null, result.changedRows)
+            })
         })
     }
 

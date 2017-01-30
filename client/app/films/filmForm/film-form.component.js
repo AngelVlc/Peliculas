@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_models/film", "../../_services/film.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "../../_models/film", "../../_services/film.service", "../../_services/master.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,17 +10,23 @@ System.register(["@angular/core", "../../_models/film", "../../_services/film.se
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, film_1, film_service_1, Observable_1, router_1, forms_helper_1, FilmFormComponent;
+    var core_1, common_1, film_1, film_service_1, master_service_1, Observable_1, router_1, forms_helper_1, FilmFormComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (film_1_1) {
                 film_1 = film_1_1;
             },
             function (film_service_1_1) {
                 film_service_1 = film_service_1_1;
+            },
+            function (master_service_1_1) {
+                master_service_1 = master_service_1_1;
             },
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
@@ -36,11 +42,13 @@ System.register(["@angular/core", "../../_models/film", "../../_services/film.se
         ],
         execute: function () {
             FilmFormComponent = (function () {
-                function FilmFormComponent(route, router, filmService, formsHelper) {
+                function FilmFormComponent(route, router, filmService, masterService, formsHelper, location) {
                     this.route = route;
                     this.router = router;
                     this.filmService = filmService;
+                    this.masterService = masterService;
                     this.formsHelper = formsHelper;
+                    this.location = location;
                     this.error = '';
                     this.success = false;
                 }
@@ -59,31 +67,38 @@ System.register(["@angular/core", "../../_models/film", "../../_services/film.se
                         .subscribe(function (data) {
                         _this.film = data;
                         if (_this.film.id) {
-                            _this.title = 'Pelicula ' + _this.film.title;
+                            _this.formTitle = 'Película \'' + _this.film.title + '\'';
                         }
                         else {
-                            _this.title = 'Nueva película';
+                            _this.formTitle = 'Nueva película';
                         }
                     });
+                    this.masterService.getAll('0')
+                        .subscribe(function (data) { _this.types = data; });
+                    this.masterService.getAll('1')
+                        .subscribe(function (data) { _this.locations = data; });
                 };
                 FilmFormComponent.prototype.onSubmit = function () {
-                    // if (this.user.userId) {
-                    //     this.userService.updateUser(this.user)
-                    //         .subscribe((data: boolean) => {
-                    //             this.success = true;
-                    //         });
-                    // } else {
-                    //     this.userService.insertUser(this.user)
-                    //         .subscribe((data: boolean) => {
-                    //             this.router.navigate(['/usersList']);
-                    //         });
-                    // }
+                    var _this = this;
+                    if (this.film.id) {
+                        this.filmService.update(this.film)
+                            .subscribe(function (data) {
+                            _this.success = true;
+                        });
+                    }
+                    else {
+                        this.filmService.insert(this.film)
+                            .subscribe(function (data) {
+                            _this.location.back();
+                        });
+                    }
                 };
-                FilmFormComponent.prototype.deleteUser = function () {
-                    // this.userService.deleteUser(this.user)
-                    //     .subscribe((data: boolean) => {
-                    //         this.router.navigate(['/usersList']);
-                    //     });
+                FilmFormComponent.prototype.deleteFilm = function () {
+                    var _this = this;
+                    this.filmService.delete(this.film)
+                        .subscribe(function (data) {
+                        _this.location.back();
+                    });
                 };
                 return FilmFormComponent;
             }());
@@ -94,7 +109,9 @@ System.register(["@angular/core", "../../_models/film", "../../_services/film.se
                 __metadata("design:paramtypes", [router_1.ActivatedRoute,
                     router_1.Router,
                     film_service_1.FilmService,
-                    forms_helper_1.FormsHelper])
+                    master_service_1.MasterService,
+                    forms_helper_1.FormsHelper,
+                    common_1.Location])
             ], FilmFormComponent);
             exports_1("FilmFormComponent", FilmFormComponent);
         }

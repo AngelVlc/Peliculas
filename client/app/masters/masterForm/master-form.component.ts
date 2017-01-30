@@ -47,17 +47,17 @@ export class MasterFormComponent implements OnInit, AfterViewInit {
             .subscribe((data: Master) => {
                 this.item = data;
                 switch (this.masterType) {
-                    case "0":
+                    case '0':
                         if (this.item.id) {
-                            this.title = 'Tipo ' + this.item.name;
+                            this.title = 'Tipo \'' + this.item.name + '\'';
                         } else {
                             this.title = 'Nuevo tipo';
                         }
                         break;
 
-                    case "1":
+                    case '1':
                         if (this.item.id) {
-                            this.title = 'Localización ' + this.item.name;
+                            this.title = 'Localización \'' + this.item.name + '\'';
                         } else {
                             this.title = 'Nueva localización';
                         }
@@ -71,10 +71,10 @@ export class MasterFormComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         setTimeout(() => {
             switch (this.masterType) {
-                case "0":
+                case '0':
                     this.filmListComponent.getByTypeId(this.item.id)
                     break;
-                case "1":
+                case '1':
                     this.filmListComponent.getByLocationId(this.item.id)
                     break;
                 default:

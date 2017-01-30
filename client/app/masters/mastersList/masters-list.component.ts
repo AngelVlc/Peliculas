@@ -36,9 +36,9 @@ export class MasterListComponent implements OnInit {
     getRoute() {
         switch (this.masterType)
         {
-            case "0":
+            case '0':
                 return '/type';
-            case "1":
+            case '1':
                 return '/loc';
             default:
                 break;

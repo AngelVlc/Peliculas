@@ -59,7 +59,7 @@ System.register(["@angular/core", "../../_models/user", "../../_services/user.se
                         .subscribe(function (data) {
                         _this.user = data;
                         if (_this.user.userId) {
-                            _this.title = 'Usuario ' + _this.user.userName;
+                            _this.title = 'Usuario \'' + _this.user.userName + '\'';
                         }
                         else {
                             _this.title = 'Nuevo usuario';

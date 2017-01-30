@@ -75,6 +75,24 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                         .map(function (r) { return r.json(); })
                         .catch(this.errorHandlerService.handleError.bind(this));
                 };
+                FilmService.prototype.update = function (film) {
+                    return this.http
+                        .put(this._baseUrl + '/' + film.id, film, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                FilmService.prototype.delete = function (film) {
+                    return this.http
+                        .delete(this._baseUrl + '/' + film.id, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
+                FilmService.prototype.insert = function (film) {
+                    return this.http
+                        .post(this._baseUrl, film, this.authenticationService.getRequestOptionsWithAuth())
+                        .map(function (r) { return true; })
+                        .catch(this.errorHandlerService.handleError.bind(this));
+                };
                 return FilmService;
             }());
             FilmService = __decorate([

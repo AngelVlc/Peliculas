@@ -37,7 +37,7 @@ export class UserFormComponent implements OnInit {
             .subscribe((data: User) => {
                 this.user = data;
                 if (this.user.userId) {
-                    this.title = 'Usuario ' + this.user.userName;
+                    this.title = 'Usuario \'' + this.user.userName + '\'';
                 } else {
                     this.title = 'Nuevo usuario';
                 }

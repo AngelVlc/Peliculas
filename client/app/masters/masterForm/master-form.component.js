@@ -63,17 +63,17 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
                         .subscribe(function (data) {
                         _this.item = data;
                         switch (_this.masterType) {
-                            case "0":
+                            case '0':
                                 if (_this.item.id) {
-                                    _this.title = 'Tipo ' + _this.item.name;
+                                    _this.title = 'Tipo \'' + _this.item.name + '\'';
                                 }
                                 else {
                                     _this.title = 'Nuevo tipo';
                                 }
                                 break;
-                            case "1":
+                            case '1':
                                 if (_this.item.id) {
-                                    _this.title = 'Localización ' + _this.item.name;
+                                    _this.title = 'Localización \'' + _this.item.name + '\'';
                                 }
                                 else {
                                     _this.title = 'Nueva localización';
@@ -88,10 +88,10 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
                     var _this = this;
                     setTimeout(function () {
                         switch (_this.masterType) {
-                            case "0":
+                            case '0':
                                 _this.filmListComponent.getByTypeId(_this.item.id);
                                 break;
-                            case "1":
+                            case '1':
                                 _this.filmListComponent.getByLocationId(_this.item.id);
                                 break;
                             default:

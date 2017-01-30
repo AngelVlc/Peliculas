@@ -18,52 +18,42 @@ module.exports = {
                     response.json(data)
                 })
             })
-        // .put(function (request, response) {
-        //     if (!authentication.hasAdminRole(request)) {
-        //         response.status(403).send('Wrong role.')
-        //         return
-        //     }
+        .put(function (request, response) {
+            if (!authentication.hasAdminRole(request)) {
+                response.status(403).send('Wrong role.')
+                return
+            }
+    
+            filmsDataAccess.updateFilm(request.params.id, request.body.title, request.body.remarks, request.body.typeId, request.body.locationId, function (error, data) {
+                if (error) {
+                    console.error(error)
+                    response.status(500).send('Internal error.')
+                    return
+                }
 
-        //     var userName = request.body.userName
-        //     var password = request.body.password
-        //     var isAdmin = request.body.isAdmin
+                response.json('Updated')
+            })
+        })
+        .delete(function (request, response) {
+            if (!authentication.hasAdminRole(request)) {
+                response.status(403).send('Wrong role.')
+                return
+            }
 
-        //     var hashedPassword = null
+            filmsDataAccess.deleteFilm(request.params.id, function (error, data) {
+                if (error) {
+                    console.error(error)
+                    response.status(500).send('Internal error.')
+                    return
+                }
 
-        //     if (password) {
-        //         hashedPassword = authentication.getPasswordHash(password)
-        //     }
-
-        //     filmsDataAccess.updateUser(request.params.id, userName, hashedPassword, isAdmin, function (error, data) {
-        //         if (error) {
-        //             console.error(error)
-        //             response.status(500).send('Internal error.')
-        //             return
-        //         }
-
-        //         response.json('Updated')
-        //     })
-        // })
-        // .delete(function (request, response) {
-        //     if (!authentication.hasAdminRole(request)) {
-        //         response.status(403).send('Wrong role.')
-        //         return
-        //     }
-
-        //     filmsDataAccess.deleteUser(request.params.id, function (error, data) {
-        //         if (error) {
-        //             console.error(error)
-        //             response.status(500).send('Internal error.')
-        //             return
-        //         }
-
-        //         if (data && data === 1) {
-        //             response.json('Deleted')
-        //         } else {
-        //             response.status(400).send('Didn\'t deleted.')
-        //         }
-        //     })
-        // })
+                if (data && data === 1) {
+                    response.json('Deleted')
+                } else {
+                    response.status(400).send('Didn\'t deleted.')
+                }
+            })
+        })
 
         apiRoutes.route(baseUrl)
             .get(function (request, response) {
@@ -112,7 +102,7 @@ module.exports = {
                 var typeId = request.body.typeId
                 var locationId = request.body.locationId
 
-                filmsDataAccess.insertUser(title, remarks, typeId, locationId, function (error, data) {
+                filmsDataAccess.insertFilm(title, remarks, typeId, locationId, function (error, data) {
                     if (error) {
                         switch (error.code) {
                             case 'ER_DUP_ENTRY':

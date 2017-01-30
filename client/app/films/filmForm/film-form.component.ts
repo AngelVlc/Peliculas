@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Film } from '../../_models/film';
 import { FilmService } from '../../_services/film.service';
+import { Master } from '../../_models/master';
+import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormsHelper } from '../../_helpers/forms.helper'
@@ -13,15 +16,20 @@ import 'rxjs/add/operator/switchMap';
 })
 
 export class FilmFormComponent implements OnInit {
-    title: string;
+    formTitle: string;
     film: Film;
     error: string = '';
     success: boolean = false;
 
+    locations: Master[];
+    types: Master[];
+
     constructor(private route: ActivatedRoute
         , private router: Router
         , private filmService: FilmService
-        , private formsHelper: FormsHelper) { }
+        , private masterService: MasterService
+        , private formsHelper: FormsHelper
+        , private location: Location) { }
 
     ngOnInit() {
         this.route.params
@@ -37,31 +45,37 @@ export class FilmFormComponent implements OnInit {
             .subscribe((data: Film) => {
                 this.film = data;
                 if (this.film.id) {
-                    this.title = 'Pelicula ' + this.film.title;
+                    this.formTitle = 'Película \'' + this.film.title + '\'';
                 } else {
-                    this.title = 'Nueva película';
+                    this.formTitle = 'Nueva película';
                 }
             });
+
+        this.masterService.getAll('0')
+            .subscribe((data: Master[]) => { this.types = data; });
+
+        this.masterService.getAll('1')
+            .subscribe((data: Master[]) => { this.locations = data; });
     }
 
     onSubmit() {
-        // if (this.user.userId) {
-        //     this.userService.updateUser(this.user)
-        //         .subscribe((data: boolean) => {
-        //             this.success = true;
-        //         });
-        // } else {
-        //     this.userService.insertUser(this.user)
-        //         .subscribe((data: boolean) => {
-        //             this.router.navigate(['/usersList']);
-        //         });
-        // }
+        if (this.film.id) {
+            this.filmService.update(this.film)
+                .subscribe((data: boolean) => {
+                    this.success = true;
+                });
+        } else {
+            this.filmService.insert(this.film)
+                .subscribe((data: boolean) => {
+                    this.location.back();
+                });
+        }
     }
 
-    deleteUser() {
-        // this.userService.deleteUser(this.user)
-        //     .subscribe((data: boolean) => {
-        //         this.router.navigate(['/usersList']);
-        //     });
+    deleteFilm() {
+        this.filmService.delete(this.film)
+            .subscribe((data: boolean) => {
+                this.location.back();
+            });
     }
 }
