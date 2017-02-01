@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../films/filmsList/films-list.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "../films/filmsList/films-list.component", "../_services/authentication.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../films/filmsList/films-list.component"], fu
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, films_list_component_1, DashboardFormComponent;
+    var core_1, films_list_component_1, authentication_service_1, DashboardFormComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -18,11 +18,15 @@ System.register(["@angular/core", "../films/filmsList/films-list.component"], fu
             },
             function (films_list_component_1_1) {
                 films_list_component_1 = films_list_component_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
             }
         ],
         execute: function () {
             DashboardFormComponent = (function () {
-                function DashboardFormComponent() {
+                function DashboardFormComponent(authService) {
+                    this.authService = authService;
                 }
                 DashboardFormComponent.prototype.searchFilmByTitle = function (term) {
                     this.filmListComponent.searchByTitle(term);
@@ -37,7 +41,7 @@ System.register(["@angular/core", "../films/filmsList/films-list.component"], fu
                 core_1.Component({
                     templateUrl: './app/dashboard/dashboard-form.component.html'
                 }),
-                __metadata("design:paramtypes", [])
+                __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
             ], DashboardFormComponent);
             exports_1("DashboardFormComponent", DashboardFormComponent);
         }

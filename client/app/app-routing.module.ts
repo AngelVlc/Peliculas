@@ -22,15 +22,15 @@ const routes: Routes = [
    , { path: 'user/:id', component: UserFormComponent, canActivate: [AuthAdminGuard] }
    , { path: 'types', component: MasterListComponent, data: [{masterType: "0"}]}
    , { path: 'locs', component: MasterListComponent, data: [{masterType: "1"}]}
-   , { path: 'type/:id', component: MasterFormComponent, data: [{masterType: "0"}], canActivate: [AuthAdminGuard] }
-   , { path: 'loc/:id', component: MasterFormComponent, data: [{masterType: "1"}], canActivate: [AuthAdminGuard] }
-   , { path: 'film/:id', component: FilmFormComponent, canActivate: [AuthAdminGuard]}
+   , { path: 'type/:id', component: MasterFormComponent, data: [{masterType: "0"}] }
+   , { path: 'loc/:id', component: MasterFormComponent, data: [{masterType: "1"}] }
+   , { path: 'film/:id', component: FilmFormComponent}
    , { path: 'genericError', component: GenericErrorComponent }   
    , { path: 'error401', component: Error401Component }   
    , { path: 'error401TokenExpired', component: Error401TokenExpiredComponent }   
-   , { path: '', component: DashboardFormComponent, canActivate: [AuthUserGuard] }
+   , { path: 'search', component: DashboardFormComponent, canActivate: [AuthUserGuard] }
     // otherwise redirect to home
-   , { path: '**', redirectTo: '' }
+   , { path: '**', redirectTo: 'search' }
   , 
 ];
  

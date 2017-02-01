@@ -7,6 +7,7 @@ import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormsHelper } from '../../_helpers/forms.helper'
+import {AuthenticationService} from '../../_services/authentication.service';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -25,6 +26,7 @@ export class FilmFormComponent implements OnInit {
     types: Master[];
 
     constructor(private route: ActivatedRoute
+        , private authService: AuthenticationService
         , private router: Router
         , private filmService: FilmService
         , private masterService: MasterService
@@ -78,4 +80,8 @@ export class FilmFormComponent implements OnInit {
                 this.location.back();
             });
     }
+
+    isReadOnly(): boolean {
+        return !this.authService.isUserLogedAdmin();
+    }    
 }

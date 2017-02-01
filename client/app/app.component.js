@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./_services/authentication.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "./_services/authentication.service", "@angular/router"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./_services/authentication.service"], functio
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, authentication_service_1, AppComponent;
+    var core_1, authentication_service_1, router_1, AppComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -18,12 +18,16 @@ System.register(["@angular/core", "./_services/authentication.service"], functio
             },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }
         ],
         execute: function () {
             AppComponent = (function () {
-                function AppComponent(authService) {
+                function AppComponent(authService, router) {
                     this.authService = authService;
+                    this.router = router;
                 }
                 return AppComponent;
             }());
@@ -32,7 +36,8 @@ System.register(["@angular/core", "./_services/authentication.service"], functio
                     selector: 'my-app',
                     templateUrl: './app/app.component.html'
                 }),
-                __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
+                __metadata("design:paramtypes", [authentication_service_1.AuthenticationService,
+                    router_1.Router])
             ], AppComponent);
             exports_1("AppComponent", AppComponent);
         }

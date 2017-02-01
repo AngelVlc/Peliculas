@@ -1,25 +1,27 @@
 <div *ngIf="searched">
-    <h3>Películas</h3>
-    <div class="panel panel-primary">
-        <div class="panel-body">
-            <div class="table table-responsive">
-                <table class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <td>Nombre</td>
-                            <td *ngIf="showLocation">Localización</td>
-                            <td *ngIf="showType">Tipo</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of items$ | async">
-                            <td><a [routerLink]="['/film',item.id]">{{item.title}}</a></td>
-                            <td *ngIf="showLocation"><a [routerLink]="['/loc', item.locationId]">{{item.locationName}}</a></td>
-                            <td *ngIf="showType"><a [routerLink]="['/type', item.typeId]">{{item.typeName}}</a></td>
-                        </tr>
-                        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                    </tbody>
-                </table>
+    <div class="form-group">
+        <label>{{listTitle}}<span class="badge margin-left-5">{{(items$ | async)?.length}}</span></label>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <td>Nombre</td>
+                                <td *ngIf="showLocation">Localización</td>
+                                <td *ngIf="showType">Tipo</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of items$ | async">
+                                <td><a [routerLink]="['/film',item.id]">{{item.title}}</a></td>
+                                <td *ngIf="showLocation"><a [routerLink]="['/loc', item.locationId]">{{item.locationName}}</a></td>
+                                <td *ngIf="showType"><a [routerLink]="['/type', item.typeId]">{{item.typeName}}</a></td>
+                            </tr>
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

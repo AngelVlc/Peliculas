@@ -21,7 +21,7 @@ export class FilmListComponent {
   showLocation: boolean = true;
   showType: boolean = true;
   searched: boolean;
-
+  listTitle: string;
 
   private searchTitleStream = new Subject<string>();  
 
@@ -34,14 +34,20 @@ export class FilmListComponent {
     this.showLocation = false;
     this.searched = true;
     this.filmService.getByLocationId(locationId)
-          .subscribe((data: Film[]) => this.items$ = Observable.of(data));
+      .subscribe((data: Film[]) => {
+        this.items$ = Observable.of(data);
+        this.listTitle = 'Peliculas';
+      });
   }
 
   getByTypeId(typeId: number) {
     this.showType = false;
     this.searched = true;
     this.filmService.getByTypeId(typeId)
-          .subscribe((data: Film[]) => this.items$ = Observable.of(data));
+      .subscribe((data: Film[]) => {
+        this.items$ = Observable.of(data);
+        this.listTitle = 'Peliculas';
+      });
   }
 
   constructor(private authenticationService: AuthenticationService
@@ -51,6 +57,7 @@ export class FilmListComponent {
           .distinctUntilChanged()          
           .switchMap((title: string) => {
               if (title && title.length > 0) {
+                this.listTitle = 'Peliculas encontradas';
                 return this.filmService.searchByTitle(title);
               } else {
                return  Observable.of([]);

@@ -53,6 +53,7 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                         .distinctUntilChanged()
                         .switchMap(function (title) {
                         if (title && title.length > 0) {
+                            _this.listTitle = 'Peliculas encontradas';
                             return _this.filmService.searchByTitle(title);
                         }
                         else {
@@ -69,14 +70,20 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Observab
                     this.showLocation = false;
                     this.searched = true;
                     this.filmService.getByLocationId(locationId)
-                        .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
+                        .subscribe(function (data) {
+                        _this.items$ = Observable_1.Observable.of(data);
+                        _this.listTitle = 'Peliculas';
+                    });
                 };
                 FilmListComponent.prototype.getByTypeId = function (typeId) {
                     var _this = this;
                     this.showType = false;
                     this.searched = true;
                     this.filmService.getByTypeId(typeId)
-                        .subscribe(function (data) { return _this.items$ = Observable_1.Observable.of(data); });
+                        .subscribe(function (data) {
+                        _this.items$ = Observable_1.Observable.of(data);
+                        _this.listTitle = 'Peliculas';
+                    });
                 };
                 return FilmListComponent;
             }());

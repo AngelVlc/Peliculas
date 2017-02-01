@@ -51,14 +51,14 @@ System.register(["@angular/router", "./login/login-form.component", "./dashboard
                 { path: 'user/:id', component: user_form_component_1.UserFormComponent, canActivate: [auth_admin_guard_1.AuthAdminGuard] },
                 { path: 'types', component: masters_list_component_1.MasterListComponent, data: [{ masterType: "0" }] },
                 { path: 'locs', component: masters_list_component_1.MasterListComponent, data: [{ masterType: "1" }] },
-                { path: 'type/:id', component: master_form_component_1.MasterFormComponent, data: [{ masterType: "0" }], canActivate: [auth_admin_guard_1.AuthAdminGuard] },
-                { path: 'loc/:id', component: master_form_component_1.MasterFormComponent, data: [{ masterType: "1" }], canActivate: [auth_admin_guard_1.AuthAdminGuard] },
-                { path: 'film/:id', component: film_form_component_1.FilmFormComponent, canActivate: [auth_admin_guard_1.AuthAdminGuard] },
+                { path: 'type/:id', component: master_form_component_1.MasterFormComponent, data: [{ masterType: "0" }] },
+                { path: 'loc/:id', component: master_form_component_1.MasterFormComponent, data: [{ masterType: "1" }] },
+                { path: 'film/:id', component: film_form_component_1.FilmFormComponent },
                 { path: 'genericError', component: generic_error_component_1.GenericErrorComponent },
                 { path: 'error401', component: error_401_component_1.Error401Component },
                 { path: 'error401TokenExpired', component: error_401_token_expired_component_1.Error401TokenExpiredComponent },
-                { path: '', component: dashboard_form_component_1.DashboardFormComponent, canActivate: [auth_user_guard_1.AuthUserGuard] },
-                { path: '**', redirectTo: '' },
+                { path: 'search', component: dashboard_form_component_1.DashboardFormComponent, canActivate: [auth_user_guard_1.AuthUserGuard] },
+                { path: '**', redirectTo: 'search' },
             ];
             exports_1("AppRoutingModule", AppRoutingModule = router_1.RouterModule.forRoot(routes));
         }

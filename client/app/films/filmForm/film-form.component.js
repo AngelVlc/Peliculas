@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "../../_models/film", "../../_services/film.service", "../../_services/master.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "../../_models/film", "../../_services/film.service", "../../_services/master.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "../../_services/authentication.service", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "../../_models/film", "../.
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, common_1, film_1, film_service_1, master_service_1, Observable_1, router_1, forms_helper_1, FilmFormComponent;
+    var core_1, common_1, film_1, film_service_1, master_service_1, Observable_1, router_1, forms_helper_1, authentication_service_1, FilmFormComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -37,13 +37,17 @@ System.register(["@angular/core", "@angular/common", "../../_models/film", "../.
             function (forms_helper_1_1) {
                 forms_helper_1 = forms_helper_1_1;
             },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
             function (_1) {
             }
         ],
         execute: function () {
             FilmFormComponent = (function () {
-                function FilmFormComponent(route, router, filmService, masterService, formsHelper, location) {
+                function FilmFormComponent(route, authService, router, filmService, masterService, formsHelper, location) {
                     this.route = route;
+                    this.authService = authService;
                     this.router = router;
                     this.filmService = filmService;
                     this.masterService = masterService;
@@ -100,6 +104,9 @@ System.register(["@angular/core", "@angular/common", "../../_models/film", "../.
                         _this.location.back();
                     });
                 };
+                FilmFormComponent.prototype.isReadOnly = function () {
+                    return !this.authService.isUserLogedAdmin();
+                };
                 return FilmFormComponent;
             }());
             FilmFormComponent = __decorate([
@@ -107,6 +114,7 @@ System.register(["@angular/core", "@angular/common", "../../_models/film", "../.
                     templateUrl: './app/films/filmForm/film-form.component.html'
                 }),
                 __metadata("design:paramtypes", [router_1.ActivatedRoute,
+                    authentication_service_1.AuthenticationService,
                     router_1.Router,
                     film_service_1.FilmService,
                     master_service_1.MasterService,

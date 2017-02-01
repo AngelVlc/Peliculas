@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Master } from '../../_models/master';
 import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { FormsHelper } from '../../_helpers/forms.helper'
 

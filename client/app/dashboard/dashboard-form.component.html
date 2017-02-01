@@ -1,16 +1,15 @@
 <div class="container">
     <div class="panel-body">
-        <div class="row">
-            <a class="btn btn-primary" [routerLink]="['/film',-1]"><i class="glyphicon glyphicon-file"></i> Nueva película </a>
-        </div>
-
-        <div class="row">
+        <div class="row margin-bottom-25">
             <h3>Buscar películas</h3>
             <div class="col-xs-6 col-md-4">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Escribe el título ..." #searchTitleInput (keyup)="searchFilmByTitle(searchTitleInput.value)">
                     <span class="input-group-addon glyphicon glyphicon-search"></span>
-                </div>
+                </div>                
+            </div>
+            <div *ngIf="this.authService.isUserLogedAdmin()" class="col-xs-6">
+                <a class="btn btn-primary" [routerLink]="['/film',-1]"><i class="glyphicon glyphicon-file"></i> Nueva película </a>
             </div>
         </div>
         <div class="row">

@@ -2,24 +2,17 @@
     <h3>{{formTitle}}</h3>
 
     <div class="panel-body">
-        <form (ngSubmit)="onSubmit()" #itemForm="ngForm">            
-            <div class="margin-bottom-25">
-            <button type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
-            <button *ngIf="film.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
-                [confirmText]="formsHelper.confirmDeleteText" [cancelText]="formsHelper.confirmCancelText" placement="left" (confirm)="deleteFilm()">Eliminar</button>
-            </div>
-            
+        <form (ngSubmit)="onSubmit()" #itemForm="ngForm">                      
             <div class="form-group">
                 <label for="title">Título: </label>
-                <input type="text" class="form-control" id="title" required [(ngModel)]="film.title" name="title" #title="ngModel">
+                <input type="text" class="form-control" id="title" required [(ngModel)]="film.title" name="title" #title="ngModel" [readonly]="isReadOnly()">
                 <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
                     El título es obligatorio
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="locationId">Localización: </label>
-                <select class="form-control" id="locationId" required [(ngModel)]="film.locationId" name="locationId" #locationId="ngModel">
+                <select class="form-control" id="locationId" required [(ngModel)]="film.locationId" name="locationId" #locationId="ngModel" [disabled]="isReadOnly()">
                     <option *ngFor="let value of locations" [value]="value.id">  
                         {{value.name}}
                     </option>
@@ -31,7 +24,7 @@
 
             <div class="form-group">
                 <label for="typeId">Tipo: </label>
-                <select class="form-control" id="typeId" required [(ngModel)]="film.typeId" name="typeId" #typeId="ngModel">
+                <select class="form-control" id="typeId" required [(ngModel)]="film.typeId" name="typeId" #typeId="ngModel" [disabled]="isReadOnly()">
                     <option *ngFor="let value of types" [value]="value.id">  
                         {{value.name}}
                     </option>
@@ -43,7 +36,7 @@
 
             <div class="form-group">
                 <label for="remarks">Observaciones: </label>
-                <textarea rows="4" class="form-control" id="remarks" [(ngModel)]="film.remarks" name="remarks" #remarks="ngModel"></textarea>
+                <textarea rows="4" class="form-control" id="remarks" [(ngModel)]="film.remarks" name="remarks" #remarks="ngModel" [readonly]="isReadOnly()"></textarea>
             </div>
 
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
@@ -51,8 +44,8 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="success=false">x</a> Cambios guardados
             </div>           
 
-            <button type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
-            <button *ngIf="film.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
+            <button *ngIf="!isReadOnly()" type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
+            <button *ngIf="!isReadOnly() && film.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
                 [confirmText]="formsHelper.confirmDeleteText" [cancelText]="formsHelper.confirmCancelText" placement="left" (confirm)="deleteFilm()">Eliminar</button>                
         </form>
     </div>

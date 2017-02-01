@@ -4,6 +4,7 @@ import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormsHelper } from '../../_helpers/forms.helper'
+import {AuthenticationService} from '../../_services/authentication.service';
 
 import { Film } from '../../_models/film';
 import { FilmListComponent } from '../../films/filmsList/films-list.component';
@@ -26,6 +27,7 @@ export class MasterFormComponent implements OnInit, AfterViewInit {
     masterType: string;
 
     constructor(private route: ActivatedRoute
+        , private authService: AuthenticationService
         , private router: Router
         , private masterService: MasterService
         , private formsHelper: FormsHelper) {
@@ -102,5 +104,9 @@ export class MasterFormComponent implements OnInit, AfterViewInit {
             .subscribe((data: boolean) => {
                 this.router.navigate(['/']);
             });
+    }
+
+    isReadOnly(): boolean {
+        return !this.authService.isUserLogedAdmin();
     }
 }
