@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Master } from '../../_models/master';
 import { MasterService } from '../../_services/master.service';
 import { Observable } from 'rxjs/Observable';
@@ -16,10 +16,7 @@ import 'rxjs/add/operator/switchMap';
     templateUrl: './app/masters/masterForm/master-form.component.html'
 })
 
-export class MasterFormComponent implements OnInit, AfterViewInit {
-    @ViewChild(FilmListComponent)
-    private filmListComponent: FilmListComponent;
-
+export class MasterFormComponent implements OnInit {
     title: string;
     item: Master;
     error: string = '';
@@ -68,21 +65,6 @@ export class MasterFormComponent implements OnInit, AfterViewInit {
                         break;
                 }
             });
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => {
-            switch (this.masterType) {
-                case '0':
-                    this.filmListComponent.getByTypeId(this.item.id)
-                    break;
-                case '1':
-                    this.filmListComponent.getByLocationId(this.item.id)
-                    break;
-                default:
-                    break;
-            }
-        }, 0);
     }
 
     onSubmit() {

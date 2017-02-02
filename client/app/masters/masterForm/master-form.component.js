@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_models/master", "../../_services/master.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "../../_services/authentication.service", "../../films/filmsList/films-list.component", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_models/master", "../../_services/master.service", "rxjs/Observable", "@angular/router", "../../_helpers/forms.helper", "../../_services/authentication.service", "rxjs/add/operator/switchMap"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, master_1, master_service_1, Observable_1, router_1, forms_helper_1, authentication_service_1, films_list_component_1, MasterFormComponent;
+    var core_1, master_1, master_service_1, Observable_1, router_1, forms_helper_1, authentication_service_1, MasterFormComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -33,9 +33,6 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
             },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
-            },
-            function (films_list_component_1_1) {
-                films_list_component_1 = films_list_component_1_1;
             },
             function (_1) {
             }
@@ -88,21 +85,6 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
                         }
                     });
                 };
-                MasterFormComponent.prototype.ngAfterViewInit = function () {
-                    var _this = this;
-                    setTimeout(function () {
-                        switch (_this.masterType) {
-                            case '0':
-                                _this.filmListComponent.getByTypeId(_this.item.id);
-                                break;
-                            case '1':
-                                _this.filmListComponent.getByLocationId(_this.item.id);
-                                break;
-                            default:
-                                break;
-                        }
-                    }, 0);
-                };
                 MasterFormComponent.prototype.onSubmit = function () {
                     var _this = this;
                     if (this.item.id) {
@@ -130,10 +112,6 @@ System.register(["@angular/core", "../../_models/master", "../../_services/maste
                 };
                 return MasterFormComponent;
             }());
-            __decorate([
-                core_1.ViewChild(films_list_component_1.FilmListComponent),
-                __metadata("design:type", films_list_component_1.FilmListComponent)
-            ], MasterFormComponent.prototype, "filmListComponent", void 0);
             MasterFormComponent = __decorate([
                 core_1.Component({
                     templateUrl: './app/masters/masterForm/master-form.component.html'
