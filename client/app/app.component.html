@@ -1,11 +1,9 @@
-<div class="jumbotron">
-    <div class="container">
-        <h1>Películas</h1>
-        <nav *ngIf="this.authService.isUserLoged()">
-            <a [routerLink]="['/']" routerLinkActive="active">Inicio</a>
-            <a *ngIf="this.authService.isUserLogedAdmin()" [routerLink]="['/usersList']" routerLinkActive="active">Usuarios</a>
-            <a [routerLink]="['/login']">Cerrar sesión</a>
-        </nav>
-    </div>
-</div>
+<ul *ngIf="this.authService.isUserLoged()" class="nav nav-tabs">
+  <li role="presentation" routerLinkActive="active"><a [routerLink]="['/search']">Películas</a></li>
+  <li role="presentation" routerLinkActive="active" *ngIf="this.authService.isUserLogedAdmin()"><a  [routerLink]="['/usersList']" >Usuarios</a></li>
+  <li role="presentation" routerLinkActive="active"><a [routerLink]="['/locs']">Localizaciones</a></li>
+  <li role="presentation" routerLinkActive="active"><a [routerLink]="['/types']">Tipos</a></li>
+  <li role="presentation" class="pull-right"><a [routerLink]="['/login']">Cerrar sesión '{{authService.getCurrentUserName()}}'</a></li>
+</ul>
+
 <router-outlet></router-outlet>

@@ -5,6 +5,8 @@ var morgan = require('morgan')
 var Database = require('./database')
 var authentication = require('./authentication')
 var apiUsers = require('./apis/users')
+var apiMasters = require('./apis/masters')
+var apiFilms = require('./apis/films')
 //var heapdump = require('heapdump')
 var path = require('path')
 
@@ -39,6 +41,11 @@ apiRoutes.post('/authenticate', authentication.getToken)
 apiRoutes.use(authentication.verifyToken)
 
 apiUsers.configureApi(apiRoutes)
+
+apiMasters.configureApi(apiRoutes, 0)
+apiMasters.configureApi(apiRoutes, 1)
+
+apiFilms.configureApi(apiRoutes)
 
 apiRoutes.get('*', function (req, res) {
   return res.status(404).send("Resource not found")

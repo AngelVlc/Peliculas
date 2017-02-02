@@ -1,6 +1,6 @@
 var authentication = require('../authentication')
 var UsersDataAccess = require('../data_access/users-data-access')
-var usersDataAccess = new UsersDataAccess();
+var usersDataAccess = new UsersDataAccess()
 
 var baseUrl = '/users/'
 

@@ -68,6 +68,14 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                 AuthenticationService.prototype.getCurrentUser = function () {
                     return JSON.parse(localStorage.getItem('currentUser'));
                 };
+                AuthenticationService.prototype.getCurrentUserName = function () {
+                    if (this.isUserLoged()) {
+                        return this.getCurrentUser().username;
+                    }
+                    else {
+                        return null;
+                    }
+                };
                 AuthenticationService.prototype.isUserLogedAdmin = function () {
                     var currentUser = this.getCurrentUser();
                     if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {

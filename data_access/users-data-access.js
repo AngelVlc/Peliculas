@@ -2,7 +2,6 @@ var Database = require('../database')
 
 var database = new Database();
 
-
 var UsersDataAccess = function () {
     this.insertUser = function (userName, hashedPassword, isAdmin, callback) {
         database.getPool().getConnection(function (conErr, connection) {

@@ -1,0 +1,26 @@
+<div class="container">
+    <h3>Lista de {{formsHelper.getMasterName(masterType)}}</h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div *ngIf="authenticationService.isUserLogedAdmin()" class="col-xs-3 margin-bottom-25">
+                <a class="btn btn-primary" [routerLink]="[getRoute(),-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>  
+            </div>
+
+            <div class="table table-responsive">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <td>Nombre</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <td><a [routerLink]="[getRoute(),item.id]">{{item.name}}</a></td>                            
+                        </tr>
+                        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

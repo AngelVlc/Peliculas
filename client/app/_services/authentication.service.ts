@@ -56,6 +56,14 @@ export class AuthenticationService {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
 
+    getCurrentUserName() {
+        if (this.isUserLoged()) {
+            return this.getCurrentUser().username;
+        } else {
+            return null;
+        }        
+    }
+
     isUserLogedAdmin(): boolean {
         var currentUser = this.getCurrentUser();
         if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {
