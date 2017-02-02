@@ -27,7 +27,7 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="success=false">x</a> Cambios guardados
             </div>
 
-            <films-list></films-list>
+            <films-list masterIdToSearch="{{item.id}}" masterType="{{masterType}}"></films-list>
 
             <button *ngIf="!isReadOnly()" type="submit" class="btn btn-primary" [disabled]="!itemForm.form.valid">Guardar</button>
             <button *ngIf="!isReadOnly() && item.id" type="button" class="btn btn-danger pull-right" mwlConfirmationPopover [title]="formsHelper.confirmDeleteTitle"
