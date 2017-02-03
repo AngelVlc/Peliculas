@@ -54,7 +54,25 @@ var MastersDataAccess = function () {
                 return
             }
 
-            connection.query('SELECT id, name FROM ' + masterTableName, function (err, rows) {
+            var masterFieldNameInFilms = ''
+
+            if (masterTableName === 'locations') {
+                masterFieldNameInFilms = 'locationId'
+            } else {
+                masterFieldNameInFilms = 'typeId'
+            }
+
+            var query ='SELECT m.id, m.name, COUNT(1) as count\
+                        FROM films f\
+                            INNER JOIN ' + masterTableName + ' m  ON m.id = f.' + masterFieldNameInFilms + '\
+                        GROUP BY m.id, m.name\
+                        UNION\
+                        SELECT m.id, m.name, 0 as count\
+                        FROM ' + masterTableName + ' m \
+                            LEFT JOIN films f ON m.id = f.' + masterFieldNameInFilms + '\
+                        WHERE f.' + masterFieldNameInFilms + ' IS NULL'         
+
+            connection.query(query, function (err, rows) {
                 connection.release();
                 if (err) {
                     callback(err)

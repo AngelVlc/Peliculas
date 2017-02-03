@@ -1,5 +1,5 @@
-<ul *ngIf="this.authService.isUserLoged()" class="nav nav-tabs">
-  <li role="presentation" routerLinkActive="active"><a [routerLink]="['/search']">Películas</a></li>
+<ul *ngIf="this.authService.isUserLoged()" class="nav nav-tabs"> 
+  <li role="presentation" routerLinkActive="active"><a [routerLink]="['/search']">Búsqueda</a></li>
   <li role="presentation" routerLinkActive="active" *ngIf="this.authService.isUserLogedAdmin()"><a  [routerLink]="['/usersList']" >Usuarios</a></li>
   <li role="presentation" routerLinkActive="active"><a [routerLink]="['/locs']">Localizaciones</a></li>
   <li role="presentation" routerLinkActive="active"><a [routerLink]="['/types']">Tipos</a></li>

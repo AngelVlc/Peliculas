@@ -3,24 +3,34 @@
 
     <div class="panel-body">
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-            <div class="form-group">
-                <label for="name">Usuario: </label>
-                <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name" #name="ngModel">
-                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-                    El usuario es obligatorio
+            <div class="row">
+                <div class="col-xs-5 col-md-3">
+                    <label for="name">Usuario: </label>
+                    <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name" #name="ngModel">
+                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                        El usuario es obligatorio
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="password">Contraseña: </label>
-                <input type="password" class="form-control" id="password" required [(ngModel)]="model.password" name="password" #password="ngModel">
-                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-                    La contraseña es obligatoria
+            <div class="row margin-top-25">
+                <div class="col-xs-5 col-md-3">
+                    <label for="password">Contraseña: </label>
+                    <input type="password" class="form-control" id="password" required [(ngModel)]="model.password" name="password" #password="ngModel">
+                    <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                        La contraseña es obligatoria
+                    </div>
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Entrar</button>
-            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-
+            <div class="row margin-top-25">
+                <div class="col-xs-1">
+                    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Entrar</button>
+                </div>
+            </div> 
+            <div class="row margin-top-25">
+                <div class="col-xs-8">
+                    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

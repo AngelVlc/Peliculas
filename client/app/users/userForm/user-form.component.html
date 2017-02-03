@@ -1,7 +1,9 @@
 <div *ngIf="user" class="container">
-    <h3>{{title}}</h3>
+    
 
-    <div class="panel-body">
+    <div class="panel-body">        
+        <h3>{{title}}</h3>
+
         <form (ngSubmit)="onSubmit()" #userForm="ngForm">
 
             <div class="form-group">
