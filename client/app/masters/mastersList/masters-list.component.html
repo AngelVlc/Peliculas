@@ -1,22 +1,22 @@
 <div class="container">
-    <h3>Lista de {{formsHelper.getMasterName(masterType)}}<span class="badge margin-left-5">{{(items)?.length}}</span></h3>
-    
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div *ngIf="authenticationService.isUserLogedAdmin()" class="col-xs-3 margin-bottom-25">
-                <a class="btn btn-primary" [routerLink]="[getRoute(),-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>  
+    <div class="panel-body">
+        <h3>Lista de {{formsHelper.getMasterName(masterType)}}<span class="badge margin-left-badge">Total {{(items)?.length}}</span></h3>
+
+        <div class="panel panel-default">
+            <div *ngIf="authenticationService.isUserLogedAdmin()" class="col-xs-3 margin-bottom-25 margin-top-25">
+                <a class="btn btn-primary" [routerLink]="[getRoute(),-1]"><i class="glyphicon glyphicon-file"></i> Añadir </a>
             </div>
 
             <div class="table table-responsive">
                 <table class="table table-hover table-condensed">
                     <thead>
                         <tr>
-                            <td>Nombre</td>
+                            <td>Nombre</td>                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of items">
-                            <td><a [routerLink]="[getRoute(),item.id]">{{item.name}}</a></td>                            
+                            <td><a [routerLink]="[getRoute(),item.id]">{{item.name}}</a><span class="badge margin-left-badge">{{item.count}} películas</span></td>                            
                         </tr>
                         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
                     </tbody>

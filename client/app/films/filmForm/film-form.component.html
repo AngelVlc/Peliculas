@@ -1,7 +1,6 @@
 <div *ngIf="film" class="container">
-    <h3>{{formTitle}}</h3>
-
-    <div class="panel-body">
+    <div class="panel-body">        
+        <h3>{{formTitle}}</h3>
         <form (ngSubmit)="onSubmit()" #itemForm="ngForm">                      
             <div class="form-group">
                 <label for="title">Título: </label>

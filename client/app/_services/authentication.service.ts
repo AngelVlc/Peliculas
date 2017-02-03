@@ -58,7 +58,7 @@ export class AuthenticationService {
 
     getCurrentUserName() {
         if (this.isUserLoged()) {
-            return this.getCurrentUser().username;
+            return this.getCurrentUser().username.toLowerCase();
         } else {
             return null;
         }        

@@ -1,8 +1,8 @@
 <div *ngIf="searched">
-    <div class="form-group">
-        <label>{{listTitle}}<span class="badge margin-left-5">{{(items$ | async)?.length}}</span></label>
-        <div class="panel panel-default">
-            <div class="panel-body">
+    
+        <div class="form-group">
+            <label>{{listTitle}}<span class="badge margin-left-badge">{{(items$ | async)?.length}}</span></label>
+            <div class="panel panel-default">
                 <div class="table table-responsive">
                     <table class="table table-hover table-condensed">
                         <thead>
@@ -24,5 +24,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>

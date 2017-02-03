@@ -70,7 +70,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                 };
                 AuthenticationService.prototype.getCurrentUserName = function () {
                     if (this.isUserLoged()) {
-                        return this.getCurrentUser().username;
+                        return this.getCurrentUser().username.toLowerCase();
                     }
                     else {
                         return null;
