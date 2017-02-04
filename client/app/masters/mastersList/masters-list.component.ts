@@ -53,4 +53,14 @@ export class MasterListComponent implements OnInit {
     ngOnInit(): void {
         this.getAll();
     }
+
+    getFilmsCount(): number {
+        var sum = 0;
+
+        for (let item of this.items) {
+            sum += item.count;
+        }
+
+        return sum;
+    }
 }
