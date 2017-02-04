@@ -1,4 +1,4 @@
-System.register(["@angular/platform-browser", "@angular/core", "@angular/forms", "@angular/http", "angular-confirmation-popover", "./app.component", "./app-routing.module", "./login/login-form.component", "./dashboard/dashboard-form.component", "./users/usersList/users-list-form.component", "./users/userForm/user-form.component", "./masters/mastersList/masters-list.component", "./masters/masterForm/master-form.component", "./films/filmsList/films-list.component", "./films/filmForm/film-form.component", "./_guards/auth.user-guard", "./_guards/auth.admin-guard", "./_services/error-handler.service", "./_services/authentication.service", "./_services/user.service", "./_services/master.service", "./_services/film.service", "./_helpers/forms.helper", "./errors/generic-error.component", "./errors/error-401.component", "./errors/error-401-token-expired.component"], function (exports_1, context_1) {
+System.register(["@angular/platform-browser", "@angular/core", "@angular/forms", "@angular/http", "angular-confirmation-popover", "./app.component", "./app-routing.module", "./login/login-form.component", "./dashboard/dashboard-form.component", "./users/usersList/users-list-form.component", "./users/userForm/user-form.component", "./masters/mastersList/masters-list.component", "./masters/masterForm/master-form.component", "./films/filmsList/films-list.component", "./films/filmForm/film-form.component", "./_guards/auth.user-guard", "./_guards/auth.admin-guard", "./_services/error-handler.service", "./_services/authentication.service", "./_services/user.service", "./_services/master.service", "./_services/film.service", "./_helpers/forms.helper", "./errors/generic-error.component", "./errors/error-401.component", "./errors/error-401-token-expired.component", "angular2-chartjs"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/platform-browser", "@angular/core", "@angular/forms",
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var platform_browser_1, core_1, forms_1, http_1, angular_confirmation_popover_1, app_component_1, app_routing_module_1, login_form_component_1, dashboard_form_component_1, users_list_form_component_1, user_form_component_1, masters_list_component_1, master_form_component_1, films_list_component_1, film_form_component_1, auth_user_guard_1, auth_admin_guard_1, error_handler_service_1, authentication_service_1, user_service_1, master_service_1, film_service_1, forms_helper_1, generic_error_component_1, error_401_component_1, error_401_token_expired_component_1, AppModule;
+    var platform_browser_1, core_1, forms_1, http_1, angular_confirmation_popover_1, app_component_1, app_routing_module_1, login_form_component_1, dashboard_form_component_1, users_list_form_component_1, user_form_component_1, masters_list_component_1, master_form_component_1, films_list_component_1, film_form_component_1, auth_user_guard_1, auth_admin_guard_1, error_handler_service_1, authentication_service_1, user_service_1, master_service_1, film_service_1, forms_helper_1, generic_error_component_1, error_401_component_1, error_401_token_expired_component_1, angular2_chartjs_1, AppModule;
     return {
         setters: [
             function (platform_browser_1_1) {
@@ -90,6 +90,9 @@ System.register(["@angular/platform-browser", "@angular/core", "@angular/forms",
             },
             function (error_401_token_expired_component_1_1) {
                 error_401_token_expired_component_1 = error_401_token_expired_component_1_1;
+            },
+            function (angular2_chartjs_1_1) {
+                angular2_chartjs_1 = angular2_chartjs_1_1;
             }
         ],
         execute: function () {
@@ -106,7 +109,8 @@ System.register(["@angular/platform-browser", "@angular/core", "@angular/forms",
                         app_routing_module_1.AppRoutingModule,
                         angular_confirmation_popover_1.ConfirmationPopoverModule.forRoot({
                             focusButton: 'confirm'
-                        })],
+                        }),
+                        angular2_chartjs_1.ChartModule],
                     declarations: [app_component_1.AppComponent,
                         login_form_component_1.LoginFormComponent,
                         dashboard_form_component_1.DashboardFormComponent,

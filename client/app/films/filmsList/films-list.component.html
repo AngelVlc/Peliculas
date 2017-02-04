@@ -21,6 +21,9 @@
                             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
                         </tbody>
                     </table>
+                </div> 
+                <div *ngIf="showLocation && charLocationsReady" class="col-xs-6">              
+                    <chart [type]="charType" [data]="charLocationsData" [options]="chartOptions"></chart>
                 </div>
             </div>
         </div>
