@@ -33,6 +33,7 @@
     "@angular/platform-browser-dynamic": "^2.4.2",
     "@angular/router": "^3.4.2",
     "angular-confirmation-popover": "^2.1.2",
+    "angular2-chartjs": "^0.1.6",
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",

@@ -30,6 +30,8 @@ import { GenericErrorComponent } from './errors/generic-error.component';
 import { Error401Component } from './errors/error-401.component';
 import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.component';
 
+import { ChartModule } from 'angular2-chartjs';
+
 @NgModule({
   imports:      [BrowserModule
                   , FormsModule 
@@ -37,7 +39,8 @@ import { Error401TokenExpiredComponent } from './errors/error-401-token-expired.
                   , AppRoutingModule
                   , ConfirmationPopoverModule.forRoot({
                       focusButton: 'confirm'
-                    })],
+                    })
+                  , ChartModule],
   declarations: [AppComponent
                   , LoginFormComponent
                   , DashboardFormComponent

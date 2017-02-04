@@ -26,7 +26,9 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'angular-confirmation-popover': 'npm:angular-confirmation-popover'
+      'angular-confirmation-popover': 'npm:angular-confirmation-popover',
+      'angular2-chartjs': 'npm:angular2-chartjs',
+      'chart.js': 'npm:chart.js/dist/Chart.bundle.js'      
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -39,6 +41,10 @@
       },
       'angular-confirmation-popover': {
         main: 'dist/umd/angular-confirmation-popover.js',
+        defaultExtension: 'js'
+      },
+     'angular2-chartjs': {
+        main: './dist/index.js',
         defaultExtension: 'js'
       }
     }
