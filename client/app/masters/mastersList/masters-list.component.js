@@ -66,6 +66,14 @@ System.register(["@angular/core", "../../_services/master.service", "@angular/ro
                 MasterListComponent.prototype.ngOnInit = function () {
                     this.getAll();
                 };
+                MasterListComponent.prototype.getFilmsCount = function () {
+                    var sum = 0;
+                    for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
+                        var item = _a[_i];
+                        sum += item.count;
+                    }
+                    return sum;
+                };
                 return MasterListComponent;
             }());
             __decorate([

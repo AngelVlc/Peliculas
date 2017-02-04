@@ -1,7 +1,7 @@
 <div *ngIf="searched">
     
         <div class="form-group">
-            <label>{{listTitle}}<span class="badge margin-left-badge">{{(items$ | async)?.length}}</span></label>
+            <label>{{listTitle}}<span class="badge margin-left-badge">Total {{(items$ | async)?.length}}</span></label>
             <div class="panel panel-default">
                 <div class="table table-responsive">
                     <table class="table table-hover table-condensed">
