@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, QueryList, ViewChildren } from '@angular/core';
 import { FilmService } from '../../_services/film.service';
 import { Film } from '../../_models/film';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChartItem } from '../../_models/chartItem'
+import { ChartComponent } from 'angular2-chartjs';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -18,9 +19,10 @@ import 'rxjs/add/observable/of';
   templateUrl: './app/films/filmsList/films-list.component.html'
 })
 
-export class FilmListComponent implements OnInit {
+export class FilmListComponent implements OnInit, AfterViewInit {
   @Input() masterIdToSearch: number; //lo uso cuando voy a mostrar las peliculas de un maestro, 
   @Input() masterType: string;
+  @ViewChildren(ChartComponent) charts: QueryList<ChartComponent>;
 
   items: Film[];
   showLocation: boolean = true;
@@ -32,17 +34,11 @@ export class FilmListComponent implements OnInit {
   chartType: string = 'doughnut';
   chartOptions = {
     responsive: true,
-    maintainAspectRatio: false,
-    tooltips: {
-      intersect: false
-    },
-    legend: {
-      display: false
-    }
+    maintainAspectRatio: false
   };
 
   /* chart data */
-  chartLocationsData = this.getNewChartData();
+  typesChartData = this.getNewChartData();
 
   private searchTitleStream = new Subject<string>();
 
@@ -55,25 +51,7 @@ export class FilmListComponent implements OnInit {
         this.listTitle = 'Peliculas encontradas';
         this.items = results
 
-        this.chartLocationsData = this.getNewChartData();
-        
-        let locs: ChartItem[] = new Array<ChartItem>();
-        for (let film of this.items) {
-          let foundItems = locs.filter(item => item.label == film.locationName);
-          if (foundItems.length == 0) {
-            var newItem: ChartItem = new ChartItem();
-            newItem.label = film.locationName;
-            newItem.count = 1;
-            locs.push(newItem);
-          } else {
-            foundItems[0].count += 1;
-          }
-        }
-
-        for (let item of locs) {
-          this.chartLocationsData.labels.push(item.label);
-          this.chartLocationsData.datasets[0].data.push(item.count);
-        }
+        this.configureTypesChart();
       });
   }
 
@@ -90,6 +68,12 @@ export class FilmListComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    this.charts.map(chart => {
+      //alert(chart);
+    })
+  }
+
   searchByTitle(title: string) {
     this.searchTitleStream.next(title);
   }
@@ -100,6 +84,7 @@ export class FilmListComponent implements OnInit {
       .subscribe((data: Film[]) => {
         this.items = data;
         this.listTitle = 'Peliculas';
+        this.configureTypesChart();
       });
   }
 
@@ -109,6 +94,7 @@ export class FilmListComponent implements OnInit {
       .subscribe((data: Film[]) => {
         this.items = data;
         this.listTitle = 'Peliculas';
+        this.configureTypesChart();
       });
   }
 
@@ -117,9 +103,39 @@ export class FilmListComponent implements OnInit {
       labels: [],
       datasets: [
         {
-          data: []
+          data: [],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
         }
       ]
     };
+  }
+
+  configureTypesChart() {
+    this.typesChartData = this.getNewChartData();
+
+    let locs: ChartItem[] = new Array<ChartItem>();
+    for (let film of this.items) {
+      let foundItems = locs.filter(item => item.label == film.typeName);
+      if (foundItems.length == 0) {
+        var newItem: ChartItem = new ChartItem();
+        newItem.label = film.typeName;
+        newItem.count = 1;
+        locs.push(newItem);
+      } else {
+        foundItems[0].count += 1;
+      }
+    }
+
+    for (let item of locs) {
+      this.typesChartData.labels.push(item.label);
+      this.typesChartData.datasets[0].data.push(item.count);
+    }
   }
 }

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject", "../../_services/authentication.service", "@angular/router", "../../_models/chartItem", "rxjs/add/operator/map", "rxjs/add/operator/filter", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
+System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject", "../../_services/authentication.service", "@angular/router", "../../_models/chartItem", "angular2-chartjs", "rxjs/add/operator/map", "rxjs/add/operator/filter", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged", "rxjs/add/observable/of"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, film_service_1, Subject_1, authentication_service_1, router_1, chartItem_1, FilmListComponent;
+    var core_1, film_service_1, Subject_1, authentication_service_1, router_1, chartItem_1, angular2_chartjs_1, FilmListComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -30,6 +30,9 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
             },
             function (chartItem_1_1) {
                 chartItem_1 = chartItem_1_1;
+            },
+            function (angular2_chartjs_1_1) {
+                angular2_chartjs_1 = angular2_chartjs_1_1;
             },
             function (_1) {
             },
@@ -55,45 +58,16 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                     this.chartType = 'doughnut';
                     this.chartOptions = {
                         responsive: true,
-                        maintainAspectRatio: false,
-                        tooltips: {
-                            intersect: false
-                        },
-                        legend: {
-                            display: false
-                        }
+                        maintainAspectRatio: false
                     };
                     /* chart data */
-                    this.chartLocationsData = this.getNewChartData();
+                    this.typesChartData = this.getNewChartData();
                     this.searchTitleStream = new Subject_1.Subject();
                     this.filmService.searchByTyle(this.searchTitleStream)
                         .subscribe(function (results) {
                         _this.listTitle = 'Peliculas encontradas';
                         _this.items = results;
-                        _this.chartLocationsData = _this.getNewChartData();
-                        var locs = new Array();
-                        var _loop_1 = function (film) {
-                            var foundItems = locs.filter(function (item) { return item.label == film.locationName; });
-                            if (foundItems.length == 0) {
-                                newItem = new chartItem_1.ChartItem();
-                                newItem.label = film.locationName;
-                                newItem.count = 1;
-                                locs.push(newItem);
-                            }
-                            else {
-                                foundItems[0].count += 1;
-                            }
-                        };
-                        var newItem;
-                        for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
-                            var film = _a[_i];
-                            _loop_1(film);
-                        }
-                        for (var _b = 0, locs_1 = locs; _b < locs_1.length; _b++) {
-                            var item = locs_1[_b];
-                            _this.chartLocationsData.labels.push(item.label);
-                            _this.chartLocationsData.datasets[0].data.push(item.count);
-                        }
+                        _this.configureTypesChart();
                     });
                 }
                 FilmListComponent.prototype.ngOnInit = function () {
@@ -108,6 +82,11 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                             break;
                     }
                 };
+                FilmListComponent.prototype.ngAfterViewInit = function () {
+                    this.charts.map(function (chart) {
+                        //alert(chart);
+                    });
+                };
                 FilmListComponent.prototype.searchByTitle = function (title) {
                     this.searchTitleStream.next(title);
                 };
@@ -118,6 +97,7 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                         .subscribe(function (data) {
                         _this.items = data;
                         _this.listTitle = 'Peliculas';
+                        _this.configureTypesChart();
                     });
                 };
                 FilmListComponent.prototype.getByTypeId = function () {
@@ -127,6 +107,7 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                         .subscribe(function (data) {
                         _this.items = data;
                         _this.listTitle = 'Peliculas';
+                        _this.configureTypesChart();
                     });
                 };
                 FilmListComponent.prototype.getNewChartData = function () {
@@ -134,10 +115,44 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                         labels: [],
                         datasets: [
                             {
-                                data: []
+                                data: [],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
                             }
                         ]
                     };
+                };
+                FilmListComponent.prototype.configureTypesChart = function () {
+                    this.typesChartData = this.getNewChartData();
+                    var locs = new Array();
+                    var _loop_1 = function (film) {
+                        var foundItems = locs.filter(function (item) { return item.label == film.typeName; });
+                        if (foundItems.length == 0) {
+                            newItem = new chartItem_1.ChartItem();
+                            newItem.label = film.typeName;
+                            newItem.count = 1;
+                            locs.push(newItem);
+                        }
+                        else {
+                            foundItems[0].count += 1;
+                        }
+                    };
+                    var newItem;
+                    for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
+                        var film = _a[_i];
+                        _loop_1(film);
+                    }
+                    for (var _b = 0, locs_1 = locs; _b < locs_1.length; _b++) {
+                        var item = locs_1[_b];
+                        this.typesChartData.labels.push(item.label);
+                        this.typesChartData.datasets[0].data.push(item.count);
+                    }
                 };
                 return FilmListComponent;
             }());
@@ -149,6 +164,10 @@ System.register(["@angular/core", "../../_services/film.service", "rxjs/Subject"
                 core_1.Input(),
                 __metadata("design:type", String)
             ], FilmListComponent.prototype, "masterType", void 0);
+            __decorate([
+                core_1.ViewChildren(angular2_chartjs_1.ChartComponent),
+                __metadata("design:type", core_1.QueryList)
+            ], FilmListComponent.prototype, "charts", void 0);
             FilmListComponent = __decorate([
                 core_1.Component({
                     selector: 'films-list',

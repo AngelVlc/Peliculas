@@ -37,6 +37,7 @@ NOTA: los archivos typescript ya están transcompilados pero si cambian hay que 
 + morgan -> muestra en la consola las peticiones http
 + heapdump -> para hacer volcados de la memoria [DESACTIVADO]
 + angular-confirmation-popover -> para los diálogos de confirmación
++ angular2-chartjs
 
 ## usuarios y roles
 
