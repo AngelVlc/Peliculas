@@ -11,13 +11,14 @@ import { Film } from '../_models/film';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 @Injectable()
 export class FilmService {
     private _baseUrl: string = '/api/films';
-
-    films: Observable<Film[]>;
 
     constructor(
         private router: Router,
@@ -26,7 +27,20 @@ export class FilmService {
         private errorHandlerService: ErrorHandlerService) {
     }
 
-    searchByTitle(titleToSearch: string): Observable<Film[]> {
+    searchByTyle(titles: Observable<string>): Observable<Film[]> {
+        return titles
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .switchMap(title => {
+                if (title && title.length > 0) {
+                    return this.getByTitle(title)
+                } else {
+                    return Observable.of({});
+                }
+            });
+    }
+
+    getByTitle(titleToSearch: string): Observable<Film[]> {
         let params = new URLSearchParams();
         params.set('title', titleToSearch);
 
@@ -36,7 +50,7 @@ export class FilmService {
         return this.internalGet(options);
     }
 
-    getByLocationId(locationId: number) {
+    getByLocationId(locationId: number): Observable<Film[]> {
         let params = new URLSearchParams();
         params.set('locationId', locationId.toString());
 
@@ -46,7 +60,7 @@ export class FilmService {
         return this.internalGet(options);
     }
 
-    getByTypeId(typeId: number) {
+    getByTypeId(typeId: number): Observable<Film[]> {
         let params = new URLSearchParams();
         params.set('typeId', typeId.toString());
 
@@ -56,7 +70,7 @@ export class FilmService {
         return this.internalGet(options);
     }
 
-    internalGet(options: RequestOptions) {
+    internalGet(options: RequestOptions): Observable<Film[]> {
         return this.http
             .get(this._baseUrl, options)
             .map((r: Response) => r.json() as Film[])
@@ -68,7 +82,7 @@ export class FilmService {
         return this.http
             .get(this._baseUrl + '/' + id, this.authenticationService.getRequestOptionsWithAuth())
             .map((r: Response) => r.json() as Film)
-            .catch(this.errorHandlerService.handleError.bind(this));        
+            .catch(this.errorHandlerService.handleError.bind(this));
     }
 
     update(film: Film): Observable<boolean> {

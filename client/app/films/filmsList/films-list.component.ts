@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FilmService } from '../../_services/film.service';
 import { Film } from '../../_models/film';
 import { Observable } from 'rxjs/Observable';
@@ -21,76 +21,60 @@ import 'rxjs/add/observable/of';
 export class FilmListComponent implements OnInit {
   @Input() masterIdToSearch: number; //lo uso cuando voy a mostrar las peliculas de un maestro, 
   @Input() masterType: string;
-  
-  items$: Observable<Film[]>;
+
+  items: Film[];
   showLocation: boolean = true;
   showType: boolean = true;
-  searched: boolean;
   listTitle: string;
 
-  /* char config */
-  charType: string = 'doughnut';
+
+  /* chart config */
+  chartType: string = 'doughnut';
   chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    tooltips: {
+      intersect: false
+    },
     legend: {
-      display: true
+      display: false
     }
-  };  
-
-  /* char data */
-  charLocationsData =
-  {
-    labels: [],
-    datasets: [
-      {
-        data: []
-      }
-    ]
   };
 
-  charLocationsReady: boolean = false;
+  /* chart data */
+  chartLocationsData = this.getNewChartData();
 
   private searchTitleStream = new Subject<string>();
 
   constructor(private authenticationService: AuthenticationService
     , private route: ActivatedRoute
     , private filmService: FilmService) {
-    this.items$ = this.searchTitleStream
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .switchMap((title: string) => {
-        this.charLocationsReady = false;
-        if (title && title.length > 0) {
-          this.listTitle = 'Peliculas encontradas';
-          return this.filmService.searchByTitle(title);
-        } else {
-          return Observable.of([]);
+
+    this.filmService.searchByTyle(this.searchTitleStream)
+      .subscribe(results => {
+        this.listTitle = 'Peliculas encontradas';
+        this.items = results
+
+        this.chartLocationsData = this.getNewChartData();
+        
+        let locs: ChartItem[] = new Array<ChartItem>();
+        for (let film of this.items) {
+          let foundItems = locs.filter(item => item.label == film.locationName);
+          if (foundItems.length == 0) {
+            var newItem: ChartItem = new ChartItem();
+            newItem.label = film.locationName;
+            newItem.count = 1;
+            locs.push(newItem);
+          } else {
+            foundItems[0].count += 1;
+          }
+        }
+
+        for (let item of locs) {
+          this.chartLocationsData.labels.push(item.label);
+          this.chartLocationsData.datasets[0].data.push(item.count);
         }
       });
-
-    this.items$.subscribe((films: Film[]) => {
-      this.charLocationsData.labels = [];
-      this.charLocationsData.datasets[0].data = [];
-      let locs: ChartItem[] = new Array<ChartItem>();
-      for (let film of films) {
-        let foundItems = locs.filter(item => item.label == film.locationName);
-        if (foundItems.length == 0) {
-          var newItem: ChartItem = new ChartItem();
-          newItem.label = film.locationName;
-          newItem.count = 1;
-          locs.push(newItem);
-        } else {
-          foundItems[0].count += 1;
-        }
-      }
-
-      for (let item of locs) {
-        this.charLocationsData.labels.push(item.label);
-        this.charLocationsData.datasets[0].data.push(item.count);
-      }
-      this.charLocationsReady = true;
-    });
   }
 
   ngOnInit() {
@@ -107,27 +91,35 @@ export class FilmListComponent implements OnInit {
   }
 
   searchByTitle(title: string) {
-    this.searched = true;
     this.searchTitleStream.next(title);
   }
 
   getByLocationId() {
     this.showLocation = false;
-    this.searched = true;
     this.filmService.getByLocationId(this.masterIdToSearch)
       .subscribe((data: Film[]) => {
-        this.items$ = Observable.of(data);
+        this.items = data;
         this.listTitle = 'Peliculas';
       });
   }
 
   getByTypeId() {
     this.showType = false;
-    this.searched = true;
     this.filmService.getByTypeId(this.masterIdToSearch)
       .subscribe((data: Film[]) => {
-        this.items$ = Observable.of(data);
+        this.items = data;
         this.listTitle = 'Peliculas';
       });
+  }
+
+  getNewChartData() {
+    return {
+      labels: [],
+      datasets: [
+        {
+          data: []
+        }
+      ]
+    };
   }
 }

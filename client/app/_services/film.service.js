@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "@angular/router", "./authentication.service", "./error-handler.service", "rxjs/add/operator/map", "rxjs/add/operator/catch"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "@angular/router", "rxjs/Observable", "./authentication.service", "./error-handler.service", "rxjs/add/operator/map", "rxjs/add/operator/catch", "rxjs/add/operator/switchMap", "rxjs/add/operator/debounceTime", "rxjs/add/operator/distinctUntilChanged"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, router_1, authentication_service_1, error_handler_service_1, FilmService;
+    var core_1, http_1, router_1, Observable_1, authentication_service_1, error_handler_service_1, FilmService;
     return {
         setters: [
             function (core_1_1) {
@@ -22,6 +22,9 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
             function (router_1_1) {
                 router_1 = router_1_1;
             },
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
+            },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
             },
@@ -31,6 +34,12 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
             function (_1) {
             },
             function (_2) {
+            },
+            function (_3) {
+            },
+            function (_4) {
+            },
+            function (_5) {
             }
         ],
         execute: function () {
@@ -42,7 +51,21 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "./authent
                     this.errorHandlerService = errorHandlerService;
                     this._baseUrl = '/api/films';
                 }
-                FilmService.prototype.searchByTitle = function (titleToSearch) {
+                FilmService.prototype.searchByTyle = function (titles) {
+                    var _this = this;
+                    return titles
+                        .debounceTime(400)
+                        .distinctUntilChanged()
+                        .switchMap(function (title) {
+                        if (title && title.length > 0) {
+                            return _this.getByTitle(title);
+                        }
+                        else {
+                            return Observable_1.Observable.of({});
+                        }
+                    });
+                };
+                FilmService.prototype.getByTitle = function (titleToSearch) {
                     var params = new http_1.URLSearchParams();
                     params.set('title', titleToSearch);
                     var options = this.authenticationService.getRequestOptionsWithAuth();
