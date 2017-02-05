@@ -1,30 +1,25 @@
-<div *ngIf="searched">
-    
-        <div class="form-group">
-            <label>{{listTitle}}<span class="badge margin-left-badge">Total {{(items$ | async)?.length}}</span></label>
-            <div class="panel panel-default">
-                <div class="table table-responsive">
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <td>Nombre</td>
-                                <td *ngIf="showLocation">Localización</td>
-                                <td *ngIf="showType">Tipo</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of items$ | async">
-                                <td><a [routerLink]="['/film',item.id]">{{item.title}}</a></td>
-                                <td *ngIf="showLocation"><a [routerLink]="['/loc', item.locationId]">{{item.locationName}}</a></td>
-                                <td *ngIf="showType"><a [routerLink]="['/type', item.typeId]">{{item.typeName}}</a></td>
-                            </tr>
-                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                        </tbody>
-                    </table>
-                </div> 
-                <div *ngIf="showLocation && charLocationsReady" class="col-xs-6">              
-                    <chart [type]="charType" [data]="charLocationsData" [options]="chartOptions"></chart>
-                </div>
-            </div>
+<div *ngIf="(items)?.length>0">
+    <label>{{listTitle}}<span class="badge margin-left-badge">Total {{(items)?.length}}</span></label>
+    <div class="panel panel-default">
+        <div class="table table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td *ngIf="showLocation">Localización</td>
+                        <td *ngIf="showType">Tipo</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items">
+                        <td><a [routerLink]="['/film',item.id]">{{item.title}}</a></td>
+                        <td *ngIf="showLocation"><a [routerLink]="['/loc', item.locationId]">{{item.locationName}}</a></td>
+                        <td *ngIf="showType"><a [routerLink]="['/type', item.typeId]">{{item.typeName}}</a></td>
+                    </tr>
+                    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                </tbody>
+            </table>
         </div>
+        <chart [type]="chartType" [data]="typesChartData" [options]="chartOptions"></chart>
+    </div>
 </div>
