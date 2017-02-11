@@ -63,17 +63,14 @@ module.exports = {
 
             if (foundUser.isAdmin===1) roles.push('ADMIN')
 
-            var tokenPayload = { name: foundUser.userName, roles }
+            var tokenPayload = { userName: foundUser.userName, roles }
 
             var token = jwt.sign(tokenPayload, hashSecret, {
                 expiresIn: '20m' //10m minutes or 60s 60 segs
             });
 
             // return the information including token as JSON
-            response.json({
-                token: token,
-                roles: roles
-            })          
+            response.json({token: token})          
         })
     },
     verifyToken: function (request, response, next) {

@@ -26,12 +26,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
             AuthenticationService = (function () {
                 function AuthenticationService(http) {
                     this.http = http;
-                    // set token if saved in local storage
-                    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                    this.token = currentUser && currentUser.token;
                 }
                 AuthenticationService.prototype.login = function (username, password) {
-                    var _this = this;
                     var body = {
                         name: username,
                         password: password
@@ -41,10 +37,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                         // login successful if there's a jwt token in the response
                         var token = response.json() && response.json().token;
                         if (token) {
-                            // set token property
-                            _this.token = token;
                             // store username and jwt token in local storage to keep user logged in between page refreshes
-                            localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, roles: response.json().roles }));
+                            localStorage.setItem('currentUser', JSON.stringify({ token: token }));
                             // return true to indicate successful login
                             return true;
                         }
@@ -55,39 +49,47 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                     });
                 };
                 AuthenticationService.prototype.logout = function () {
-                    // clear token remove user from local storage to log user out
-                    this.token = null;
                     localStorage.removeItem('currentUser');
                 };
                 AuthenticationService.prototype.isUserLoged = function () {
-                    if (this.getCurrentUser()) {
+                    var token = this.getTokenInfo();
+                    if (token && new Date(token.exp * 1000) > new Date()) {
                         return true;
                     }
                     return false;
                 };
-                AuthenticationService.prototype.getCurrentUser = function () {
-                    return JSON.parse(localStorage.getItem('currentUser'));
+                AuthenticationService.prototype.getTokenInfo = function () {
+                    var localStorageInfo = JSON.parse(localStorage.getItem('currentUser'));
+                    if (localStorageInfo) {
+                        var base64Url = localStorageInfo.token.split('.')[1];
+                        var base64 = base64Url.replace('-', '+').replace('_', '/');
+                        return JSON.parse(window.atob(base64));
+                    }
+                    else {
+                        return null;
+                    }
                 };
-                AuthenticationService.prototype.getCurrentUserName = function () {
+                AuthenticationService.prototype.getUserName = function () {
                     if (this.isUserLoged()) {
-                        return this.getCurrentUser().username.toLowerCase();
+                        return this.getTokenInfo().userName.toLowerCase();
                     }
                     else {
                         return null;
                     }
                 };
                 AuthenticationService.prototype.isUserLogedAdmin = function () {
-                    var currentUser = this.getCurrentUser();
-                    if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {
+                    var tokenInfo = this.getTokenInfo();
+                    if (tokenInfo && tokenInfo.roles.indexOf('ADMIN', 0) >= 0) {
                         return true;
                     }
                     return false;
                 };
                 AuthenticationService.prototype.getRequestOptionsWithAuth = function () {
-                    var currentUser = this.getCurrentUser();
-                    if (currentUser && currentUser.token) {
+                    var localStorageInfo = JSON.parse(localStorage.getItem('currentUser'));
+                    var token = localStorageInfo.token;
+                    if (token) {
                         var headers = new http_1.Headers();
-                        headers.append('x-access-token', currentUser.token);
+                        headers.append('x-access-token', token);
                         headers.append('cache-control', 'no-chache');
                         return new http_1.RequestOptions({ headers: headers });
                     }

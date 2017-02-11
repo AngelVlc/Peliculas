@@ -5,12 +5,7 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class AuthenticationService {
-    public token: string;
-
     constructor(private http: Http) {
-        // set token if saved in local storage
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        this.token = currentUser && currentUser.token
     }
 
     login(username: string, password: string): Observable<boolean> {
@@ -24,11 +19,8 @@ export class AuthenticationService {
                 // login successful if there's a jwt token in the response
                 let token = response.json() && response.json().token
                 if (token) {
-                    // set token property
-                    this.token = token;
-
                     // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, roles: response.json().roles }))
+                    localStorage.setItem('currentUser', JSON.stringify({ token: token }))
 
                     // return true to indicate successful login
                     return true
@@ -40,43 +32,51 @@ export class AuthenticationService {
     }
 
     logout(): void {
-        // clear token remove user from local storage to log user out
-        this.token = null
         localStorage.removeItem('currentUser')
     }
 
     isUserLoged(): boolean {
-        if (this.getCurrentUser()) {
+        var token = this.getTokenInfo();
+        if (token && new Date(token.exp * 1000) > new Date()) {
             return true;
         }
         return false;
     }
 
-    private getCurrentUser() {
-        return JSON.parse(localStorage.getItem('currentUser'));
-    }
+    private getTokenInfo() {
+        var localStorageInfo = JSON.parse(localStorage.getItem('currentUser'));
 
-    getCurrentUserName() {
-        if (this.isUserLoged()) {
-            return this.getCurrentUser().username.toLowerCase();
+        if (localStorageInfo) {
+            var base64Url = localStorageInfo.token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
         } else {
             return null;
-        }        
+        }
+    }
+
+    getUserName() {
+        if (this.isUserLoged()) {
+            return this.getTokenInfo().userName.toLowerCase();
+        } else {
+            return null;
+        }
     }
 
     isUserLogedAdmin(): boolean {
-        var currentUser = this.getCurrentUser();
-        if (currentUser && currentUser.roles.indexOf('ADMIN', 0) >= 0) {
+        var tokenInfo = this.getTokenInfo();
+        if (tokenInfo && tokenInfo.roles.indexOf('ADMIN', 0) >= 0) {
             return true;
         }
         return false;
     }
 
     getRequestOptionsWithAuth(): RequestOptions {
-        var currentUser = this.getCurrentUser();
-        if (currentUser && currentUser.token) {
+        var localStorageInfo = JSON.parse(localStorage.getItem('currentUser'));
+        var token = localStorageInfo.token;
+        if (token) {
             let headers = new Headers();
-            headers.append('x-access-token', currentUser.token);
+            headers.append('x-access-token', token);
             headers.append('cache-control', 'no-chache');
             return new RequestOptions({ headers: headers });
         }
