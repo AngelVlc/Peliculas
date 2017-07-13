@@ -35,7 +35,6 @@ NOTA: los archivos typescript ya están transcompilados pero si cambian hay que 
 + bcrypt -> para encriptar las contraseñas de los usaurios en la base de datos
 + mysql
 + morgan -> muestra en la consola las peticiones http
-+ heapdump -> para hacer volcados de la memoria [DESACTIVADO]
 + angular-confirmation-popover -> para los diálogos de confirmación
 + angular2-chartjs
 

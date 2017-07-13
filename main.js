@@ -7,7 +7,6 @@ var authentication = require('./authentication')
 var apiUsers = require('./apis/users')
 var apiMasters = require('./apis/masters')
 var apiFilms = require('./apis/films')
-//var heapdump = require('heapdump')
 var path = require('path')
 
 // users initialization
