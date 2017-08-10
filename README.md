@@ -30,7 +30,7 @@ Aplicación web para la gestión de una biblioteca personal de películas.
 NOTA: los archivos typescript ya están transcompilados pero si cambian hay que ejecutar el comando tsc en la carpeta client. Con tsc -w se compilarían solos.
 
 ## Paquetes npm
-+ express y body-parses -> servidor web
++ express y body-parser -> servidor web
 + jsonwebtoken -> autenticación con JWT
 + bcrypt -> para encriptar las contraseñas de los usaurios en la base de datos
 + mysql
