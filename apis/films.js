@@ -11,7 +11,7 @@ module.exports = {
                 filmsDataAccess.getById(request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -20,14 +20,14 @@ module.exports = {
             })
         .put(function (request, response) {
             if (!authentication.hasAdminRole(request)) {
-                response.status(403).send('Wrong role.')
+                response.status(403).send('Wrong role')
                 return
             }
     
             filmsDataAccess.updateFilm(request.params.id, request.body.title, request.body.remarks, request.body.typeId, request.body.locationId, function (error, data) {
                 if (error) {
                     console.error(error)
-                    response.status(500).send('Internal error.')
+                    response.status(500).send('Internal error')
                     return
                 }
 
@@ -36,21 +36,21 @@ module.exports = {
         })
         .delete(function (request, response) {
             if (!authentication.hasAdminRole(request)) {
-                response.status(403).send('Wrong role.')
+                response.status(403).send('Wrong role')
                 return
             }
 
             filmsDataAccess.deleteFilm(request.params.id, function (error, data) {
                 if (error) {
                     console.error(error)
-                    response.status(500).send('Internal error.')
+                    response.status(500).send('Internal error')
                     return
                 }
 
                 if (data && data === 1) {
                     response.json('Deleted')
                 } else {
-                    response.status(400).send('Didn\'t deleted.')
+                    response.status(400).send('Didn\'t deleted')
                 }
             })
         })
@@ -61,7 +61,7 @@ module.exports = {
                     filmsDataAccess.searchByTitle(request.query.title, function (error, data) {
                         if (error) {
                             console.error(error)
-                            response.status(500).send('Internal error.')
+                            response.status(500).send('Internal error')
                             return
                         }
 
@@ -71,7 +71,7 @@ module.exports = {
                     filmsDataAccess.getByLocation(request.query.locationId, function (error, data) {
                         if (error) {
                             console.error(error)
-                            response.status(500).send('Internal error.')
+                            response.status(500).send('Internal error')
                             return
                         }
 
@@ -81,19 +81,19 @@ module.exports = {
                     filmsDataAccess.getByType(request.query.typeId, function (error, data) {
                         if (error) {
                             console.error(error)
-                            response.status(500).send('Internal error.')
+                            response.status(500).send('Internal error')
                             return
                         }
 
                         response.json(data)
                     })
                 } else {
-                    response.status(400).send('Invalid query.')
+                    response.status(400).send('Invalid query')
                 }
             })
             .post(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
@@ -106,12 +106,12 @@ module.exports = {
                     if (error) {
                         switch (error.code) {
                             case 'ER_DUP_ENTRY':
-                                response.status(400).send('Film already exists.')
+                                response.status(400).send('Film already exists')
                                 break;
 
                             default:
                                 console.error(error)
-                                response.status(500).send('Internal error.')
+                                response.status(500).send('Internal error')
                         }
 
                         return

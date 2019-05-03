@@ -9,14 +9,14 @@ module.exports = {
         apiRoutes.route(baseUrl + ':id')
             .get(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
                 usersDataAccess.getUserById(request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -25,7 +25,7 @@ module.exports = {
             })
             .put(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
@@ -42,7 +42,7 @@ module.exports = {
                 usersDataAccess.updateUser(request.params.id, userName, hashedPassword, isAdmin, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -51,21 +51,21 @@ module.exports = {
             })
             .delete(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
                 usersDataAccess.deleteUser(request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
                     if (data && data === 1) {
                         response.json('Deleted')
                     } else {
-                        response.status(400).send('Didn\'t deleted.')
+                        response.status(400).send('Didn\'t deleted')
                     }
                 })
             })
@@ -73,14 +73,14 @@ module.exports = {
         apiRoutes.route(baseUrl)
             .get(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
                 usersDataAccess.getUsers(function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -89,7 +89,7 @@ module.exports = {
             })
             .post(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
@@ -103,12 +103,12 @@ module.exports = {
                     if (error) {
                         switch (error.code) {
                             case 'ER_DUP_ENTRY':
-                                response.status(400).send('User already exists.')
+                                response.status(400).send('User already exists')
                                 break;
 
                             default:
                                 console.error(error)
-                                response.status(500).send('Internal error.')
+                                response.status(500).send('Internal error')
                         }
 
                         return

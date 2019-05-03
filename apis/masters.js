@@ -42,7 +42,7 @@ module.exports = {
                 mastersDataAccess.getById(getTableName(masterType), request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -51,14 +51,14 @@ module.exports = {
             })
             .put(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
                 mastersDataAccess.updateItem(getTableName(masterType), request.params.id, request.body.name, request.body.remarks, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -67,21 +67,21 @@ module.exports = {
             })
             .delete(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
                 mastersDataAccess.deleteItem(getTableName(masterType), request.params.id, function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
                     if (data && data === 1) {
                         response.json('Deleted')
                     } else {
-                        response.status(400).send('Didn\'t deleted.')
+                        response.status(400).send('Didn\'t deleted')
                     }
                 })
             })
@@ -91,7 +91,7 @@ module.exports = {
                  mastersDataAccess.getAll(getTableName(masterType), function (error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                         return
                     }
 
@@ -100,7 +100,7 @@ module.exports = {
             })
             .post(function (request, response) {
                 if (!authentication.hasAdminRole(request)) {
-                    response.status(403).send('Wrong role.')
+                    response.status(403).send('Wrong role')
                     return
                 }
 
@@ -108,12 +108,12 @@ module.exports = {
                     if (error) {
                         switch (error.code) {
                             case 'ER_DUP_ENTRY':
-                                response.status(400).send('Item already exists.')
+                                response.status(400).send('Item already exists')
                                 break;
 
                             default:
                                 console.error(error)
-                                response.status(500).send('Internal error.')
+                                response.status(500).send('Internal error')
                         }
 
                         return

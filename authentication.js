@@ -20,7 +20,7 @@ module.exports = {
         usersDataAccess.getUserByUserName(userName, function(error, data) {
             if (error) {
                 console.error(error)
-                response.status(500).send('Internal error.')
+                response.status(500).send('Internal error')
             }
 
             if (!data) {                
@@ -29,7 +29,7 @@ module.exports = {
                 usersDataAccess.insertUser(userName, hashedPassword, isAdmin, function(error, data) {
                     if (error) {
                         console.error(error)
-                        response.status(500).send('Internal error.')
+                        response.status(500).send('Internal error')
                     }   
                     
                     console.log('User ' + userName + ' with id \'' + data + '\' created')
@@ -45,17 +45,17 @@ module.exports = {
         usersDataAccess.getUserByUserName(userName, function(error, foundUser) {
             if (error) {
                 console.error(error)
-                response.status(500).send('Internal error.')
+                response.status(500).send('Internal error')
             }    
 
               if (!foundUser) {
-                response.status(401).send('No existe el usuario.')
+                response.status(401).send('No existe el usuario')
                 return
             }
 
             // check if password matches
             if (!bcrypt.compareSync(plainPassword, foundUser.password)) {
-                response.status(401).send('Contraseña incorrecta.')
+                response.status(401).send('Contraseña incorrecta')
                 return
             }
 
@@ -94,7 +94,7 @@ module.exports = {
         } else {
             // if there is no token
             // return an error
-            return response.status(403).send('No token provided.')
+            return response.status(403).send('No token provided')
         }
     },
     hasAdminRole: function (request) {
